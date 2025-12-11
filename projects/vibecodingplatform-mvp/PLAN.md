@@ -49,17 +49,25 @@
     - 测试流程: 输入 "修复 Game Over Bug" -> 验证代码更新。
 
 ### 第四阶段：现代化技术栈升级 (Modern Stack) ✅ 已完成
-**目标**: 从生成简单的 HTML/JS 升级为生成 React + Tailwind CSS 的现代化应用。
+**目标**: 从生成简单的 HTML/JS 升级为生成现代化、美观的 Tailwind CSS 应用。
 
-- [x] **支持 React 模板**:
-    - 前端 Sandpack 切换至 `template="react"`。
-    - 后端 Prompt 优化：强制生成 `.jsx` 组件而非 `.html`。
-- [x] **引入 Tailwind CSS**:
-    - Sandpack React 模板原生支持 Tailwind CSS。
-    - 引导 AI 生成带有 Tailwind 实用类的代码。
-- [x] **组件库集成**:
-    - 支持 `lucide-react` 图标库（已预装）。
-    - 智能文件处理：自动识别和重命名 React 组件文件。
+- [x] **采用 HTML + Tailwind CDN 方案**:
+    - 前端 Sandpack 使用 `template="static"`（最稳定）。
+    - 通过 CDN 引入 Tailwind CSS（`https://cdn.tailwindcss.com`）。
+    - 避免了 Sandpack 不支持 Tailwind 编译的问题。
+- [x] **Prompt 工程优化**:
+    - 详细的设计要求：渐变背景、卡片阴影、圆角、Hover 效果等。
+    - localStorage 使用规范：正确的初始化、保存、加载逻辑。
+    - 明确禁止生成配置文件（package.json、tailwind.config.js 等）。
+- [x] **智能文件处理**:
+    - 自动过滤配置文件和入口文件。
+    - 验证 Tailwind CDN 是否存在。
+    - 智能重命名为 index.html。
+- [x] **测试通过**:
+    - ✅ 数据仪表盘（渐变背景 + 统计卡片）
+    - ✅ 番茄钟计时器（倒计时 + 交互）
+    - ✅ 待办事项（分类 + localStorage）
+    - ✅ 个人财务追踪（复杂数据 + 持久化）
 
 ### 第五阶段：全栈与数据能力 (Fullstack & Data) 📅 规划中
 **目标**: 让生成的应用具有“记忆”，支持数据库存储和后端逻辑。
