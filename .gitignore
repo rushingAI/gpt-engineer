@@ -60,6 +60,10 @@ projects/*
 !projects/example/prompt
 !projects/example-improve
 !projects/example-vision
+!projects/vibecodingplatform-mvp
+projects/vibecodingplatform-mvp/client/node_modules
+projects/vibecodingplatform-mvp/client/dist
+projects/vibecodingplatform-mvp/client/package-lock.json
 
 # docs
 
