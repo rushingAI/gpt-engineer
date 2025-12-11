@@ -1,8 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Sandpack } from '@codesandbox/sandpack-react'
 import './App.css'
 
 const API_URL = 'http://localhost:8000'
+const STORAGE_KEY = 'vibecodingplatform_current_app'
+const HISTORY_KEY = 'vibecodingplatform_history'
+const MAX_HISTORY = 10
 
 function App() {
   const [prompt, setPrompt] = useState('')
@@ -11,6 +14,42 @@ function App() {
   const [error, setError] = useState(null)
   const [showImprove, setShowImprove] = useState(false)
   const [improveRequest, setImproveRequest] = useState('')
+  const [savedApp, setSavedApp] = useState(null)
+  const [history, setHistory] = useState([])
+  const [showHistory, setShowHistory] = useState(false)
+  const [editingNameId, setEditingNameId] = useState(null)
+  const [editingName, setEditingName] = useState('')
+
+  // 页面加载时恢复上次生成的应用和历史记录
+  useEffect(() => {
+    // 恢复当前应用
+    const saved = localStorage.getItem(STORAGE_KEY)
+    if (saved) {
+      try {
+        const { files: savedFiles, prompt: savedPrompt, timestamp } = JSON.parse(saved)
+        setFiles(savedFiles)
+        setPrompt(savedPrompt)
+        setSavedApp({ timestamp })
+        console.log('✓ 已恢复上次生成的应用:', savedPrompt)
+      } catch (e) {
+        console.error('恢复应用失败:', e)
+        localStorage.removeItem(STORAGE_KEY)
+      }
+    }
+
+    // 加载历史记录
+    const savedHistory = localStorage.getItem(HISTORY_KEY)
+    if (savedHistory) {
+      try {
+        const historyData = JSON.parse(savedHistory)
+        setHistory(historyData)
+        console.log('✓ 已加载历史记录:', historyData.length, '个应用')
+      } catch (e) {
+        console.error('加载历史记录失败:', e)
+        localStorage.removeItem(HISTORY_KEY)
+      }
+    }
+  }, [])
 
   const handleGenerate = async () => {
     if (!prompt.trim()) {
@@ -191,6 +230,23 @@ localStorage 使用要求（重要！）：
       
       console.log('传递给 Sandpack 的最终文件列表:', Object.keys(sandpackFiles))
       setFiles(sandpackFiles)
+      
+      // 保存到当前应用和历史记录
+      const appData = {
+        id: Date.now().toString(),
+        files: sandpackFiles,
+        prompt: prompt,
+        name: extractAppName(prompt),
+        timestamp: new Date().toISOString()
+      }
+      
+      // 保存当前应用
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(appData))
+      setSavedApp({ timestamp: appData.timestamp })
+      
+      // 添加到历史记录
+      addToHistory(appData)
+      console.log('✓ 应用已保存到 localStorage 和历史记录')
     } catch (err) {
       console.error('生成错误:', err)
       setError(err.message)
@@ -203,6 +259,77 @@ localStorage 使用要求（重要！）：
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
       handleGenerate()
+    }
+  }
+
+  // 从 prompt 提取应用名称（前20个字符）
+  const extractAppName = (prompt) => {
+    const cleanPrompt = prompt.replace(/^(创建|生成|做|制作)(一个)?/g, '').trim()
+    return cleanPrompt.substring(0, 20) + (cleanPrompt.length > 20 ? '...' : '')
+  }
+
+  // 添加到历史记录（最多保存10个）
+  const addToHistory = (appData) => {
+    const savedHistory = localStorage.getItem(HISTORY_KEY)
+    let historyList = savedHistory ? JSON.parse(savedHistory) : []
+    
+    // 添加新应用到开头
+    historyList.unshift(appData)
+    
+    // 只保留最近10个
+    if (historyList.length > MAX_HISTORY) {
+      historyList = historyList.slice(0, MAX_HISTORY)
+    }
+    
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(historyList))
+    setHistory(historyList)
+  }
+
+  // 从历史记录加载应用
+  const loadFromHistory = (item) => {
+    setFiles(item.files)
+    setPrompt(item.prompt)
+    setSavedApp({ timestamp: item.timestamp })
+    
+    // 更新当前应用
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(item))
+    
+    setShowHistory(false)
+    console.log('✓ 已从历史记录恢复应用:', item.name)
+  }
+
+  // 删除历史记录
+  const deleteHistoryItem = (id, e) => {
+    e.stopPropagation()
+    if (confirm('确定要删除这个历史记录吗？')) {
+      const newHistory = history.filter(item => item.id !== id)
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(newHistory))
+      setHistory(newHistory)
+      console.log('✓ 已删除历史记录')
+    }
+  }
+
+  // 重命名应用
+  const renameHistoryItem = (id, newName) => {
+    const newHistory = history.map(item => 
+      item.id === id ? { ...item, name: newName } : item
+    )
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(newHistory))
+    setHistory(newHistory)
+    setEditingNameId(null)
+    console.log('✓ 已重命名应用')
+  }
+
+  const handleClear = () => {
+    if (confirm('确定要清除当前应用并开始新建吗？')) {
+      setFiles(null)
+      setPrompt('')
+      setError(null)
+      setSavedApp(null)
+      setShowImprove(false)
+      setImproveRequest('')
+      localStorage.removeItem(STORAGE_KEY)
+      console.log('✓ 已清除当前应用')
     }
   }
 
@@ -259,6 +386,24 @@ localStorage 使用要求（重要！）：
       setShowImprove(false)
       setImproveRequest('')
       
+      // 保存到当前应用和历史记录
+      const improvedPrompt = `${prompt} (改进: ${improveRequest})`
+      const appData = {
+        id: Date.now().toString(),
+        files: sandpackFiles,
+        prompt: improvedPrompt,
+        name: extractAppName(prompt),
+        timestamp: new Date().toISOString()
+      }
+      
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(appData))
+      setSavedApp({ timestamp: appData.timestamp })
+      setPrompt(improvedPrompt)
+      
+      // 添加到历史记录
+      addToHistory(appData)
+      console.log('✓ 改进后的应用已保存到 localStorage 和历史记录')
+      
     } catch (err) {
       console.error('改进错误:', err)
       setError(err.message)
@@ -268,13 +413,203 @@ localStorage 使用要求（重要！）：
   }
 
   return (
-    <div className="app-container">
-      <header className="app-header">
-        <h1>🎨 Vibecoding Platform</h1>
-        <p>用自然语言描述，AI 生成可运行的应用</p>
-      </header>
+    <div className="app-container" style={{ display: 'flex', flexDirection: 'row' }}>
+      {/* 历史记录侧边栏 */}
+      {showHistory && (
+        <div style={{
+          width: '320px',
+          backgroundColor: '#f8fafc',
+          borderRight: '1px solid #e2e8f0',
+          height: '100vh',
+          overflowY: 'auto',
+          padding: '20px',
+          boxSizing: 'border-box'
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+            <h2 style={{ margin: 0, fontSize: '18px', fontWeight: 'bold' }}>📚 历史记录</h2>
+            <button onClick={() => setShowHistory(false)} style={{
+              background: 'none',
+              border: 'none',
+              fontSize: '20px',
+              cursor: 'pointer',
+              padding: '4px'
+            }}>✕</button>
+          </div>
+          
+          {history.length === 0 ? (
+            <div style={{ textAlign: 'center', color: '#94a3b8', padding: '40px 20px' }}>
+              暂无历史记录<br/>生成应用后会自动保存
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {history.map((item, index) => (
+                <div
+                  key={item.id}
+                  onClick={() => loadFromHistory(item)}
+                  style={{
+                    backgroundColor: 'white',
+                    padding: '12px',
+                    borderRadius: '8px',
+                    border: '1px solid #e2e8f0',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                    position: 'relative'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)'}
+                  onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'none'}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                    <div style={{ flex: 1, marginRight: '8px' }}>
+                      {editingNameId === item.id ? (
+                        <input
+                          type="text"
+                          value={editingName}
+                          onChange={(e) => setEditingName(e.target.value)}
+                          onBlur={() => renameHistoryItem(item.id, editingName)}
+                          onKeyPress={(e) => {
+                            if (e.key === 'Enter') {
+                              renameHistoryItem(item.id, editingName)
+                            }
+                          }}
+                          onClick={(e) => e.stopPropagation()}
+                          autoFocus
+                          style={{
+                            width: '100%',
+                            padding: '4px',
+                            border: '1px solid #3b82f6',
+                            borderRadius: '4px',
+                            fontSize: '14px'
+                          }}
+                        />
+                      ) : (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
+                          <div
+                            style={{
+                              fontWeight: '600',
+                              fontSize: '14px',
+                              color: '#1e293b',
+                              flex: 1
+                            }}
+                          >
+                            {item.name}
+                          </div>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              setEditingNameId(item.id)
+                              setEditingName(item.name)
+                            }}
+                            style={{
+                              background: 'none',
+                              border: 'none',
+                              color: '#3b82f6',
+                              cursor: 'pointer',
+                              fontSize: '16px',
+                              padding: '2px',
+                              lineHeight: 1,
+                              display: 'flex',
+                              alignItems: 'center'
+                            }}
+                            title="重命名"
+                          >
+                            ✏️
+                          </button>
+                        </div>
+                      )}
+                      <div style={{ fontSize: '12px', color: '#64748b' }}>
+                        {new Date(item.timestamp).toLocaleString('zh-CN', {
+                          month: 'numeric',
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })}
+                      </div>
+                    </div>
+                    <button
+                      onClick={(e) => deleteHistoryItem(item.id, e)}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: '#ef4444',
+                        cursor: 'pointer',
+                        fontSize: '18px',
+                        padding: '4px',
+                        lineHeight: 1
+                      }}
+                      title="删除"
+                    >
+                      🗑️
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* 主内容区域 */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <header className="app-header">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div>
+              <h1>🎨 Vibecoding Platform</h1>
+              <p>用自然语言描述，AI 生成可运行的应用</p>
+            </div>
+            <button
+              onClick={() => setShowHistory(!showHistory)}
+              style={{
+                padding: '10px 20px',
+                backgroundColor: showHistory ? '#3b82f6' : '#6366f1',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px'
+              }}
+            >
+              📚 历史记录 ({history.length})
+            </button>
+          </div>
+        </header>
 
       <div className="input-section">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+          {savedApp && (
+            <div style={{ 
+              fontSize: '14px', 
+              color: '#10b981', 
+              display: 'flex', 
+              alignItems: 'center',
+              gap: '6px'
+            }}>
+              <span>💾</span>
+              <span>已保存 {new Date(savedApp.timestamp).toLocaleString('zh-CN')}</span>
+            </div>
+          )}
+          {files && (
+            <button 
+              onClick={handleClear}
+              disabled={loading}
+              style={{
+                marginLeft: 'auto',
+                padding: '8px 16px',
+                background: '#ef4444',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: loading ? 'not-allowed' : 'pointer',
+                fontSize: '14px',
+                opacity: loading ? 0.5 : 1
+              }}
+            >
+              🗑️ 清除应用
+            </button>
+          )}
+        </div>
         <textarea
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
@@ -393,6 +728,7 @@ localStorage 使用要求（重要！）：
           </div>
         </div>
       )}
+      </div>
     </div>
   )
 }
