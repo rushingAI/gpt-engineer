@@ -119,74 +119,159 @@
     - 引导 AI 生成带有数据库 CRUD 逻辑的代码。
     - 实现"留言板"、"Todo List (带存储)"等持久化应用。
 
-### 第六阶段：多页应用与对话式交互 (Multi-Page & Chat UI) 📅 规划中
+### 第六阶段：多页应用与对话式交互 (Multi-Page & Chat UI) 🚧 进行中
 **目标**: 升级为多页应用架构，采用对话式交互，参考 Lovable 的 UI/UX 设计。
 
-#### 6A：多页应用架构 📅 待实施
+#### 6A：多页应用架构 ✅ 已完成
 **目标**: 拆分为首页和项目页，优化用户流程。
 
-- [ ] **路由系统**:
+- [x] **路由系统**:
     - 安装 `react-router-dom`。
     - 配置路由：首页 (`/`) + 项目页 (`/project/:id`)。
     - 实现页面跳转逻辑。
-- [ ] **首页（Landing Page）**:
+- [x] **首页（Landing Page）**:
     - 简洁的大输入框 + 生成按钮。
     - 示例提示词（可点击快速填充）。
     - 历史项目入口。
-- [ ] **项目页（Project Page）**:
+- [x] **项目页（Project Page）**:
     - 左右分割布局（40% 对话区 + 60% 预览区）。
-    - 顶部导航栏（返回、项目名称、保存、分享）。
-    - 响应式适配。
+    - 顶部导航栏（返回、项目名称、Sandbox/Code 切换、保存状态）。
+    - 基础布局完成。
 
-#### 6B：对话式交互 📅 待实施
+#### 6B：对话式交互 ✅ 已完成
 **目标**: 用户通过持续对话来生成和优化应用。
 
-- [ ] **对话区（Chat Panel）**:
+- [x] **对话区（Chat Panel）**:
     - 左侧 40% 宽度，固定布局。
     - 消息列表（用户消息 + AI 消息）。
     - 底部输入框（固定位置）。
     - 历史记录按钮（对话区顶部）。
-- [ ] **消息显示**:
+- [x] **消息显示**:
     - 用户消息：右对齐，渐变背景。
     - AI 消息：左对齐，浅灰背景。
-    - 时间戳显示（相对时间）。
-    - 加载动画（三点跳动）。
-- [ ] **智能优化判断**:
+    - 时间戳显示（相对时间：刚刚/N秒前/N分钟前）。
+    - 加载动画（三点跳动效果）。
+- [x] **智能优化判断**:
     - 分析用户消息关键词（"修改"、"添加"等）。
     - 小改动：调用 `/improve` 端点（使用 `improve_fn`）。
     - 大改动：调用 `/generate` 端点（重新生成）。
     - 自动构建上下文 prompt。
 
-#### 6C：预览/代码切换 📅 待实施
+#### 6C：预览/代码切换 ✅ 已完成
 **目标**: 右侧统一预览区，支持 Sandbox 和 Code 视图切换。
 
-- [ ] **标签切换**:
-    - [👁️ Sandbox] [</> Code] 标签栏。
+- [x] **标签切换**:
+    - [👁️ Sandbox] [</> Code] 按钮（位于 header 右侧）。
     - 默认显示 Sandbox 预览。
-    - 点击 Code 标签切换到代码编辑器。
-- [ ] **Sandbox 预览**:
-    - 自适应容器高度（`height: calc(100vh - 80px)`）。
+    - 点击 Code 按钮切换到代码编辑器。
+- [x] **Sandbox 预览**:
+    - 自适应容器高度（`height: calc(100vh - 130px)`）。
     - iframe 填满容器（100% 宽高）。
     - 充分利用屏幕空间（适合游戏、复杂应用）。
-- [ ] **Code 编辑器**:
+- [x] **Code 编辑器**:
     - 复用 Sandpack 的代码编辑功能。
-    - 只读模式 + 复制/下载按钮。
-    - 语法高亮。
+    - 60% 编辑器 + 40% 预览（并排显示）。
+    - 语法高亮和行号。
 
-#### 6D：数据结构升级 📅 待实施
+#### 6D：数据结构升级 ✅ 已完成
 **目标**: 支持对话历史存储和管理。
 
-- [ ] **新增 messages 字段**:
+- [x] **新增 messages 字段**:
     - 每个应用包含对话历史数组。
-    - 消息格式：`{ role, content, timestamp }`。
+    - 消息格式：`{ role, content, timestamp, filesCount }`。
     - 保存到 localStorage（兼容旧数据）。
-- [ ] **对话历史管理**:
+- [x] **对话历史管理**:
     - 页面加载时恢复对话历史。
     - 新消息自动添加到数组。
     - 自动滚动到最新消息。
-- [ ] **数据迁移准备**:
+- [x] **数据迁移准备**:
     - 数据结构设计考虑 Supabase 迁移。
     - 使用可选字段（向后兼容）。
+
+#### 6E：Lovable 风格 UI 升级 🚧 进行中
+**目标**: 采用 shadcn/ui + Lovable 设计系统，提升视觉体验。
+
+**设计规范**:
+- 配色：
+  - 背景：#F8F8F9（浅灰）
+  - 品牌色：#FFB454（橙色）、#FF6A4A（珊瑚红）
+  - 文字：#1A1A1A（深灰）
+- 视觉语言：
+  - 柔和阴影（shadow-sm, shadow-lg）
+  - 大圆角（rounded-xl, rounded-2xl）
+  - 平滑过渡（transition-all duration-200）
+  - 平衡间距（p-4 到 p-6）
+- 布局：
+  - 左侧边栏：280px 固定宽度
+  - 右侧主区域：flex-1 自适应
+
+**实施步骤**:
+
+- [x] **安装依赖**:
+    - `lucide-react` - 图标库
+    - `class-variance-authority` - 样式变体
+    - `clsx` + `tailwind-merge` - 类名工具
+    - `tailwindcss-animate` - 动画插件
+- [x] **配置 Tailwind**:
+    - 创建 `tailwind.config.js`
+    - 添加 CSS 变量和主题色
+    - 配置 Lovable 品牌色
+- [ ] **配置 path alias**:
+    - 更新 `vite.config.js` 添加 `@/` 别名
+    - 更新 `jsconfig.json` 或 `tsconfig.json`
+- [ ] **创建工具函数**:
+    - `lib/utils.js` - cn() 函数（合并 Tailwind 类名）
+- [ ] **安装 shadcn/ui 组件**:
+    - Button（按钮）
+    - Input（输入框）
+    - Textarea（文本域）
+    - Card（卡片）
+    - Tabs（标签页）
+    - Separator（分隔线）
+    - ScrollArea（滚动区域）
+- [ ] **重写 LandingPage**:
+    - 使用 shadcn Button 和 Textarea
+    - Lovable 风格的大标题和副标题
+    - 示例卡片使用 Card 组件
+    - 橙色品牌色 CTA 按钮
+- [ ] **重写 ProjectPage**:
+    - 280px 固定左侧边栏
+    - 顶部导航栏使用 shadcn Button
+    - Lovable 风格的工具栏
+- [ ] **重写 ChatPanel**:
+    - 使用 Card 组件包裹消息
+    - Lovable 风格消息气泡（柔和圆角）
+    - ScrollArea 替代原生滚动
+- [ ] **重写 PreviewPanel**:
+    - 使用 shadcn Tabs 组件
+    - 白色画布 + 柔和阴影
+    - Lovable 风格的预览窗口
+- [ ] **统一应用主题**:
+    - 所有组件使用 Lovable 配色
+    - 统一圆角、间距、阴影
+    - 添加平滑过渡效果
+- [ ] **测试和优化**:
+    - 端到端测试新 UI
+    - 响应式适配
+    - 性能优化
+    - 细节打磨
+
+**已完成工作（Commit 7c9cfa0）**:
+- ✅ 21 个文件创建（pages, components, utils, styles）
+- ✅ 多页应用架构（React Router）
+- ✅ 对话式交互（持续对话优化）
+- ✅ 智能优化判断（improve vs generate）
+- ✅ Sandbox/Code 切换（header 中的按钮）
+- ✅ 对话历史存储（localStorage + messages 字段）
+- ✅ Bug 修复（宽度溢出、API 参数、错误处理）
+
+**待完成工作（Phase 6E）**:
+- 📋 shadcn/ui 集成（10个组件）
+- 📋 Lovable 风格重写（4个主要页面/组件）
+- 📋 配色方案应用（#F8F8F9, #FFB454, #FF6A4A）
+- 📋 视觉细节打磨（阴影、圆角、过渡）
+
+**预计时间**: 3-4 小时
 
 #### 实施步骤（预计 10-12 小时）
 
