@@ -86,9 +86,12 @@
 }
 
 .project-content {
-  flex: 1;
+  width: 100%;
+  height: calc(100vh - 70px);
   display: flex;
+  flex-direction: row;
   overflow: hidden;
+  position: relative;
 }
 
 .history-overlay {
@@ -143,6 +146,8 @@
   overflow-y: auto;
 }
 
+/* 暂时禁用响应式，调试完成后再启用 */
+/*
 @media (max-width: 1024px) {
   .project-content {
     flex-direction: column;
@@ -159,4 +164,5 @@
     gap: 0.5rem;
   }
 }
+*/
 

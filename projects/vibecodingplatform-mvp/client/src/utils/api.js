@@ -31,8 +31,8 @@ export async function improveApp(prompt, currentFiles) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      prompt_text: prompt,
-      current_files: currentFiles
+      files: currentFiles,
+      improvement_request: prompt
     }),
   })
   

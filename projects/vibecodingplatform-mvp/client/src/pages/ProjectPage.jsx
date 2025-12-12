@@ -13,6 +13,7 @@ function ProjectPage() {
   const [project, setProject] = useState(null)
   const [loading, setLoading] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
+  const [activeTab, setActiveTab] = useState('sandbox')
 
   // 加载项目
   useEffect(() => {
@@ -83,16 +84,20 @@ function ProjectPage() {
       console.error('处理消息失败:', error)
 
       // 添加错误消息
+      const errorMessage = error.message || error.toString() || '未知错误'
       const errorMsg = {
         role: 'assistant',
-        content: `❌ 处理失败：${error.message}`,
+        content: `❌ 处理失败：${errorMessage}`,
         timestamp: new Date().toISOString()
       }
 
-      setProject({
+      const failedProject = {
         ...project,
         messages: [...updatedMessages, errorMsg]
-      })
+      }
+      
+      setProject(failedProject)
+      saveCurrentProject(failedProject)
     } finally {
       setLoading(false)
     }
@@ -118,7 +123,47 @@ function ProjectPage() {
           </button>
           <h1 className="project-title">{project.name}</h1>
         </div>
-        <div className="header-right">
+        <div className="header-right" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <button
+              onClick={() => {
+                console.log('切换到 Sandbox')
+                setActiveTab('sandbox')
+              }}
+              style={{
+                padding: '0.5rem 1.25rem',
+                background: activeTab === 'sandbox' ? '#6366f1' : '#f8fafc',
+                color: activeTab === 'sandbox' ? 'white' : '#64748b',
+                border: `2px solid ${activeTab === 'sandbox' ? '#6366f1' : '#e2e8f0'}`,
+                borderRadius: '8px',
+                fontSize: '0.95rem',
+                fontWeight: '600',
+                cursor: 'pointer',
+                transition: 'all 0.2s'
+              }}
+            >
+              👁️ Sandbox
+            </button>
+            <button
+              onClick={() => {
+                console.log('切换到 Code')
+                setActiveTab('code')
+              }}
+              style={{
+                padding: '0.5rem 1.25rem',
+                background: activeTab === 'code' ? '#6366f1' : '#f8fafc',
+                color: activeTab === 'code' ? 'white' : '#64748b',
+                border: `2px solid ${activeTab === 'code' ? '#6366f1' : '#e2e8f0'}`,
+                borderRadius: '8px',
+                fontSize: '0.95rem',
+                fontWeight: '600',
+                cursor: 'pointer',
+                transition: 'all 0.2s'
+              }}
+            >
+              {'</>'} Code
+            </button>
+          </div>
           <span className="saved-indicator">
             💾 已保存
           </span>
@@ -132,7 +177,7 @@ function ProjectPage() {
           loading={loading}
           onShowHistory={() => setShowHistory(!showHistory)}
         />
-        <PreviewPanel files={project.files} />
+        <PreviewPanel files={project.files} activeTab={activeTab} />
       </div>
 
       {showHistory && (
