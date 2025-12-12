@@ -1,24 +1,28 @@
-import '../../styles/ChatInput.css'
+import { Send } from 'lucide-react'
+import { Textarea } from '@/components/ui/textarea'
+import { Button } from '@/components/ui/button'
 
 function ChatInput({ value, onChange, onSend, onKeyPress, disabled }) {
   return (
-    <div className="chat-input-container">
-      <textarea
+    <div className="space-y-2">
+      <Textarea
         value={value}
         onChange={(e) => onChange(e.target.value)}
         onKeyPress={onKeyPress}
         placeholder="输入消息，按 Enter 发送..."
         disabled={disabled}
         rows={3}
-        className="chat-input"
+        className="resize-none"
       />
-      <button
+      <Button
         onClick={onSend}
         disabled={disabled || !value.trim()}
-        className="send-button"
+        size="sm"
+        className="w-full"
       >
-        ✨ 发送
-      </button>
+        <Send className="mr-2 h-4 w-4" />
+        发送
+      </Button>
     </div>
   )
 }

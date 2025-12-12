@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { ArrowLeft, Save, Eye, Code2, Loader2 } from 'lucide-react'
 import ChatPanel from '../components/chat/ChatPanel'
 import PreviewPanel from '../components/preview/PreviewPanel'
 import { getProject, saveCurrentProject, addToHistory } from '../utils/storage'
 import { generateApp, improveApp } from '../utils/api'
 import { shouldUseImprove, buildFullPrompt } from '../utils/promptAnalyzer'
-import '../styles/ProjectPage.css'
+import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 
 function ProjectPage() {
   const { id } = useParams()
@@ -105,72 +107,70 @@ function ProjectPage() {
 
   if (!project) {
     return (
-      <div className="project-page">
-        <div className="loading-screen">
-          <div className="spinner-large"></div>
-          <p>加载项目中...</p>
+      <div className="min-h-screen bg-lovable-gray-50 flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <Loader2 className="h-12 w-12 animate-spin text-lovable-orange mx-auto" />
+          <p className="text-gray-600">加载项目中...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="project-page">
-      <header className="project-header">
-        <div className="header-left">
-          <button onClick={() => navigate('/')} className="back-button">
-            ← 返回首页
-          </button>
-          <h1 className="project-title">{project.name}</h1>
-        </div>
-        <div className="header-right" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <div style={{ display: 'flex', gap: '0.5rem' }}>
-            <button
-              onClick={() => {
-                console.log('切换到 Sandbox')
-                setActiveTab('sandbox')
-              }}
-              style={{
-                padding: '0.5rem 1.25rem',
-                background: activeTab === 'sandbox' ? '#6366f1' : '#f8fafc',
-                color: activeTab === 'sandbox' ? 'white' : '#64748b',
-                border: `2px solid ${activeTab === 'sandbox' ? '#6366f1' : '#e2e8f0'}`,
-                borderRadius: '8px',
-                fontSize: '0.95rem',
-                fontWeight: '600',
-                cursor: 'pointer',
-                transition: 'all 0.2s'
-              }}
+    <div className="h-screen bg-lovable-gray-50 flex flex-col">
+      {/* 顶部导航栏 */}
+      <header className="bg-white border-b border-gray-200 shadow-sm">
+        <div className="h-16 px-6 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigate('/')}
+              className="text-gray-600 hover:text-lovable-orange"
             >
-              👁️ Sandbox
-            </button>
-            <button
-              onClick={() => {
-                console.log('切换到 Code')
-                setActiveTab('code')
-              }}
-              style={{
-                padding: '0.5rem 1.25rem',
-                background: activeTab === 'code' ? '#6366f1' : '#f8fafc',
-                color: activeTab === 'code' ? 'white' : '#64748b',
-                border: `2px solid ${activeTab === 'code' ? '#6366f1' : '#e2e8f0'}`,
-                borderRadius: '8px',
-                fontSize: '0.95rem',
-                fontWeight: '600',
-                cursor: 'pointer',
-                transition: 'all 0.2s'
-              }}
-            >
-              {'</>'} Code
-            </button>
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              返回首页
+            </Button>
+            <Separator orientation="vertical" className="h-6" />
+            <h1 className="text-lg font-semibold text-lovable-gray-900">
+              {project.name}
+            </h1>
           </div>
-          <span className="saved-indicator">
-            💾 已保存
-          </span>
+          
+          <div className="flex items-center gap-3">
+            {/* Sandbox/Code 切换按钮 */}
+            <div className="flex items-center gap-2 bg-gray-100 p-1 rounded-lg">
+              <Button
+                variant={activeTab === 'sandbox' ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => setActiveTab('sandbox')}
+                className={activeTab === 'sandbox' ? '' : 'text-gray-600 hover:text-gray-900'}
+              >
+                <Eye className="mr-2 h-4 w-4" />
+                Sandbox
+              </Button>
+              <Button
+                variant={activeTab === 'code' ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => setActiveTab('code')}
+                className={activeTab === 'code' ? '' : 'text-gray-600 hover:text-gray-900'}
+              >
+                <Code2 className="mr-2 h-4 w-4" />
+                Code
+              </Button>
+            </div>
+            
+            {/* 保存状态 */}
+            <div className="flex items-center gap-2 text-sm text-gray-500">
+              <Save className="h-4 w-4" />
+              <span>已保存</span>
+            </div>
+          </div>
         </div>
       </header>
 
-      <div className="project-content">
+      {/* 主内容区域 */}
+      <div className="flex-1 flex overflow-hidden">
         <ChatPanel
           messages={project.messages}
           onSendMessage={handleSendMessage}
@@ -180,15 +180,30 @@ function ProjectPage() {
         <PreviewPanel files={project.files} activeTab={activeTab} />
       </div>
 
+      {/* 历史记录模态框 */}
       {showHistory && (
-        <div className="history-overlay" onClick={() => setShowHistory(false)}>
-          <div className="history-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="history-header">
-              <h2>📚 历史项目</h2>
-              <button onClick={() => setShowHistory(false)}>✕</button>
+        <div
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+          onClick={() => setShowHistory(false)}
+        >
+          <div
+            className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[80vh] overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="p-6 border-b border-gray-200 flex items-center justify-between">
+              <h2 className="text-xl font-semibold text-lovable-gray-900">
+                📚 历史项目
+              </h2>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setShowHistory(false)}
+              >
+                ✕
+              </Button>
             </div>
-            <div className="history-content">
-              <p>历史记录功能待实现...</p>
+            <div className="p-6">
+              <p className="text-gray-500">历史记录功能待实现...</p>
             </div>
           </div>
         </div>

@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from 'react'
+import { History } from 'lucide-react'
 import MessageList from './MessageList'
 import ChatInput from './ChatInput'
-import '../../styles/ChatPanel.css'
+import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 
 function ChatPanel({ messages, onSendMessage, loading, onShowHistory }) {
   const [inputValue, setInputValue] = useState('')
@@ -27,24 +29,39 @@ function ChatPanel({ messages, onSendMessage, loading, onShowHistory }) {
   }
 
   return (
-    <div className="chat-panel">
-      <div className="chat-header">
-        <h2>💬 对话</h2>
-        <button onClick={onShowHistory} className="history-button">
-          📚 历史记录
-        </button>
+    <div className="w-[320px] bg-white border-r border-gray-200 flex flex-col shadow-sm">
+      {/* 对话头部 */}
+      <div className="h-16 px-4 flex items-center justify-between border-b border-gray-200">
+        <h2 className="text-lg font-semibold text-lovable-gray-900">💬 对话</h2>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onShowHistory}
+          className="text-gray-600 hover:text-lovable-orange"
+        >
+          <History className="h-4 w-4 mr-2" />
+          历史
+        </Button>
       </div>
 
-      <MessageList messages={messages} loading={loading} />
-      <div ref={messagesEndRef} />
+      {/* 消息列表 */}
+      <div className="flex-1 overflow-y-auto px-4 py-4">
+        <MessageList messages={messages} loading={loading} />
+        <div ref={messagesEndRef} />
+      </div>
 
-      <ChatInput
-        value={inputValue}
-        onChange={setInputValue}
-        onSend={handleSend}
-        onKeyPress={handleKeyPress}
-        disabled={loading}
-      />
+      <Separator />
+
+      {/* 输入区域 */}
+      <div className="p-4">
+        <ChatInput
+          value={inputValue}
+          onChange={setInputValue}
+          onSend={handleSend}
+          onKeyPress={handleKeyPress}
+          disabled={loading}
+        />
+      </div>
     </div>
   )
 }

@@ -1,7 +1,5 @@
-import { useState } from 'react'
 import { Sandpack } from '@codesandbox/sandpack-react'
-import TabBar from './TabBar'
-import '../../styles/PreviewPanel.css'
+import { Card, CardContent } from '@/components/ui/card'
 
 function PreviewPanel({ files, activeTab }) {
   console.log('PreviewPanel 渲染:', { 
@@ -13,27 +11,27 @@ function PreviewPanel({ files, activeTab }) {
 
   if (!files || Object.keys(files).length === 0) {
     return (
-      <div className="preview-panel">
-        <div className="preview-empty">
-          <div className="empty-icon">📭</div>
-          <h3>还没有生成应用</h3>
-          <p>在左侧对话框中输入你的需求开始生成</p>
-        </div>
+      <div className="flex-1 bg-lovable-gray-50 flex items-center justify-center p-8">
+        <Card className="max-w-md w-full shadow-lg">
+          <CardContent className="p-12 text-center space-y-4">
+            <div className="text-6xl">📭</div>
+            <h3 className="text-xl font-semibold text-lovable-gray-900">
+              还没有生成应用
+            </h3>
+            <p className="text-gray-600">
+              在左侧对话框中输入你的需求开始生成
+            </p>
+          </CardContent>
+        </Card>
       </div>
     )
   }
 
   return (
-    <div className="preview-panel">
-      
-      <div className="preview-content" style={{ 
-        width: '100%',
-        height: 'calc(100vh - 130px)',
-        overflow: 'hidden',
-        background: '#f8fafc'
-      }}>
-        <div style={{ width: '100%', height: '100%' }}>
-          {console.log('渲染 Sandpack，模式:', activeTab)}
+    <div className="flex-1 bg-lovable-gray-50 flex flex-col overflow-hidden">
+      <div className="flex-1 m-4 rounded-xl overflow-hidden shadow-lg bg-white border border-gray-200" style={{ display: 'flex', flexDirection: 'column' }}>
+        {console.log('渲染 Sandpack，模式:', activeTab)}
+        <div style={{ flex: 1, minHeight: 0 }}>
           <Sandpack
             key={`${activeTab}-${JSON.stringify(files)}`}
             template="static"
@@ -51,7 +49,8 @@ function PreviewPanel({ files, activeTab }) {
               autorun: true,
               autoReload: true,
             }}
-            theme="auto"
+            theme="light"
+            style={{ height: '100%', width: '100%' }}
           />
         </div>
       </div>

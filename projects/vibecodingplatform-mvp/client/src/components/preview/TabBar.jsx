@@ -1,5 +1,3 @@
-import '../../styles/TabBar.css'
-
 function TabBar({ activeTab, onTabChange }) {
   console.log('TabBar 渲染:', { activeTab })
   

@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Sparkles, History, Loader2 } from 'lucide-react'
 import { generateApp } from '../utils/api'
 import { saveCurrentProject, addToHistory, extractAppName } from '../utils/storage'
-import '../styles/LandingPage.css'
+import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
+import { Card, CardContent } from '@/components/ui/card'
 
 function LandingPage() {
   const [prompt, setPrompt] = useState('')
@@ -80,69 +83,91 @@ function LandingPage() {
   }
 
   return (
-    <div className="landing-page">
-      <div className="landing-content">
-        <h1 className="landing-title">🎨 Vibecoding Platform</h1>
-        <p className="landing-subtitle">
-          用自然语言描述，AI 生成可运行的应用
-        </p>
-        
-        <div className="input-container">
-          <textarea
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="描述你想要创建的应用... 例如：创建一个待办事项列表"
-            disabled={loading}
-            rows={4}
-            className="landing-textarea"
-          />
-          
-          <button
-            onClick={handleGenerate}
-            disabled={loading || !prompt.trim()}
-            className="landing-button"
-          >
-            {loading ? (
-              <>
-                <span className="spinner"></span>
-                生成中...
-              </>
-            ) : (
-              '✨ 生成应用'
-            )}
-          </button>
+    <div className="min-h-screen bg-lovable-gray-50 flex flex-col items-center justify-center p-6">
+      <div className="w-full max-w-4xl space-y-8">
+        {/* 标题区域 */}
+        <div className="text-center space-y-4">
+          <h1 className="text-5xl md:text-6xl font-bold text-lovable-gray-900">
+            🎨 Vibecoding Platform
+          </h1>
+          <p className="text-xl text-gray-600">
+            用自然语言描述，AI 生成可运行的应用
+          </p>
         </div>
+        
+        {/* 主输入区域 */}
+        <Card className="shadow-lg hover:shadow-xl transition-shadow duration-200">
+          <CardContent className="p-6 space-y-4">
+            <Textarea
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="描述你想要创建的应用... 例如：创建一个待办事项列表"
+              disabled={loading}
+              rows={6}
+              className="text-base resize-none"
+            />
+            
+            <Button
+              onClick={handleGenerate}
+              disabled={loading || !prompt.trim()}
+              size="lg"
+              className="w-full text-base font-semibold"
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  生成中...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="mr-2 h-5 w-5" />
+                  生成应用
+                </>
+              )}
+            </Button>
+          </CardContent>
+        </Card>
 
+        {/* 错误提示 */}
         {error && (
-          <div className="error-box">
-            ❌ {error}
-          </div>
+          <Card className="border-red-200 bg-red-50">
+            <CardContent className="p-4">
+              <p className="text-red-600 text-sm">❌ {error}</p>
+            </CardContent>
+          </Card>
         )}
 
-        <div className="examples-section">
-          <h3>💡 示例提示词</h3>
-          <div className="examples-grid">
+        {/* 示例提示词 */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-lovable-gray-900">💡 示例提示词</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {examples.map((example, index) => (
-              <button
+              <Card
                 key={index}
-                onClick={() => setPrompt(example)}
-                className="example-button"
-                disabled={loading}
+                className="cursor-pointer hover:shadow-md hover:border-lovable-orange transition-all duration-200"
+                onClick={() => !loading && setPrompt(example)}
               >
-                {example}
-              </button>
+                <CardContent className="p-4">
+                  <p className="text-sm text-gray-700">{example}</p>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>
 
-        <button
-          onClick={() => navigate('/history')}
-          className="history-link"
-          disabled={loading}
-        >
-          📚 查看历史项目
-        </button>
+        {/* 历史项目链接 */}
+        <div className="flex justify-center">
+          <Button
+            onClick={() => navigate('/history')}
+            variant="ghost"
+            disabled={loading}
+            className="text-lovable-orange hover:text-lovable-coral"
+          >
+            <History className="mr-2 h-5 w-5" />
+            查看历史项目
+          </Button>
+        </div>
       </div>
     </div>
   )
