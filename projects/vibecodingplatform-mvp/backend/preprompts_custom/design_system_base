@@ -1,0 +1,303 @@
+🎨 VIBECODING DESIGN SYSTEM - MANDATORY FOR ALL APPLICATIONS
+
+This design system ensures all generated applications maintain high visual quality 
+consistent with modern web standards (Lovable, Vercel, Linear style).
+
+================================================================================
+1. FONT SYSTEM
+================================================================================
+
+Typography is CRITICAL for visual quality. ALL applications MUST use:
+
+- Headings Font: Playfair Display (elegant serif) - ALREADY IMPORTED in index.css
+- Body Font: Inter (modern sans-serif) - ALREADY IMPORTED in index.css
+
+USAGE RULES (MANDATORY):
+- ALL h1, h2, h3, h4, h5, h6 tags MUST use: className="font-display"
+- Body text uses font-body automatically (default)
+- Never use generic font-family values
+
+EXAMPLES:
+✅ CORRECT:
+<h1 className="font-display text-5xl font-bold">Title</h1>
+<h2 className="font-display text-3xl">Subtitle</h2>
+
+❌ WRONG:
+<h1 className="text-5xl font-bold">Title</h1>  // Missing font-display!
+<h1 style={{ fontFamily: 'Arial' }}>Title</h1>  // Never override!
+
+================================================================================
+2. SPACING SYSTEM - GENEROUS IS BETTER
+================================================================================
+
+Use LARGER spacing for a more premium feel:
+
+CARDS:
+✅ Use: p-8 (NOT p-6, NOT p-4)
+✅ Use: rounded-2xl (NOT rounded-xl, NOT rounded-lg)
+
+SECTIONS:
+✅ Use: py-24 or py-32 (NOT py-20, NOT py-16)
+✅ Use: gap-8 for grids (NOT gap-6, NOT gap-4)
+
+CONTAINERS:
+✅ Use: max-w-6xl (gives more breathing room)
+✅ Use: px-4 for mobile padding
+
+WHY: Generous spacing = Premium feel. Tight spacing = Cramped/cheap feel.
+
+================================================================================
+3. BUTTON SYSTEM
+================================================================================
+
+We have ENHANCED button variants. Use them correctly:
+
+PRIMARY CTA (Hero sections, main actions):
+<Button variant="hero" size="xl">
+  Get Started <ArrowRight className="w-5 h-5" />
+</Button>
+
+SECONDARY CTA:
+<Button variant="heroOutline" size="xl">
+  Learn More
+</Button>
+
+STANDARD ACTIONS:
+<Button variant="default" size="lg">Action</Button>
+<Button variant="outline" size="lg">Cancel</Button>
+
+AVAILABLE SIZES:
+- sm: Small buttons (h-9)
+- default: Normal buttons (h-10)
+- lg: Large buttons (h-12)
+- xl: Extra large for hero sections (h-14)
+
+DO NOT use custom className overrides like "bg-gradient-to-r from-orange..."
+The built-in variants have better hover effects!
+
+================================================================================
+4. CARD SYSTEM
+================================================================================
+
+Cards are the foundation of modern UIs. Style them properly:
+
+BASIC CARD:
+<Card className="p-8 rounded-2xl shadow-card hover:shadow-hover transition-all duration-300">
+  <CardTitle className="font-display text-xl font-semibold mb-3">
+    Title
+  </CardTitle>
+  <CardDescription className="text-muted-foreground leading-relaxed">
+    Description with good line height
+  </CardDescription>
+</Card>
+
+GROUP HOVER EFFECT (Professional touch):
+<motion.div
+  className="group relative p-8 rounded-2xl bg-card border border-border hover:border-primary/50 transition-all duration-300"
+  whileHover={{ y: -5, transition: { duration: 0.2 } }}
+>
+  {/* MUST INCLUDE: Hidden glow layer */}
+  <div className="absolute inset-0 rounded-2xl bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+  
+  <div className="relative">
+    {/* Content here */}
+  </div>
+</motion.div>
+
+KEY POINTS:
+- Always use p-8 (not p-6)
+- Always use rounded-2xl (not rounded-xl)
+- Include hover:shadow-hover for interactive cards
+- Use group hover pattern for extra polish
+
+================================================================================
+5. COLOR SYSTEM
+================================================================================
+
+Use semantic color variables (NOT hardcoded colors):
+
+TEXT COLORS:
+- Primary text: text-foreground (default, no class needed on body)
+- Secondary text: text-muted-foreground
+- Brand/accent: text-primary
+
+BACKGROUNDS:
+- Main background: bg-background
+- Card background: bg-card
+- Secondary background: bg-secondary
+
+BORDERS:
+- Default borders: border-border
+- Hover borders: hover:border-primary/50
+
+GRADIENTS (for special elements):
+- Gradient text: className="text-gradient"
+- Background glow: className="bg-gradient-radial"
+
+WHY: Semantic colors = Easy theming + Consistent look
+
+================================================================================
+6. ANIMATION SYSTEM
+================================================================================
+
+Animations make apps feel alive. Use proper timing:
+
+INFINITE BACKGROUND ANIMATIONS:
+<motion.div
+  className="absolute ... blur-3xl"
+  animate={{ 
+    scale: [1, 1.2, 1], 
+    opacity: [0.3, 0.5, 0.3] 
+  }}
+  transition={{ 
+    duration: 8,  // 6-10s range, NOT 3-5s
+    repeat: Infinity, 
+    ease: "easeInOut"  // Smooth, natural easing
+  }}
+/>
+
+ENTRANCE ANIMATIONS:
+<motion.div
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.6 }}  // 0.5-0.8s range
+>
+
+STAGGERED ANIMATIONS (for lists):
+{items.map((item, index) => (
+  <motion.div
+    key={item.id}
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ delay: index * 0.1 }}  // 0.1s per item
+  >
+
+HOVER ANIMATIONS:
+whileHover={{ 
+  y: -5,  // Subtle lift
+  transition: { duration: 0.2 }  // Quick response
+}}
+
+TIMING RULES:
+- Instant feedback: 0.1-0.2s
+- Entrance animations: 0.5-0.8s
+- Infinite loops: 6-10s
+- Page transitions: 0.3-0.5s
+
+================================================================================
+7. SHADOW SYSTEM
+================================================================================
+
+Shadows add depth. Use our custom shadow utilities:
+
+CARDS:
+- Default: shadow-card
+- Hover: hover:shadow-hover
+
+SPECIAL EFFECTS:
+- Button glow: Built into hero variant
+- Custom glow: className="glow-primary"
+
+ELEVATION LEVELS:
+1. Flat: No shadow (for backgrounds)
+2. Raised: shadow-card (for cards)
+3. Floating: shadow-hover (for hover states)
+4. Glowing: glow-primary (for emphasis)
+
+================================================================================
+8. RESPONSIVE DESIGN
+================================================================================
+
+Mobile-first approach with clear breakpoints:
+
+GRID LAYOUTS:
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+TYPOGRAPHY:
+<h1 className="font-display text-4xl md:text-5xl lg:text-6xl">
+
+SPACING:
+<section className="py-16 md:py-24 lg:py-32">
+
+BREAKPOINTS:
+- sm: 640px (mobile landscape)
+- md: 768px (tablet)
+- lg: 1024px (desktop)
+- xl: 1280px (large desktop)
+- 2xl: 1536px (extra large)
+
+================================================================================
+9. COMPONENT PATTERNS
+================================================================================
+
+ICON CONTAINER (consistent size and styling):
+<div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/20 transition-colors duration-300">
+  <Icon className="w-6 h-6 text-primary" />
+</div>
+
+STATS/METRICS:
+<div className="text-center">
+  <div className="font-display text-3xl md:text-4xl font-bold text-primary">
+    {value}
+  </div>
+  <div className="text-sm text-muted-foreground mt-1">
+    {label}
+  </div>
+</div>
+
+EMPTY STATES:
+<Card className="p-12 text-center">
+  <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mx-auto mb-4">
+    <Icon className="w-8 h-8 text-muted-foreground" />
+  </div>
+  <h3 className="font-display text-lg font-semibold mb-2">No items yet</h3>
+  <p className="text-muted-foreground mb-6">Get started by creating your first item</p>
+  <Button variant="default">Create Item</Button>
+</Card>
+
+================================================================================
+10. QUALITY CHECKLIST
+================================================================================
+
+Before considering code complete, verify:
+
+TYPOGRAPHY:
+[ ] All headings use font-display class
+[ ] Line height is comfortable (leading-relaxed for body text)
+[ ] Font sizes are responsive (text-4xl md:text-5xl lg:text-6xl)
+
+SPACING:
+[ ] Cards use p-8 (not smaller)
+[ ] Sections use py-24 or py-32
+[ ] Grids use gap-8 (not smaller)
+[ ] Rounded corners use rounded-2xl for cards
+
+COMPONENTS:
+[ ] Buttons use proper variants (hero, heroOutline, default, outline)
+[ ] Cards have hover effects (shadow-hover)
+[ ] Interactive elements have group hover patterns
+[ ] Icon containers are consistently sized (w-12 h-12)
+
+ANIMATIONS:
+[ ] Entrance animations have 0.6-0.8s duration
+[ ] Infinite animations use 6-10s duration
+[ ] Hover animations respond in 0.2s
+[ ] Staggered delays use 0.1s increments
+
+COLORS:
+[ ] Using semantic colors (text-muted-foreground, not text-gray-600)
+[ ] Brand color through text-primary/bg-primary
+[ ] No hardcoded color values
+
+OVERALL:
+[ ] Generous spacing (feels premium, not cramped)
+[ ] Smooth animations (feels polished, not janky)
+[ ] Clear hierarchy (fonts, sizes, colors work together)
+[ ] Responsive on all screen sizes
+
+================================================================================
+
+REMEMBER: These standards are MANDATORY for ALL applications.
+Following them ensures consistent, high-quality output that matches
+modern design standards (Lovable, Vercel, Linear, etc.)

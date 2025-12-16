@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Landing Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 p-8">
+    <div class="max-w-7xl mx-auto">
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-8">Welcome to Our Landing Page</h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-white rounded-2xl shadow-2xl p-6 hover:shadow-3xl hover:scale-105 transition-all duration-300">
+                <h2 class="text-lg text-gray-600">Total Visitors</h2>
+                <p id="totalVisitors" class="text-5xl font-bold">0</p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-2xl p-6 hover:shadow-3xl hover:scale-105 transition-all duration-300">
+                <h2 class="text-lg text-gray-600">Recent Activity</h2>
+                <ul id="recentActivity" class="space-y-2">
+                    <!-- Recent activities will be appended here -->
+                </ul>
+            </div>
+            <div class="bg-white rounded-2xl shadow-2xl p-6 hover:shadow-3xl hover:scale-105 transition-all duration-300">
+                <h2 class="text-lg text-gray-600">Add Activity</h2>
+                <input id="activityInput" type="text" placeholder="Enter activity" class="border border-gray-300 rounded-lg p-2 w-full mb-4">
+                <button id="addActivityButton" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl shadow-lg transition-all">Add Activity</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize data from localStorage
+        let data = JSON.parse(localStorage.getItem('activities')) || [];
+
+        // Function to update the total visitors count
+        function updateTotalVisitors() {
+            let total = 0;
+            data.forEach(item => total += item.amount);
+            document.getElementById('totalVisitors').textContent = total;
+        }
+
+        // Function to render recent activities
+        function renderRecentActivities() {
+            const recentActivityList = document.getElementById('recentActivity');
+            recentActivityList.innerHTML = ''; // Clear existing items
+            data.slice(-10).forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item.name;
+                recentActivityList.appendChild(li);
+            });
+        }
+
+        // Function to add a new activity
+        function addActivity() {
+            const activityInput = document.getElementById('activityInput');
+            const activityName = activityInput.value.trim();
+            if (activityName) {
+                const newActivity = { name: activityName, amount: 1 };
+                data.push(newActivity);
+                localStorage.setItem('activities', JSON.stringify(data));
+                activityInput.value = ''; // Clear input
+                updateTotalVisitors();
+                renderRecentActivities();
+            }
+        }
+
+        // Event listener for the add activity button
+        document.getElementById('addActivityButton').addEventListener('click', addActivity);
+
+        // Initial render
+        updateTotalVisitors();
+        renderRecentActivities();
+    </script>
+</body>
+</html>

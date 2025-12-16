@@ -122,6 +122,26 @@ export function updateHistoryProject(id, updates) {
 }
 
 /**
+ * 保存项目（别名，与 saveCurrentProject 相同）
+ * 用于主题系统的统一接口
+ */
+export function saveProject(project) {
+  return saveCurrentProject(project)
+}
+
+/**
+ * 确保项目有 metadata 对象（如果没有则创建空对象）
+ * @param {object} project - 项目对象
+ * @returns {object} - 带有 metadata 的项目对象
+ */
+export function ensureProjectMetadata(project) {
+  if (!project.metadata) {
+    project.metadata = {}
+  }
+  return project
+}
+
+/**
  * 从 prompt 提取应用名称
  */
 export function extractAppName(prompt) {

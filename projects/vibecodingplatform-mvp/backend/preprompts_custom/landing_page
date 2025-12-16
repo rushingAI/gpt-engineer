@@ -1,0 +1,316 @@
+You are creating a HIGH-QUALITY, PROFESSIONAL LANDING PAGE using our advanced design system.
+
+🎨 DESIGN SYSTEM - USE THESE CONSISTENTLY:
+- Font System: Playfair Display (headings) + Inter (body) - ALREADY IMPORTED in index.css
+- Use font-display class for ALL headings (h1, h2, h3)
+- Use rounded-2xl for cards (larger, softer corners)
+- Use p-8 spacing for cards (more generous padding)
+- Use py-24 or py-32 for sections (better breathing space)
+- Animations: 6-10s duration for infinite loops, ease-in-out
+- Shadow: shadow-card for cards, shadow-hover for hover states
+
+LANDING PAGE STRUCTURE:
+A professional landing page should include these sections (adapt based on requirements):
+
+1. HERO SECTION (Required) ⭐ MOST IMPORTANT
+   - Badge component (with icon + backdrop-blur-sm + border)
+   - Large, bold headline using font-display with text-gradient
+   - Compelling subheadline (value proposition) - text-muted-foreground
+   - TWO CTA buttons: Button variant="hero" size="xl" + Button variant="heroOutline" size="xl"
+   - Stats section (3 metrics in grid-cols-3)
+   - TWO layers of background blur animations (different sizes, durations)
+   - ALWAYS use bg-gradient-radial for background glow
+
+2. FEATURES SECTION (CRITICAL QUALITY POINTS)
+   - 6 feature cards minimum (more professional)
+   - Grid: md:grid-cols-2 lg:grid-cols-3
+   - Card structure: p-8 rounded-2xl border hover:border-primary/50
+   - Icon background: w-12 h-12 rounded-xl bg-primary/10 group-hover:bg-primary/20
+   - Use "group" class for hover effects
+   - Add invisible glow layer: <div className="absolute inset-0 rounded-2xl bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+   - whileHover={{ y: -5 }} for subtle lift effect
+   - Title uses font-display
+   - Description uses text-muted-foreground leading-relaxed
+
+3. TESTIMONIALS / SOCIAL PROOF
+   - Customer testimonials in cards
+   - Star ratings, company logos
+   - Carousel or grid layout
+
+4. CALL-TO-ACTION SECTION
+   - Compelling final pitch
+   - Sign-up form or button
+   - Background gradient or pattern
+
+5. FOOTER
+   - Links (Product, Company, Resources)
+   - Social media icons
+   - Copyright notice
+
+HERO SECTION TEMPLATE (HIGH-QUALITY VERSION):
+```tsx
+// IMPORTANT: Import components with lowercase filenames!
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { ArrowRight, Sparkles } from "lucide-react"
+import { motion } from "framer-motion"
+
+<section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 py-20">
+  {/* Background glow effect - USE bg-gradient-radial */}
+  <div className="absolute inset-0 bg-gradient-radial opacity-60" />
+  
+  {/* TWO layers of floating blur orbs - IMPORTANT for depth */}
+  <motion.div 
+    className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-primary/5 blur-3xl"
+    animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+    transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+  />
+  <motion.div
+    className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-primary/10 blur-3xl"
+    animate={{ scale: [1.2, 1, 1.2], opacity: [0.5, 0.3, 0.5] }}
+    transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+  />
+
+  <div className="relative z-10 max-w-5xl mx-auto text-center">
+    {/* Badge - MUST INCLUDE */}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-secondary/50 backdrop-blur-sm mb-8"
+    >
+      <Sparkles className="w-4 h-4 text-primary" />
+      <span className="text-sm text-muted-foreground">Introducing the future of [your product]</span>
+    </motion.div>
+
+    {/* Main headline - USE font-display and text-gradient */}
+    <motion.h1 
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, delay: 0.1 }}
+      className="font-display text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6"
+    >
+      Build something{" "}
+      <span className="text-gradient">extraordinary</span>
+    </motion.h1>
+    
+    {/* Subheadline - USE text-muted-foreground */}
+    <motion.p 
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, delay: 0.2 }}
+      className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed"
+    >
+      Transform your ideas into reality with our powerful platform. 
+      Designed for creators who refuse to settle for ordinary.
+    </motion.p>
+    
+    {/* CTA Buttons - USE hero variants and size="xl" */}
+    <motion.div 
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, delay: 0.3 }}
+      className="flex flex-col sm:flex-row items-center justify-center gap-4"
+    >
+      <Button variant="hero" size="xl">
+        Get Started Free
+        <ArrowRight className="w-5 h-5" />
+      </Button>
+      <Button variant="heroOutline" size="xl">
+        See How It Works
+      </Button>
+    </motion.div>
+
+    {/* Stats - MUST INCLUDE for credibility */}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8, delay: 0.5 }}
+      className="mt-20 grid grid-cols-3 gap-8 max-w-xl mx-auto"
+    >
+      {[
+        { value: "10K+", label: "Active Users" },
+        { value: "99.9%", label: "Uptime" },
+        { value: "24/7", label: "Support" },
+      ].map((stat, index) => (
+        <motion.div
+          key={stat.label}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
+          className="text-center"
+        >
+          <div className="text-2xl md:text-3xl font-display font-bold text-primary">{stat.value}</div>
+          <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
+        </motion.div>
+      ))}
+    </motion.div>
+  </div>
+</section>
+```
+
+FEATURE CARDS TEMPLATE (PROFESSIONAL VERSION):
+```tsx
+// IMPORTANT: Use lowercase import paths!
+import { motion } from "framer-motion"
+// Use REAL lucide-react icons - 6 DIFFERENT ICONS for 6 features
+import { Zap, Shield, Palette, Rocket, Users, BarChart3 } from "lucide-react"
+
+const features = [
+  {
+    icon: Zap,
+    title: "Lightning Fast",
+    description: "Optimized for speed with instant loading times and seamless interactions.",
+  },
+  {
+    icon: Shield,
+    title: "Secure by Default",
+    description: "Enterprise-grade security protecting your data around the clock.",
+  },
+  {
+    icon: Palette,
+    title: "Beautiful Design",
+    description: "Stunning interfaces crafted with attention to every pixel and detail.",
+  },
+  {
+    icon: Rocket,
+    title: "Scale Effortlessly",
+    description: "Grow from prototype to production without missing a beat.",
+  },
+  {
+    icon: Users,
+    title: "Team Collaboration",
+    description: "Work together in real-time with powerful collaboration tools.",
+  },
+  {
+    icon: BarChart3,
+    title: "Deep Analytics",
+    description: "Understand your users with comprehensive insights and metrics.",
+  },
+];
+
+<section className="relative py-24 px-4">
+  <div className="max-w-6xl mx-auto">
+    {/* Section header - USE font-display */}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      className="text-center mb-16"
+    >
+      <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
+        Everything you need to{" "}
+        <span className="text-gradient">succeed</span>
+      </h2>
+      <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+        Powerful features designed to help you build, launch, and grow your next big idea.
+      </p>
+    </motion.div>
+
+    {/* Features grid - 6 cards with group hover effects */}
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {features.map((feature, index) => (
+        <motion.div
+          key={feature.title}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: index * 0.1 }}
+          whileHover={{ y: -5, transition: { duration: 0.2 } }}
+          className="group relative p-8 rounded-2xl bg-card border border-border hover:border-primary/50 transition-all duration-300"
+        >
+          {/* Hover glow effect - MUST INCLUDE */}
+          <div className="absolute inset-0 rounded-2xl bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          
+          <div className="relative">
+            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/20 transition-colors duration-300">
+              <feature.icon className="w-6 h-6 text-primary" />
+        </div>
+            <h3 className="font-display text-xl font-semibold mb-3">{feature.title}</h3>
+            <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
+          </div>
+    </motion.div>
+  ))}
+</div>
+  </div>
+</section>
+```
+
+⚠️ CRITICAL - LUCIDE-REACT ICONS:
+You MUST use REAL icon names from lucide-react. Common valid icons include:
+- Zap, Rocket, Star, Heart, Sparkles, Globe, Shield, Lock
+- Users, Mail, Phone, Calendar, Clock, Check, X, Plus
+- ArrowRight, ChevronDown, Menu, Search, Settings
+DO NOT invent icon names like "FeatureIcon1" or "Icon1" - these don't exist!
+
+TYPOGRAPHY GUIDELINES (STRICT):
+- ALL headings MUST use font-display class
+- Hero headline: font-display text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight
+- Section headlines: font-display text-4xl md:text-5xl font-bold
+- Card titles: font-display text-xl font-semibold
+- Body text: text-base or text-lg text-muted-foreground leading-relaxed
+- CTAs: font-semibold
+- Badge text: text-sm text-muted-foreground
+
+SPACING & LAYOUT (GENEROUS):
+- Sections: py-24 or py-32 (NOT py-20)
+- Container: max-w-6xl mx-auto px-4 (NOT max-w-7xl, we want more space)
+- Card padding: p-8 (NOT p-6, bigger is better)
+- Grid gaps: gap-6 or gap-8
+- Button spacing: gap-4 between buttons
+- Stats spacing: gap-8
+- Section header margin-bottom: mb-16 (more breathing room)
+
+ANIMATIONS (HIGH QUALITY):
+- Initial animations: duration: 0.6-0.8, stagger delays: 0.1-0.2
+- Infinite background animations: duration: 6-10s, ease: "easeInOut"
+- Fade in on scroll: whileInView with viewport={{ once: true }}
+- Card hover: whileHover={{ y: -5, transition: { duration: 0.2 } }}
+- Button hover: Built into hero variant (scale: 1.05 + glow)
+- Blur orbs: Different scales and opacities, opposite directions
+- Stats: Staggered animation starting at delay: 0.6
+
+RESPONSIVE DESIGN:
+- Mobile-first approach
+- Use Tailwind breakpoints: md:, lg:, xl:
+- Stack on mobile, grid on desktop
+- Adjust font sizes with responsive classes
+
+CALL-TO-ACTION BUTTONS (USE NEW VARIANTS):
+Hero section CTAs - MUST use these exact variants:
+```tsx
+<Button variant="hero" size="xl">
+  Get Started Free
+  <ArrowRight className="w-5 h-5" />
+</Button>
+<Button variant="heroOutline" size="xl">
+  See How It Works
+</Button>
+```
+
+Other sections - Use standard variants:
+```tsx
+<Button variant="default" size="lg">Action</Button>
+<Button variant="outline" size="lg">Secondary</Button>
+```
+
+DO NOT use className overrides like "bg-gradient-to-r from-lovable-orange".
+USE the built-in variants instead - they have better hover effects!
+
+NAVIGATION:
+```tsx
+<nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md border-b border-gray-200 z-50">
+  <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+    <div className="text-xl font-bold">Logo</div>
+    <div className="hidden md:flex gap-6">
+      {/* Nav links */}
+    </div>
+    <Button>Get Started</Button>
+  </div>
+</nav>
+```
+
+Remember: Create a landing page that converts visitors into users.
+Focus on clear value propositions, social proof, and compelling CTAs.
+Use the Lovable design system consistently throughout.

@@ -2,8 +2,6 @@ import { useState, useRef, useEffect } from 'react'
 import { History } from 'lucide-react'
 import MessageList from './MessageList'
 import ChatInput from './ChatInput'
-import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
 
 function ChatPanel({ messages, onSendMessage, loading, onShowHistory }) {
   const [inputValue, setInputValue] = useState('')
@@ -29,19 +27,25 @@ function ChatPanel({ messages, onSendMessage, loading, onShowHistory }) {
   }
 
   return (
-    <div className="w-[320px] bg-white border-r border-gray-200 flex flex-col shadow-sm">
+    <div className="w-[360px] flex flex-col border-r relative z-10" style={{ 
+      borderColor: 'var(--project-border)',
+      background: '#ffffff'
+    }}>
       {/* 对话头部 */}
-      <div className="h-16 px-4 flex items-center justify-between border-b border-gray-200">
-        <h2 className="text-lg font-semibold text-lovable-gray-900">💬 对话</h2>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onShowHistory}
-          className="text-gray-600 hover:text-lovable-orange"
-        >
-          <History className="h-4 w-4 mr-2" />
-          历史
-        </Button>
+      <div className="px-4 py-3 border-b" style={{ borderColor: 'var(--project-border)' }}>
+        <div className="flex items-center justify-between">
+          <h2 className="text-sm font-semibold" style={{ color: 'var(--project-text-primary)' }}>
+            对话
+          </h2>
+          <button
+            onClick={onShowHistory}
+            className="flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-medium transition-all hover:bg-black/5"
+            style={{ color: 'var(--project-text-secondary)' }}
+          >
+            <History className="h-3.5 w-3.5" />
+            历史
+          </button>
+        </div>
       </div>
 
       {/* 消息列表 */}
@@ -50,10 +54,8 @@ function ChatPanel({ messages, onSendMessage, loading, onShowHistory }) {
         <div ref={messagesEndRef} />
       </div>
 
-      <Separator />
-
       {/* 输入区域 */}
-      <div className="p-4">
+      <div className="p-4 border-t" style={{ borderColor: 'var(--project-border)' }}>
         <ChatInput
           value={inputValue}
           onChange={setInputValue}

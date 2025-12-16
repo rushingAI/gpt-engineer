@@ -4,14 +4,21 @@ const API_URL = 'http://localhost:8000'
 
 /**
  * 生成应用
+ * 
+ * @param {string} prompt - 用户输入的提示词
+ * @param {boolean} useTemplate - 是否使用模板模式（默认 true）
  */
-export async function generateApp(prompt) {
-  const enhancedPrompt = buildEnhancedPrompt(prompt)
+export async function generateApp(prompt, useTemplate = true) {
+  // 根据模式决定是否增强 prompt
+  const finalPrompt = useTemplate ? prompt : buildEnhancedPrompt(prompt)
   
   const response = await fetch(`${API_URL}/generate`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ prompt_text: enhancedPrompt }),
+    body: JSON.stringify({ 
+      prompt_text: finalPrompt,
+      use_template: useTemplate
+    }),
   })
   
   if (!response.ok) {
@@ -20,7 +27,13 @@ export async function generateApp(prompt) {
   }
   
   const generatedFiles = await response.json()
-  return processFiles(generatedFiles)
+  
+  // 根据模式处理文件
+  if (useTemplate) {
+    return processReactFiles(generatedFiles)
+  } else {
+    return processFiles(generatedFiles)
+  }
 }
 
 /**
@@ -128,7 +141,34 @@ localStorage 使用要求（重要！）：
 }
 
 /**
- * 处理生成的文件
+ * 处理 React 项目文件（模板模式）
+ */
+function processReactFiles(generatedFiles) {
+  const sandpackFiles = {}
+  
+  console.log('处理 React 项目文件...')
+  console.log('接收到的文件:', Object.keys(generatedFiles))
+  
+  for (const [filename, content] of Object.entries(generatedFiles)) {
+    // 为 Sandpack 格式化文件路径
+    let cleanFilename = filename
+    
+    // 确保以 / 开头
+    if (!cleanFilename.startsWith('/')) {
+      cleanFilename = `/${cleanFilename}`
+    }
+    
+    sandpackFiles[cleanFilename] = content
+  }
+  
+  console.log('处理后的文件:', Object.keys(sandpackFiles))
+  console.log('文件数量:', Object.keys(sandpackFiles).length)
+  
+  return sandpackFiles
+}
+
+/**
+ * 处理传统单文件 HTML（传统模式）
  */
 function processFiles(generatedFiles) {
   const sandpackFiles = {}

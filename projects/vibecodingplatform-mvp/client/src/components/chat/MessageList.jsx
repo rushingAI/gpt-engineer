@@ -1,61 +1,69 @@
-import { Card, CardContent } from '@/components/ui/card'
-
 function MessageList({ messages, loading }) {
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {messages.map((message, index) => (
         <div
           key={index}
-          className={`flex gap-3 ${message.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
+          className={message.role === 'user' ? 'flex justify-end' : 'flex justify-start'}
         >
-          {/* 头像 */}
-          <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm ${
-            message.role === 'user' 
-              ? 'bg-lovable-orange text-white' 
-              : 'bg-gray-200 text-gray-700'
-          }`}>
-            {message.role === 'user' ? '👤' : '🤖'}
-          </div>
-          
-          {/* 消息内容 */}
-          <div className="flex-1 min-w-0">
-            <Card className={`${
-              message.role === 'user' 
-                ? 'bg-gradient-to-br from-lovable-orange to-lovable-coral text-white border-transparent' 
-                : 'bg-gray-50 border-gray-200'
-            } shadow-sm`}>
-              <CardContent className="p-3">
-                <p className={`text-sm whitespace-pre-wrap break-words ${
-                  message.role === 'user' ? 'text-white' : 'text-lovable-gray-900'
-                }`}>
-                  {message.content}
-                </p>
-                <p className={`text-xs mt-2 ${
-                  message.role === 'user' ? 'text-white/70' : 'text-gray-500'
-                }`}>
-                  {formatTime(message.timestamp)}
-                </p>
-              </CardContent>
-            </Card>
+          {/* 消息内容 - 极简风格 */}
+          <div 
+            className="max-w-[85%] rounded-lg px-3 py-2"
+            style={{
+              background: message.role === 'user' 
+                ? '#f5f5f5' 
+                : 'transparent',
+              border: message.role === 'user' 
+                ? 'none'
+                : 'none'
+            }}
+          >
+            <p 
+              className="text-xs whitespace-pre-wrap break-words leading-relaxed"
+              style={{
+                color: 'var(--project-text-primary)'
+              }}
+            >
+              {message.content}
+            </p>
+            <p 
+              className="text-[10px] mt-1.5"
+              style={{
+                color: 'var(--project-text-muted)'
+              }}
+            >
+              {formatTime(message.timestamp)}
+            </p>
           </div>
         </div>
       ))}
       
-      {/* 加载动画 */}
+      {/* 加载动画 - 极简风格 */}
       {loading && (
-        <div className="flex gap-3">
-          <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center text-sm">
-            🤖
+        <div className="flex justify-start">
+          <div className="flex gap-1 px-3 py-2">
+            <span 
+              className="w-1.5 h-1.5 rounded-full animate-bounce" 
+              style={{ 
+                background: 'var(--project-text-muted)',
+                animationDelay: '0ms' 
+              }}
+            ></span>
+            <span 
+              className="w-1.5 h-1.5 rounded-full animate-bounce" 
+              style={{ 
+                background: 'var(--project-text-muted)',
+                animationDelay: '150ms' 
+              }}
+            ></span>
+            <span 
+              className="w-1.5 h-1.5 rounded-full animate-bounce" 
+              style={{ 
+                background: 'var(--project-text-muted)',
+                animationDelay: '300ms' 
+              }}
+            ></span>
           </div>
-          <Card className="bg-gray-50 border-gray-200 shadow-sm">
-            <CardContent className="p-3">
-              <div className="flex gap-1">
-                <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
-                <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
-                <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
-              </div>
-            </CardContent>
-          </Card>
         </div>
       )}
     </div>

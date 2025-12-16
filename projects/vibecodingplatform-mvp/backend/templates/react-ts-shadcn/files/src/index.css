@@ -1,0 +1,145 @@
+/* 导入高质量字体 - Playfair Display (优雅标题) + Inter (现代正文) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+/* Tailwind CSS 基础样式 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS 变量定义 - 用于 shadcn/ui 组件 */
+@layer base {
+:root {
+    /* === 基础色彩系统 === */
+  --background: 0 0% 100%;
+  --foreground: 0 0% 10%;
+    
+    /* === 卡片和弹出层 === */
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 10%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 10%;
+    
+    /* === 主色调 (橙色渐变) === */
+  --primary: 27 100% 66%;
+  --primary-foreground: 0 0% 100%;
+    
+    /* === 次要色 === */
+  --secondary: 0 0% 96%;
+  --secondary-foreground: 0 0% 10%;
+  --muted: 0 0% 96%;
+  --muted-foreground: 0 0% 45%;
+  --accent: 0 0% 96%;
+  --accent-foreground: 0 0% 10%;
+    
+    /* === 状态色 === */
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+    
+    /* === 边框和输入 === */
+  --border: 0 0% 89%;
+  --input: 0 0% 89%;
+  --ring: 27 100% 66%;
+    
+    /* === 圆角系统 === */
+  --radius: 0.75rem;
+    
+    /* === 自定义渐变 === */
+    --gradient-primary: linear-gradient(135deg, hsl(27 100% 66%), hsl(14 100% 60%));
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 98%), hsl(0 0% 100%));
+    --gradient-radial: radial-gradient(ellipse at center, hsl(27 100% 66% / 0.1), transparent 70%);
+    
+    /* === 阴影系统 === */
+    --shadow-glow: 0 0 80px hsl(27 100% 66% / 0.3);
+    --shadow-card: 0 4px 24px hsl(0 0% 0% / 0.08);
+    --shadow-hover: 0 8px 32px hsl(0 0% 0% / 0.12);
+    
+    /* === 字体系统 === */
+    --font-display: 'Playfair Display', serif;
+    --font-body: 'Inter', sans-serif;
+  }
+  
+  /* 深色主题 (可选) */
+  .dark {
+    --background: 20 14% 4%;
+    --foreground: 40 20% 95%;
+    --card: 20 10% 8%;
+    --card-foreground: 40 20% 95%;
+    --popover: 20 10% 8%;
+    --popover-foreground: 40 20% 95%;
+    --primary: 27 100% 66%;
+    --primary-foreground: 20 14% 4%;
+    --secondary: 20 10% 12%;
+    --secondary-foreground: 40 20% 95%;
+    --muted: 20 10% 15%;
+    --muted-foreground: 40 10% 55%;
+    --accent: 27 100% 66%;
+    --accent-foreground: 20 14% 4%;
+    --border: 40 10% 18%;
+    --input: 40 10% 18%;
+    --ring: 27 100% 66%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+}
+
+body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+  /* 标题使用优雅的衬线字体 */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl;
+  }
+  
+  h2 {
+    @apply text-3xl md:text-4xl lg:text-5xl;
+  }
+  
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+}
+
+@layer utilities {
+  /* 渐变文字效果 */
+.text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-primary);
+  }
+  
+  /* 发光效果 */
+  .glow-primary {
+    box-shadow: var(--shadow-glow);
+  }
+  
+  /* 径向渐变背景 */
+  .bg-gradient-radial {
+    background-image: var(--gradient-radial);
+  }
+  
+  /* 卡片阴影 */
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+  
+  .shadow-hover {
+    box-shadow: var(--shadow-hover);
+}
+
+/* 平滑过渡 */
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}

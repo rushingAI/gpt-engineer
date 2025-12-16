@@ -1,0 +1,351 @@
+================================================================================
+🎨 DESIGN SYSTEM FOR DASHBOARDS - MANDATORY STANDARDS
+================================================================================
+
+CRITICAL: This dashboard MUST follow our design system standards.
+Review the design_system_base preprompt for complete guidelines.
+
+DASHBOARD-SPECIFIC REQUIREMENTS:
+1. ✅ Sidebar brand name MUST use font-display class
+2. ✅ All stats cards MUST use: p-8 rounded-2xl (NOT p-6)
+3. ✅ Section headings MUST use font-display class
+4. ✅ Data tables MUST have hover:shadow-hover on rows
+5. ✅ Charts MUST use primary gradient colors
+6. ✅ Loading states: Skeleton loaders with proper spacing
+7. ✅ All metric numbers MUST use font-display for emphasis
+
+================================================================================
+
+You are creating a DASHBOARD / SAAS APPLICATION interface.
+
+DASHBOARD LAYOUT STRUCTURE:
+A modern dashboard typically includes:
+
+1. SIDEBAR NAVIGATION (Optional but recommended)
+   - Fixed left sidebar (w-64)
+   - Logo at top
+   - Navigation menu items
+   - User profile at bottom
+   - Collapsible on mobile
+
+2. TOP HEADER
+   - Page title
+   - Breadcrumbs (optional)
+   - Search bar
+   - User menu / notifications
+   - Quick actions
+
+3. MAIN CONTENT AREA
+   - Stats cards (KPIs)
+   - Data tables
+   - Charts / visualizations
+   - Content sections
+
+4. RESPONSIVE BEHAVIOR
+   - Sidebar collapses to hamburger menu on mobile
+   - Tables scroll horizontally or stack on mobile
+   - Cards adjust grid columns
+
+STATS CARDS PATTERN (ENHANCED - MANDATORY FORMAT):
+```tsx
+// IMPORTANT: Use lowercase import paths!
+import { Card, CardContent } from "@/components/ui/card"
+import { TrendingUp, TrendingDown } from "lucide-react"
+
+// MANDATORY: Use p-8, rounded-2xl, shadow-card
+<div className="grid md:grid-cols-4 gap-8 mb-8">
+  {stats.map((stat) => (
+    <Card 
+      key={stat.label} 
+      className="p-8 rounded-2xl shadow-card hover:shadow-hover transition-all duration-300"
+    >
+      <div className="flex items-center justify-between mb-4">
+        <p className="text-sm text-muted-foreground font-medium">{stat.label}</p>
+        <stat.icon className="w-5 h-5 text-primary" />
+      </div>
+      {/* MUST use font-display for numbers */}
+      <p className="font-display text-4xl font-bold mb-2">{stat.value}</p>
+      <p className={cn(
+        "text-sm flex items-center gap-1",
+        stat.change >= 0 ? "text-green-600" : "text-red-600"
+      )}>
+        {stat.change >= 0 ? (
+          <TrendingUp className="w-4 h-4" />
+        ) : (
+          <TrendingDown className="w-4 h-4" />
+        )}
+        {Math.abs(stat.change)}% from last month
+      </p>
+    </Card>
+  ))}
+</div>
+```
+
+DATA TABLE PATTERN (ENHANCED):
+```tsx
+<Card className="p-8 rounded-2xl shadow-card">
+  <div className="flex justify-between items-center mb-6">
+    {/* MUST use font-display for headings */}
+    <h2 className="font-display text-2xl font-semibold">Recent Activity</h2>
+    <Button variant="outline" size="sm">View All</Button>
+  </div>
+  
+  <div className="overflow-x-auto">
+    <table className="w-full">
+      <thead>
+        <tr className="border-b border-border">
+          <th className="text-left py-4 px-4 font-semibold text-sm text-muted-foreground">
+            Column
+          </th>
+          {/* More columns */}
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((row, index) => (
+          <tr 
+            key={index} 
+            className="border-b border-border/50 hover:bg-secondary/50 hover:shadow-hover transition-all duration-200"
+          >
+            <td className="py-4 px-4">{row.value}</td>
+            {/* More cells */}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</Card>
+```
+
+SIDEBAR NAVIGATION (ENHANCED):
+```tsx
+<aside className="fixed left-0 top-0 h-screen w-64 bg-card border-r border-border p-6">
+  {/* Logo - MUST use font-display */}
+  <div className="mb-8">
+    <h1 className="font-display text-2xl font-bold text-foreground">
+      Dashboard
+    </h1>
+  </div>
+  
+  {/* Navigation */}
+  <nav className="space-y-2">
+    {menuItems.map((item) => (
+      <button
+        key={item.label}
+        className={cn(
+          "w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200",
+          item.active 
+            ? "bg-primary text-primary-foreground shadow-card" 
+            : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+        )}
+      >
+        <item.icon className="w-5 h-5" />
+        <span className="font-medium">{item.label}</span>
+      </button>
+    ))}
+  </nav>
+  
+  {/* User profile at bottom - Enhanced styling */}
+  <div className="absolute bottom-6 left-6 right-6">
+    <Card className="p-4 rounded-xl shadow-card hover:shadow-hover transition-all">
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-semibold">
+          {user.initials}
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="font-medium text-sm truncate">{user.name}</p>
+          <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+        </div>
+      </div>
+    </Card>
+  </div>
+</aside>
+```
+
+PAGE LAYOUT WITH SIDEBAR (ENHANCED):
+```tsx
+<div className="flex min-h-screen bg-background">
+  {/* Sidebar */}
+  <Sidebar />
+  
+  {/* Main content */}
+  <main className="flex-1 ml-64 p-8">
+    {/* Header - MUST use font-display */}
+    <header className="mb-12">
+      <h1 className="font-display text-4xl font-bold">Page Title</h1>
+      <p className="text-muted-foreground text-lg mt-2">Page description</p>
+    </header>
+    
+    {/* Stats - Enhanced spacing */}
+    <StatsCards />
+    
+    {/* Content sections - Generous gap */}
+    <div className="grid lg:grid-cols-2 gap-8">
+      <ChartSection />
+      <TableSection />
+    </div>
+  </main>
+</div>
+```
+
+FORM PATTERNS (ENHANCED):
+```tsx
+<Card className="p-8 rounded-2xl shadow-card">
+  {/* MUST use font-display for headings */}
+  <h3 className="font-display text-xl font-semibold mb-6">Form Title</h3>
+  <div className="space-y-6">
+    <div>
+      <label className="block text-sm font-medium text-muted-foreground mb-2">
+        Field Label
+      </label>
+      <Input placeholder="Enter value..." className="h-12" />
+    </div>
+    <div>
+      <label className="block text-sm font-medium text-muted-foreground mb-2">
+        Description
+      </label>
+      <Textarea placeholder="Enter description..." rows={4} />
+    </div>
+    <div className="flex gap-3 justify-end pt-4">
+      <Button variant="outline" size="lg">Cancel</Button>
+      <Button variant="default" size="lg">Save Changes</Button>
+    </div>
+  </div>
+</Card>
+```
+
+TABS PATTERN:
+```tsx
+<Tabs defaultValue="overview">
+  <TabsList>
+    <TabsTrigger value="overview">Overview</TabsTrigger>
+    <TabsTrigger value="analytics">Analytics</TabsTrigger>
+    <TabsTrigger value="settings">Settings</TabsTrigger>
+  </TabsList>
+  
+  <TabsContent value="overview">
+    <Card className="p-6">
+      {/* Overview content */}
+    </Card>
+  </TabsContent>
+  
+  {/* More tab contents */}
+</Tabs>
+```
+
+EMPTY STATES (ENHANCED):
+```tsx
+<Card className="p-12 rounded-2xl shadow-card text-center">
+  <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mx-auto mb-4">
+    <InboxIcon className="w-8 h-8 text-muted-foreground" />
+  </div>
+  {/* MUST use font-display */}
+  <h3 className="font-display text-lg font-semibold mb-2">No data yet</h3>
+  <p className="text-muted-foreground mb-6">Get started by adding your first item</p>
+  <Button variant="default" size="lg">Add Item</Button>
+</Card>
+```
+
+LOADING STATES (ENHANCED):
+Use skeleton loaders or loading spinners:
+```tsx
+{isLoading ? (
+  <div className="flex items-center justify-center p-12">
+    <Loader2 className="w-8 h-8 animate-spin text-primary" />
+    <span className="ml-3 text-muted-foreground">Loading data...</span>
+  </div>
+) : (
+  <DataTable data={data} />
+)}
+
+// Or use skeleton cards for stats
+{isLoading ? (
+  <div className="grid md:grid-cols-4 gap-8">
+    {[1, 2, 3, 4].map(i => (
+      <Card key={i} className="p-8 rounded-2xl shadow-card">
+        <div className="h-4 bg-muted rounded w-20 mb-4 animate-pulse" />
+        <div className="h-10 bg-muted rounded w-32 mb-2 animate-pulse" />
+        <div className="h-3 bg-muted rounded w-24 animate-pulse" />
+      </Card>
+    ))}
+  </div>
+) : (
+  <StatsCards data={stats} />
+)}
+```
+
+COLOR USAGE IN DASHBOARDS:
+- Success: bg-green-100 text-green-700
+- Warning: bg-yellow-100 text-yellow-700
+- Error: bg-red-100 text-red-700
+- Info: bg-blue-100 text-blue-700
+- Primary actions: lovable-orange
+- Neutral: gray-100, gray-200
+
+RESPONSIVE CONSIDERATIONS:
+- Sidebar becomes drawer/hamburger on mobile
+- Tables scroll horizontally or stack
+- Grid columns reduce: lg:grid-cols-4 md:grid-cols-2 grid-cols-1
+- Hide secondary actions on mobile
+- Use ScrollArea for long content
+
+Remember: Dashboards should be data-dense but not cluttered.
+Use clear visual hierarchy, consistent spacing, and intuitive navigation.
+Focus on making data easy to scan and actions easy to find.
+
+================================================================================
+DASHBOARD QUALITY CHECKLIST
+================================================================================
+
+Before generating dashboard code, verify:
+
+1. TYPOGRAPHY ✅
+   [ ] Sidebar brand uses font-display
+   [ ] All page headings use font-display
+   [ ] All metric numbers use font-display
+   [ ] Table headers use text-muted-foreground
+
+2. STATS CARDS ✅
+   [ ] Using p-8 (NOT p-6)
+   [ ] Using rounded-2xl (NOT rounded-xl)
+   [ ] Using shadow-card + hover:shadow-hover
+   [ ] Icons use text-primary color
+   [ ] Trend indicators with proper colors
+
+3. TABLES ✅
+   [ ] Rows have hover:bg-secondary/50
+   [ ] Rows have hover:shadow-hover
+   [ ] Headers styled with text-muted-foreground
+   [ ] Proper border colors (border-border)
+
+4. SIDEBAR ✅
+   [ ] Navigation items use rounded-xl
+   [ ] Active state has shadow-card
+   [ ] Hover states are smooth
+   [ ] User profile card has hover effect
+
+5. SPACING ✅
+   [ ] Stats grid uses gap-8
+   [ ] Content sections use gap-8
+   [ ] Cards use p-8 internally
+   [ ] Sections have py-24 or py-32
+
+6. COLORS ✅
+   [ ] Using semantic colors (text-muted-foreground)
+   [ ] Charts use primary gradient
+   [ ] No hardcoded color values
+   [ ] Consistent color scheme throughout
+
+7. CHARTS & VISUALIZATIONS ✅
+   [ ] Use primary color for main data
+   [ ] Include proper legends
+   [ ] Add tooltips for details
+   [ ] Show loading states
+
+8. INTERACTIONS ✅
+   [ ] All buttons have proper variants
+   [ ] Forms use consistent styling
+   [ ] Empty states are beautiful
+   [ ] Loading states use skeletons
+
+Generate dashboards that feel professional and premium! 📊
+Data should be beautiful, not boring.

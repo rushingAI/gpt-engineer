@@ -1,0 +1,37 @@
+{
+  "name": "react-ts-shadcn",
+  "displayName": "React + TypeScript + shadcn/ui",
+  "description": "现代化的 React 应用模板，包含 TypeScript、Tailwind CSS、shadcn/ui 组件库和 framer-motion 动画",
+  "version": "1.0.0",
+  "tags": ["react", "typescript", "shadcn", "tailwind", "vite"],
+  "language": "typescript",
+  "framework": "react",
+  "buildTool": "vite",
+  "uiLibrary": "shadcn/ui",
+  "animationLibrary": "framer-motion",
+  "适用场景": [
+    "landing-page",
+    "dashboard",
+    "saas-app",
+    "admin-panel",
+    "marketing-site"
+  ],
+  "预装组件": [
+    "Button",
+    "Card",
+    "Input",
+    "Textarea",
+    "Tabs",
+    "Separator",
+    "ScrollArea"
+  ],
+  "特性": [
+    "完整的 TypeScript 支持",
+    "Tailwind CSS 样式系统",
+    "shadcn/ui 组件库",
+    "framer-motion 动画",
+    "React Router 路由",
+    "响应式设计",
+    "暗色模式支持"
+  ]
+}
