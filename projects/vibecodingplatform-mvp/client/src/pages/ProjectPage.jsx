@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useState, useEffect, useRef } from 'react'
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import { ArrowLeft, Save, Loader2 } from 'lucide-react'
 import ChatPanel from '../components/chat/ChatPanel'
 import PreviewPanel from '../components/preview/PreviewPanel'
 import CodeView from '../components/preview/CodeView'
 import { getProject, saveCurrentProject, addToHistory } from '../utils/storage'
-import { generateApp, improveApp } from '../utils/api'
+import { generateApp, improveApp, generateAppStreaming, improveAppStreaming } from '../utils/api'
 import { shouldUseImprove, buildFullPrompt } from '../utils/promptAnalyzer'
 import { ensureProjectTheme, applyTheme, getProjectTheme, getProjectThemeOverrides } from '../utils/theme'
 import { extractColorIntent, selectThemeByIntent } from '../utils/colorIntent'
@@ -13,10 +13,13 @@ import { extractColorIntent, selectThemeByIntent } from '../utils/colorIntent'
 function ProjectPage() {
   const { id } = useParams()
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const [project, setProject] = useState(null)
   const [loading, setLoading] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
   const [activeTab, setActiveTab] = useState('preview')
+  const [containerStepCallback, setContainerStepCallback] = useState(null)
+  const autoGenerateTriggered = useRef(false)
 
   // 加载项目
   useEffect(() => {
@@ -37,21 +40,263 @@ function ProjectPage() {
       navigate('/')
     }
   }, [id, navigate])
+  
+  // 自动开始生成（如果URL包含 ?generate=true）
+  useEffect(() => {
+    const shouldGenerate = searchParams.get('generate') === 'true'
+    if (shouldGenerate && !autoGenerateTriggered.current && project && project.prompt) {
+      autoGenerateTriggered.current = true
+      console.log('🚀 自动开始流式生成...')
+      // 使用 setTimeout 确保组件完全挂载后再触发
+      setTimeout(() => {
+        // 检查是否已经有文件（避免重复生成）
+        if (!project.files || Object.keys(project.files).length === 0) {
+          // 直接开始生成，不添加新的用户消息（因为已经在 LandingPage 添加过了）
+          handleAutoGenerate(project.prompt)
+        }
+      }, 100)
+    }
+  }, [project, searchParams])
+  
+  // 自动生成函数（不重复添加用户消息）
+  async function handleAutoGenerate(userMessage) {
+    if (!project || loading) return
 
-  // 处理发送消息
+    setLoading(true)
+
+    // 获取已存在的消息列表和 AI 消息
+    const updatedMessages = [...project.messages]
+    const aiMsg = updatedMessages[updatedMessages.length - 1] // 最后一条应该是 AI 消息
+    
+    // 确保 AI 消息有正确的结构
+    if (!aiMsg.steps) {
+      aiMsg.steps = []
+    }
+
+    try {
+      // 智能判断使用 improve 还是 generate
+      const useImprove = shouldUseImprove(userMessage)
+      let newFiles
+
+      // 开始流式生成
+      if (useImprove) {
+        console.log('📝 使用流式 improve 优化代码')
+        newFiles = await improveAppStreaming(
+          userMessage, 
+          project.files,
+          (event) => handleStreamEvent(event, aiMsg, updatedMessages)
+        )
+      } else {
+        console.log('🆕 使用流式 generate 重新生成')
+        const fullPrompt = buildFullPrompt(project.messages, userMessage)
+        newFiles = await generateAppStreaming(
+          fullPrompt,
+          (event) => handleStreamEvent(event, aiMsg, updatedMessages),
+          true // useTemplate
+        )
+      }
+
+      if (!newFiles) {
+        throw new Error('生成失败：未收到文件数据')
+      }
+
+      // 🎨 检查用户消息中是否有颜色意图（支持在改进阶段更新主题）
+      const colorIntent = extractColorIntent(userMessage)
+      let updatedProject = {
+        ...project,
+        files: newFiles,
+        messages: updatedMessages,
+        timestamp: new Date().toISOString()
+      }
+
+      if (colorIntent.colorName || colorIntent.hex) {
+        const newTheme = selectThemeByIntent(colorIntent)
+        if (newTheme) {
+          console.log(`🎨 检测到颜色意图，更新主题为: ${newTheme}`)
+          if (!updatedProject.metadata) {
+            updatedProject.metadata = {}
+          }
+          updatedProject.metadata.themeName = newTheme
+          
+          // 立即应用新主题到当前页面
+          applyTheme(newTheme, updatedProject.metadata.themeOverrides || {})
+        }
+      }
+
+      setProject(updatedProject)
+      saveCurrentProject(updatedProject)
+      addToHistory(updatedProject)
+
+      console.log('✓ 项目已更新')
+    } catch (error) {
+      console.error('处理消息失败:', error)
+
+      // 添加错误消息
+      const errorMessage = error.message || error.toString() || '未知错误'
+      const errorMsg = {
+        role: 'assistant',
+        content: `处理失败：${errorMessage}`,
+        timestamp: new Date().toISOString()
+      }
+
+      const failedProject = {
+        ...project,
+        messages: [...updatedMessages, errorMsg]
+      }
+      
+      setProject(failedProject)
+      saveCurrentProject(failedProject)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // 处理流式事件
+  function handleStreamEvent(event, aiMsg, messages) {
+    if (event.type === 'status') {
+      // 添加或更新状态步骤
+      const existingStepIndex = aiMsg.steps.findIndex(s => s.status === 'running')
+      
+      if (existingStepIndex !== -1) {
+        // 标记上一步完成
+        aiMsg.steps[existingStepIndex].status = 'completed'
+        aiMsg.steps[existingStepIndex].icon = 'CheckCircle2'
+      }
+      
+      // 添加新步骤
+      aiMsg.steps.push({
+        id: `step-${Date.now()}`,
+        label: event.content,
+        status: 'running',
+        icon: 'Loader2'
+      })
+    } else if (event.type === 'file') {
+      // 文件生成完成，更新标签
+      const runningStepIndex = aiMsg.steps.findIndex(s => s.status === 'running')
+      if (runningStepIndex !== -1) {
+        aiMsg.steps[runningStepIndex].status = 'completed'
+        aiMsg.steps[runningStepIndex].icon = 'CheckCircle2'
+      }
+      
+      aiMsg.steps.push({
+        id: `file-${event.filename}`,
+        label: `已生成 ${event.filename}`,
+        status: 'completed',
+        icon: 'CheckCircle2'
+      })
+    } else if (event.type === 'complete') {
+      // 生成完成
+      const runningStepIndex = aiMsg.steps.findIndex(s => s.status === 'running')
+      if (runningStepIndex !== -1) {
+        aiMsg.steps[runningStepIndex].status = 'completed'
+        aiMsg.steps[runningStepIndex].icon = 'CheckCircle2'
+      }
+      
+      // 添加完成步骤
+      aiMsg.steps.push({
+        id: 'complete',
+        label: `✓ 代码生成完成 (${event.filesCount} 个文件)`,
+        status: 'completed',
+        icon: 'CheckCircle2'
+      })
+      
+      // 添加环境准备步骤（等待状态）
+      addContainerSteps(aiMsg)
+    } else if (event.type === 'error') {
+      // 错误处理
+      const runningStepIndex = aiMsg.steps.findIndex(s => s.status === 'running')
+      if (runningStepIndex !== -1) {
+        aiMsg.steps[runningStepIndex].status = 'failed'
+        aiMsg.steps[runningStepIndex].icon = 'AlertTriangle'
+      }
+      
+      aiMsg.steps.push({
+        id: 'error',
+        label: `✗ ${event.message}`,
+        status: 'failed',
+        icon: 'AlertTriangle'
+      })
+    }
+    
+    // 触发重新渲染
+    setProject({ ...project, messages: [...messages] })
+  }
+
+  // 添加环境准备步骤
+  function addContainerSteps(aiMsg) {
+    const containerSteps = [
+      { id: 'boot', label: '正在启动容器', duration: '2-5秒' },
+      { id: 'mount', label: '挂载文件系统', duration: '1秒' },
+      { id: 'install', label: '安装依赖', duration: '5-10秒' },
+      { id: 'dev', label: '启动开发服务器', duration: '2-3秒' },
+    ]
+    
+    containerSteps.forEach(step => {
+      aiMsg.steps.push({
+        ...step,
+        status: 'waiting',
+        icon: 'Clock'
+      })
+    })
+  }
+
+  // WebContainer 步骤更新回调
+  function handleContainerStepUpdate(stepId, status) {
+    setProject(prevProject => {
+      if (!prevProject || !prevProject.messages.length) return prevProject
+      
+      const messages = [...prevProject.messages]
+      const lastMessage = messages[messages.length - 1]
+      
+      if (lastMessage.role === 'assistant' && lastMessage.steps) {
+        const stepIndex = lastMessage.steps.findIndex(s => s.id === stepId)
+        if (stepIndex !== -1) {
+          lastMessage.steps[stepIndex].status = status
+          lastMessage.steps[stepIndex].icon = status === 'completed' 
+            ? 'CheckCircle2' 
+            : status === 'running'
+            ? 'Loader2'
+            : status === 'failed'
+            ? 'AlertTriangle'
+            : 'Clock'
+        }
+        
+        // 如果所有步骤完成，标记流式结束
+        const allCompleted = lastMessage.steps.every(
+          s => s.status === 'completed' || s.status === 'failed'
+        )
+        if (allCompleted) {
+          lastMessage.streaming = false
+        }
+      }
+      
+      return { ...prevProject, messages }
+    })
+  }
+
+  // 处理发送消息（流式生成）
   async function handleSendMessage(userMessage) {
     if (!project || loading) return
 
     setLoading(true)
 
-    // 添加用户消息
+    // 1. 添加用户消息
     const userMsg = {
       role: 'user',
       content: userMessage,
       timestamp: new Date().toISOString()
     }
+    
+    // 2. 创建初始 AI 消息（带流式状态）
+    const aiMsg = {
+      role: 'assistant',
+      content: '',
+      timestamp: new Date().toISOString(),
+      streaming: true,
+      steps: []
+    }
 
-    const updatedMessages = [...project.messages, userMsg]
+    let updatedMessages = [...project.messages, userMsg, aiMsg]
     setProject({ ...project, messages: updatedMessages })
 
     try {
@@ -59,23 +304,26 @@ function ProjectPage() {
       const useImprove = shouldUseImprove(userMessage)
       let newFiles
 
+      // 3. 开始流式生成
       if (useImprove) {
-        // 小改动：使用 improve_fn
-        console.log('📝 使用 improve_fn 优化代码')
-        newFiles = await improveApp(userMessage, project.files)
+        console.log('📝 使用流式 improve 优化代码')
+        newFiles = await improveAppStreaming(
+          userMessage, 
+          project.files,
+          (event) => handleStreamEvent(event, aiMsg, updatedMessages)
+        )
       } else {
-        // 大改动：重新生成
-        console.log('🆕 使用 gen_code 重新生成')
+        console.log('🆕 使用流式 generate 重新生成')
         const fullPrompt = buildFullPrompt(project.messages, userMessage)
-        newFiles = await generateApp(fullPrompt)
+        newFiles = await generateAppStreaming(
+          fullPrompt,
+          (event) => handleStreamEvent(event, aiMsg, updatedMessages),
+          true // useTemplate
+        )
       }
 
-      // 添加 AI 消息
-      const aiMsg = {
-        role: 'assistant',
-        content: `已${useImprove ? '优化' : '生成'}应用\n更新了 ${Object.keys(newFiles).length} 个文件`,
-        timestamp: new Date().toISOString(),
-        filesCount: Object.keys(newFiles).length
+      if (!newFiles) {
+        throw new Error('生成失败：未收到文件数据')
       }
 
       // 🎨 检查用户消息中是否有颜色意图（支持在改进阶段更新主题）
@@ -205,6 +453,7 @@ function ProjectPage() {
               files={project.files} 
               activeTab={activeTab}
               project={project}
+              onStepUpdate={handleContainerStepUpdate}
             />
           ) : (
             <CodeView files={project.files} />

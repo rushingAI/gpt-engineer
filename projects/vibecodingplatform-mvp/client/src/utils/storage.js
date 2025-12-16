@@ -23,11 +23,37 @@ export function saveCurrentProject(project) {
 export function getCurrentProject() {
   try {
     const saved = localStorage.getItem(STORAGE_KEY)
-    return saved ? JSON.parse(saved) : null
+    const project = saved ? JSON.parse(saved) : null
+    return project ? migrateProjectFormat(project) : null
   } catch (error) {
     console.error('读取项目失败:', error)
     return null
   }
+}
+
+/**
+ * 迁移项目数据格式（向后兼容）
+ * 确保旧格式的消息能正确显示
+ */
+function migrateProjectFormat(project) {
+  if (!project.messages) {
+    return project
+  }
+  
+  // 为旧消息添加默认字段
+  project.messages = project.messages.map(msg => {
+    if (msg.role === 'assistant' && !msg.hasOwnProperty('streaming')) {
+      // 旧的 AI 消息，添加默认字段
+      return {
+        ...msg,
+        streaming: false,
+        steps: msg.steps || [] // 保留已有的 steps（如果有）
+      }
+    }
+    return msg
+  })
+  
+  return project
 }
 
 /**
@@ -42,7 +68,8 @@ export function clearCurrentProject() {
  */
 export function getProject(id) {
   const history = getHistory()
-  return history.find(p => p.id === id) || null
+  const project = history.find(p => p.id === id) || null
+  return project ? migrateProjectFormat(project) : null
 }
 
 /**
@@ -51,7 +78,9 @@ export function getProject(id) {
 export function getHistory() {
   try {
     const saved = localStorage.getItem(HISTORY_KEY)
-    return saved ? JSON.parse(saved) : []
+    const history = saved ? JSON.parse(saved) : []
+    // 迁移所有历史项目
+    return history.map(migrateProjectFormat)
   } catch (error) {
     console.error('读取历史记录失败:', error)
     return []

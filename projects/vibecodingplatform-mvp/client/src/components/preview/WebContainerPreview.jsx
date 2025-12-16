@@ -7,7 +7,7 @@ import LoadingSteps from './LoadingSteps'
 /**
  * WebContainerPreview - 使用 WebContainers 预览 React 应用
  */
-function WebContainerPreview({ files, activeTab, project }) {
+function WebContainerPreview({ files, activeTab, project, onStepUpdate }) {
   const [currentStep, setCurrentStep] = useState(null)
   const [previewUrl, setPreviewUrl] = useState(null)
   const [error, setError] = useState(null)
@@ -17,6 +17,12 @@ function WebContainerPreview({ files, activeTab, project }) {
   // 获取项目主题信息
   const themeName = project ? getProjectTheme(project) : 'teal'
   const themeOverrides = project ? getProjectThemeOverrides(project) : {}
+  
+  // 内部步骤更新函数
+  const updateStep = (stepId, status) => {
+    setCurrentStep(status === 'completed' ? null : stepId)
+    onStepUpdate?.(stepId, status)
+  }
 
   useEffect(() => {
     if (!supportsWebContainers()) {
@@ -36,15 +42,16 @@ function WebContainerPreview({ files, activeTab, project }) {
         setPreviewUrl(null)
 
         // 步骤 1: 启动容器
-        setCurrentStep('boot')
+        updateStep('boot', 'running')
         console.log('🚀 Starting WebContainer...')
         const container = await webContainerManager.getContainer()
         
         if (!isActive) return
         containerRef.current = container
+        updateStep('boot', 'completed')
 
         // 步骤 2: 挂载文件系统
-        setCurrentStep('mount')
+        updateStep('mount', 'running')
         console.log('📁 Mounting files...')
         console.log('📄 Original AI files:', Object.keys(files))
         console.log('🎨 Project theme:', themeName)
@@ -68,9 +75,10 @@ function WebContainerPreview({ files, activeTab, project }) {
         }
         
         if (!isActive) return
+        updateStep('mount', 'completed')
 
         // 步骤 3: 安装依赖
-        setCurrentStep('install')
+        updateStep('install', 'running')
         console.log('📦 Installing dependencies...')
         
         // 捕获 npm install 的输出
@@ -95,15 +103,17 @@ function WebContainerPreview({ files, activeTab, project }) {
           console.error('❌ npm install failed')
           console.error('Exit code:', installExitCode)
           console.error('Output:', installOutput)
+          updateStep('install', 'failed')
           throw new Error(`npm install 失败 (exit code: ${installExitCode})\n\n输出:\n${installOutput.slice(-500)}`)
         }
         
         console.log('✅ npm install succeeded')
         
         if (!isActive) return
+        updateStep('install', 'completed')
 
         // 步骤 4: 启动开发服务器
-        setCurrentStep('dev')
+        updateStep('dev', 'running')
         console.log('🎯 Starting dev server...')
         
         // 启动 dev server (不等待它结束,因为它是长期运行的进程)
@@ -113,15 +123,18 @@ function WebContainerPreview({ files, activeTab, project }) {
         container.on('server-ready', (port, url) => {
           if (!isActive) return
           console.log('✅ Server ready:', url)
+          updateStep('dev', 'completed')
           setPreviewUrl(url)
-          setCurrentStep(null)
         })
 
       } catch (err) {
         console.error('WebContainer error:', err)
         if (isActive) {
           setError(err.message || '启动失败,请刷新页面重试')
-          setCurrentStep(null)
+          // 标记当前步骤失败
+          if (currentStep) {
+            updateStep(currentStep, 'failed')
+          }
         }
       }
     }

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { generateApp } from '../utils/api'
+import { generateApp, generateAppStreaming } from '../utils/api'
 import { saveCurrentProject, addToHistory, extractAppName } from '../utils/storage'
 import { ensureProjectTheme } from '../utils/theme'
 import Navbar from '../components/landing/Navbar'
@@ -31,51 +31,52 @@ function LandingPage() {
     setError(null)
 
     try {
-      console.log('开始生成应用:', prompt)
+      console.log('开始生成应用（流式）:', prompt)
       
-      // 调用 API 生成应用
-      const files = await generateApp(prompt)
-      
-      // 创建项目对象
+      // 创建项目对象（先创建空项目）
       const projectId = Date.now().toString()
-      let project = {
-        id: projectId,
-        name: extractAppName(prompt),
-        files,
-        prompt,
-        messages: [
-          {
-            role: 'user',
-            content: prompt,
-            timestamp: new Date().toISOString()
-          },
-          {
-            role: 'assistant',
-            content: `已生成应用\n生成了 ${Object.keys(files).length} 个文件`,
-            timestamp: new Date().toISOString(),
-            filesCount: Object.keys(files).length
-          }
-        ],
-        metadata: {},  // 初始化 metadata
+      
+      // 用户消息
+      const userMsg = {
+        role: 'user',
+        content: prompt,
         timestamp: new Date().toISOString()
       }
       
-      // 🎨 自动选择并应用主题（根据 prompt 中的颜色意图）
+      // AI 消息（流式状态）
+      const aiMsg = {
+        role: 'assistant',
+        content: '',
+        timestamp: new Date().toISOString(),
+        streaming: true,
+        steps: []
+      }
+      
+      let project = {
+        id: projectId,
+        name: extractAppName(prompt),
+        files: {},  // 先创建空文件
+        prompt,
+        messages: [userMsg, aiMsg],
+        metadata: {},
+        timestamp: new Date().toISOString()
+      }
+      
+      // 🎨 自动选择主题
       project = ensureProjectTheme(project, prompt)
       
-      // 保存到 localStorage
+      // 保存初始项目
       saveCurrentProject(project)
       addToHistory(project)
       
-      console.log('✓ 项目已创建:', projectId)
+      console.log('✓ 项目已创建（流式）:', projectId)
       
-      // 跳转到项目页
-      navigate(`/project/${projectId}`)
+      // 立即跳转到项目页，让项目页处理流式生成
+      navigate(`/project/${projectId}?generate=true`)
       
     } catch (err) {
-      console.error('生成失败:', err)
+      console.error('创建项目失败:', err)
       setError(err.message)
-    } finally {
       setLoading(false)
     }
   }

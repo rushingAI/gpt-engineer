@@ -37,7 +37,129 @@ export async function generateApp(prompt, useTemplate = true) {
 }
 
 /**
- * 改进应用
+ * 流式生成应用 (SSE)
+ * 
+ * @param {string} prompt - 用户输入的提示词
+ * @param {function} onEvent - 事件回调函数，接收 {type, ...} 事件对象
+ * @param {boolean} useTemplate - 是否使用模板模式（默认 true）
+ * @returns {Promise<object>} - 最终生成的文件
+ */
+export async function generateAppStreaming(prompt, onEvent, useTemplate = true) {
+  const finalPrompt = useTemplate ? prompt : buildEnhancedPrompt(prompt)
+  
+  const response = await fetch(`${API_URL}/generate-stream`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 
+      prompt_text: finalPrompt,
+      use_template: useTemplate
+    })
+  })
+
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+  }
+
+  const reader = response.body.getReader()
+  const decoder = new TextDecoder()
+  let buffer = ''
+  let finalFiles = null
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read()
+      
+      if (done) break
+
+      buffer += decoder.decode(value, { stream: true })
+      const lines = buffer.split('\n\n')
+      buffer = lines.pop() || '' // 保留不完整的行
+
+      for (const line of lines) {
+        if (line.startsWith('data: ')) {
+          try {
+            const data = JSON.parse(line.slice(6))
+            onEvent(data)
+            
+            if (data.type === 'complete') {
+              finalFiles = useTemplate 
+                ? processReactFiles(data.files)
+                : processFiles(data.files)
+            }
+          } catch (err) {
+            console.error('解析 SSE 数据失败:', err, line)
+          }
+        }
+      }
+    }
+  } finally {
+    reader.releaseLock()
+  }
+
+  return finalFiles
+}
+
+/**
+ * 流式改进应用 (SSE)
+ * 
+ * @param {string} prompt - 改进要求
+ * @param {object} currentFiles - 当前文件
+ * @param {function} onEvent - 事件回调函数
+ * @returns {Promise<object>} - 改进后的文件
+ */
+export async function improveAppStreaming(prompt, currentFiles, onEvent) {
+  const response = await fetch(`${API_URL}/improve-stream`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      files: currentFiles,
+      improvement_request: prompt
+    })
+  })
+
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+  }
+
+  const reader = response.body.getReader()
+  const decoder = new TextDecoder()
+  let buffer = ''
+  let finalFiles = null
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read()
+      
+      if (done) break
+
+      buffer += decoder.decode(value, { stream: true })
+      const lines = buffer.split('\n\n')
+      buffer = lines.pop() || ''
+
+      for (const line of lines) {
+        if (line.startsWith('data: ')) {
+          try {
+            const data = JSON.parse(line.slice(6))
+            onEvent(data)
+            
+            if (data.type === 'complete') {
+              finalFiles = processFiles(data.files)
+            }
+          } catch (err) {
+            console.error('解析 SSE 数据失败:', err, line)
+          }
+        }
+      }
+    }
+  } finally {
+    reader.releaseLock()
+  }
+
+  return finalFiles
+}
+
+/**
+ * 改进应用（非流式，兼容旧代码）
  */
 export async function improveApp(prompt, currentFiles) {
   const response = await fetch(`${API_URL}/improve`, {

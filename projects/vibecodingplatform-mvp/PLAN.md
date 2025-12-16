@@ -4,6 +4,16 @@
 
 ## 最近更新 📅
 
+**2025-12-16** - Phase 8 流式生成功能完成
+- ✅ 实现后端 SSE 流式推送（/generate-stream、/improve-stream）
+- ✅ 实现前端 SSE 客户端（实时接收进度）
+- ✅ 创建 StreamingMessage 组件（步骤可视化）
+- ✅ 对话框集成流式进度显示
+- ✅ WebContainer 环境准备步骤回调
+- ✅ 数据持久化支持（steps 字段 + 向后兼容）
+- ✅ 遵循设计规范（lucide-react 图标系统）
+- 📄 测试文档：`STREAMING_TEST.md`
+
 **2025-12-12** - Phase 6F 质量提升计划
 - 📊 完成 Vibecoding vs Lovable 对比分析
 - 📝 识别五大核心差距（设计系统、字体、组件、动画、布局）
@@ -895,11 +905,17 @@ WebContainer 实时预览 ✅
 
 **预计时间**: 2-3 周
 
-### 第八阶段：流式生成与视觉迭代 (Streaming & Vision) 📅 规划中
-- [ ] **流式生成 (Streaming)**:
-    - 改造后端为 WebSocket 或 SSE。
-    - 前端实现打字机效果，代码实时上屏。
-- [ ] **视觉迭代 (Vision)**:
+### 第八阶段：流式生成与视觉迭代 (Streaming & Vision) ✅ 已完成 (Streaming)
+- [x] **流式生成 (Streaming)**:
+    - ✅ 后端 SSE 端点（/generate-stream、/improve-stream）
+    - ✅ 前端 SSE 客户端（generateAppStreaming、improveAppStreaming）
+    - ✅ StreamingMessage 组件（步骤可视化）
+    - ✅ 对话框集成（实时进度显示）
+    - ✅ WebContainer 步骤回调（环境准备进度）
+    - ✅ 数据持久化支持（steps 字段）
+    - ✅ 使用 lucide-react 图标系统
+    - ✅ 支持 chunk 粒度推送（按文件推送，不使用打字机效果）
+- [ ] **视觉迭代 (Vision)** 📅 规划中:
     - 支持截图上传，让 AI "看着" 修改代码。
 
 ### 第九阶段：中国化与本地化 (Localization) 📅 规划中
@@ -965,6 +981,7 @@ WebContainer 实时预览 ✅
 - Phase 5A: 应用代码持久化
 - Phase 5B: 多应用历史管理
 - Phase 6A-6D: 多页应用 + 对话式交互
+- Phase 8: 流式生成 (SSE + 实时进度显示)
 
 ### 进行中 🚧
 - **Phase 6F: 代码质量提升** (当前重点)

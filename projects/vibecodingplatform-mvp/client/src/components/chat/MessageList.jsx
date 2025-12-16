@@ -1,42 +1,52 @@
+import StreamingMessage from './StreamingMessage'
+
 function MessageList({ messages, loading }) {
   return (
     <div className="space-y-3">
-      {messages.map((message, index) => (
-        <div
-          key={index}
-          className={message.role === 'user' ? 'flex justify-end' : 'flex justify-start'}
-        >
-          {/* 消息内容 - 极简风格 */}
-          <div 
-            className="max-w-[85%] rounded-lg px-3 py-2"
-            style={{
-              background: message.role === 'user' 
-                ? '#f5f5f5' 
-                : 'transparent',
-              border: message.role === 'user' 
-                ? 'none'
-                : 'none'
-            }}
+      {messages.map((message, index) => {
+        // 如果是流式消息（有 steps 字段），使用 StreamingMessage 组件
+        if (message.role === 'assistant' && (message.steps || message.streaming)) {
+          return <StreamingMessage key={index} message={message} />
+        }
+        
+        // 普通消息
+        return (
+          <div
+            key={index}
+            className={message.role === 'user' ? 'flex justify-end' : 'flex justify-start'}
           >
-            <p 
-              className="text-xs whitespace-pre-wrap break-words leading-relaxed"
+            {/* 消息内容 - 极简风格 */}
+            <div 
+              className="max-w-[85%] rounded-lg px-3 py-2"
               style={{
-                color: 'var(--project-text-primary)'
+                background: message.role === 'user' 
+                  ? '#f5f5f5' 
+                  : 'transparent',
+                border: message.role === 'user' 
+                  ? 'none'
+                  : 'none'
               }}
             >
-              {message.content}
-            </p>
-            <p 
-              className="text-[10px] mt-1.5"
-              style={{
-                color: 'var(--project-text-muted)'
-              }}
-            >
-              {formatTime(message.timestamp)}
-            </p>
+              <p 
+                className="text-xs whitespace-pre-wrap break-words leading-relaxed"
+                style={{
+                  color: 'var(--project-text-primary)'
+                }}
+              >
+                {message.content}
+              </p>
+              <p 
+                className="text-[10px] mt-1.5"
+                style={{
+                  color: 'var(--project-text-muted)'
+                }}
+              >
+                {formatTime(message.timestamp)}
+              </p>
+            </div>
           </div>
-        </div>
-      ))}
+        )
+      })}
       
       {/* 加载动画 - 极简风格 */}
       {loading && (

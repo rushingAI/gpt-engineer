@@ -9,9 +9,12 @@ import os
 import tempfile
 from pathlib import Path
 from typing import Dict
+import json
+import asyncio
 
 from fastapi import FastAPI, Body, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from dotenv import load_dotenv
 
 # 加载环境变量
@@ -521,6 +524,224 @@ CODE
             status_code=500,
             detail=f"代码改进失败: {str(e)}"
         )
+
+
+@app.post("/generate-stream")
+async def generate_app_stream(
+    prompt_text: str = Body(..., embed=True),
+    use_template: bool = Body(default=True, embed=True),
+    template_name: str = Body(default=None, embed=True)
+):
+    """
+    流式生成应用代码 (SSE)
+    
+    返回 Server-Sent Events 流，实时推送生成进度
+    """
+    if ai is None:
+        raise HTTPException(
+            status_code=503,
+            detail="AI 服务未就绪，请检查 API key 配置"
+        )
+    
+    if not prompt_text or not prompt_text.strip():
+        raise HTTPException(
+            status_code=400,
+            detail="prompt_text 不能为空"
+        )
+    
+    async def event_generator():
+        try:
+            prompt_text_clean = prompt_text.strip()
+            
+            # 步骤 1: 发送分析状态
+            yield f"data: {json.dumps({'type': 'status', 'content': '正在分析需求...'})}\n\n"
+            await asyncio.sleep(0.1)
+            
+            # 步骤 2: 检测应用类型和模板
+            if use_template:
+                app_type = custom_preprompts_manager.detect_app_type(prompt_text_clean)
+                detected_template = template_name or template_manager.detect_template_type(prompt_text_clean)
+                
+                yield f"data: {json.dumps({'type': 'status', 'content': f'使用模板: {detected_template}'})}\n\n"
+                await asyncio.sleep(0.1)
+                
+                # 步骤 3: 生成代码
+                yield f"data: {json.dumps({'type': 'status', 'content': '正在生成代码...'})}\n\n"
+                
+                # 调用生成函数
+                files_dict = await asyncio.to_thread(
+                    generate_with_template, 
+                    prompt_text_clean, 
+                    detected_template
+                )
+                
+                # 步骤 4: 发送文件生成事件
+                for filename in files_dict.keys():
+                    yield f"data: {json.dumps({'type': 'file', 'filename': filename})}\n\n"
+                    await asyncio.sleep(0.05)  # 小延迟让前端有时间渲染
+                
+                # 步骤 5: 发送完成事件
+                yield f"data: {json.dumps({'type': 'complete', 'files': files_dict, 'filesCount': len(files_dict)})}\n\n"
+                
+            else:
+                # 传统模式
+                yield f"data: {json.dumps({'type': 'status', 'content': '正在生成代码...'})}\n\n"
+                
+                files_dict = await asyncio.to_thread(
+                    generate_traditional,
+                    prompt_text_clean
+                )
+                
+                for filename in files_dict.keys():
+                    yield f"data: {json.dumps({'type': 'file', 'filename': filename})}\n\n"
+                    await asyncio.sleep(0.05)
+                
+                yield f"data: {json.dumps({'type': 'complete', 'files': files_dict, 'filesCount': len(files_dict)})}\n\n"
+            
+        except Exception as e:
+            print(f"✗ 流式生成失败: {e}")
+            import traceback
+            traceback.print_exc()
+            yield f"data: {json.dumps({'type': 'error', 'message': str(e)})}\n\n"
+    
+    return StreamingResponse(
+        event_generator(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no"  # 禁用 nginx 缓冲
+        }
+    )
+
+
+@app.post("/improve-stream")
+async def improve_code_stream(
+    files: Dict[str, str] = Body(...),
+    improvement_request: str = Body(...)
+):
+    """
+    流式改进已生成的代码 (SSE)
+    
+    返回 Server-Sent Events 流，实时推送改进进度
+    """
+    if ai is None:
+        raise HTTPException(
+            status_code=503,
+            detail="AI 服务未就绪"
+        )
+    
+    async def event_generator():
+        try:
+            # 步骤 1: 发送分析状态
+            yield f"data: {json.dumps({'type': 'status', 'content': '正在分析改进需求...'})}\n\n"
+            await asyncio.sleep(0.1)
+            
+            # 检测项目类型
+            is_react_project = any(
+                'package.json' in f or f.endswith('.tsx') or f.endswith('.jsx')
+                for f in files.keys()
+            )
+            
+            # 步骤 2: 构造 prompt
+            yield f"data: {json.dumps({'type': 'status', 'content': '正在优化代码...'})}\n\n"
+            
+            # 构造文件内容
+            files_content = "\n\n".join([
+                f"{filename}\n```\n{content}\n```"
+                for filename, content in files.items()
+            ])
+            
+            # 根据项目类型构造不同的 prompt
+            if is_react_project:
+                enhanced_prompt = f"""You are improving a React + TypeScript application.
+
+CURRENT CODE:
+{files_content}
+
+USER REQUEST:
+{improvement_request}
+
+IMPORTANT INSTRUCTIONS:
+- This is a React + TypeScript project using Vite, Tailwind CSS, shadcn/ui with Cyberpunk design system
+- Modify ONLY the files that need changes based on the user's request
+- Keep all configuration files unchanged (package.json, vite.config.js, etc.)
+- DO NOT modify src/main.tsx or src/index.css unless absolutely necessary
+- Use @/components/ui/ imports for shadcn components
+- Import icons from lucide-react
+- Follow the Cyberpunk design system (deep dark bg, neon cyan primary)
+- IMPORTANT: BrowserRouter is already set up in main.tsx - do NOT add another one in App.tsx
+
+⚠️ CRITICAL - FILE OUTPUT FORMAT:
+You MUST output files in this EXACT format:
+
+FILENAME
+```
+CODE
+```
+
+DO NOT use markdown headings (###) or add descriptions!
+DO NOT use language tags like ```tsx or ```typescript!
+Just: FILENAME then ``` CODE ```
+
+Output ALL modified files with their complete content.
+"""
+            else:
+                enhanced_prompt = f"""以下是当前的代码：
+
+{files_content}
+
+用户的改进要求：{improvement_request}
+
+请提供改进后的完整代码。要求：
+- 保持 HTML/CSS/JavaScript 的 Web 应用格式
+- 只修改需要改进的部分
+- 保持文件结构不变
+
+输出格式：
+FILENAME
+```
+CODE
+```
+"""
+            
+            # 步骤 3: 调用 AI 改进
+            with tempfile.TemporaryDirectory() as tmp_dir:
+                memory = DiskMemory(tmp_dir)
+                prompt = Prompt(enhanced_prompt)
+                improved_files = await asyncio.to_thread(
+                    gen_code, ai, prompt, memory, preprompts_holder
+                )
+            
+            # 步骤 4: 合并文件
+            if is_react_project:
+                result = dict(files)
+                result.update(improved_files)
+                improved_files = result
+            
+            # 步骤 5: 发送文件更新事件
+            for filename in improved_files.keys():
+                yield f"data: {json.dumps({'type': 'file', 'filename': filename})}\n\n"
+                await asyncio.sleep(0.05)
+            
+            # 步骤 6: 发送完成事件
+            yield f"data: {json.dumps({'type': 'complete', 'files': dict(improved_files), 'filesCount': len(improved_files)})}\n\n"
+            
+        except Exception as e:
+            print(f"✗ 流式改进失败: {e}")
+            import traceback
+            traceback.print_exc()
+            yield f"data: {json.dumps({'type': 'error', 'message': str(e)})}\n\n"
+    
+    return StreamingResponse(
+        event_generator(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no"
+        }
+    )
 
 
 @app.get("/health")

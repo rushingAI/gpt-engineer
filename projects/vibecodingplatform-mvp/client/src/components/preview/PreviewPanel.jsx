@@ -1,13 +1,14 @@
 import { Sparkles } from 'lucide-react'
 import WebContainerPreview from './WebContainerPreview'
 
-function PreviewPanel({ files, activeTab, project }) {
+function PreviewPanel({ files, activeTab, project, onStepUpdate }) {
   console.log('PreviewPanel 渲染:', { 
     hasFiles: !!files, 
     fileCount: files ? Object.keys(files).length : 0,
     fileNames: files ? Object.keys(files) : [],
     activeTab,
-    hasProject: !!project
+    hasProject: !!project,
+    hasStepCallback: !!onStepUpdate
   })
 
   if (!files || Object.keys(files).length === 0) {
@@ -29,8 +30,15 @@ function PreviewPanel({ files, activeTab, project }) {
     )
   }
 
-  // 统一使用 WebContainer 预览
-  return <WebContainerPreview files={files} activeTab={activeTab} project={project} />
+  // 统一使用 WebContainer 预览，传递步骤回调
+  return (
+    <WebContainerPreview 
+      files={files} 
+      activeTab={activeTab} 
+      project={project}
+      onStepUpdate={onStepUpdate}
+    />
+  )
 }
 
 export default PreviewPanel
