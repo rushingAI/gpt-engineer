@@ -1,0 +1,45 @@
+================================================================================
+🌐 CYBERPUNK STYLE GUIDE
+================================================================================
+
+VISUAL LANGUAGE:
+- **Form**: Futuristic, tech-noir, high-contrast neon aesthetics
+- **Colors**: Deep dark backgrounds (#0a0e14, #181c20), neon cyan/teal primary (#2dd4bf, #06b6d4), electric purple accents
+- **Typography**: Mix of futuristic sans-serif (Space Grotesk) for headings + monospace (JetBrains Mono) for data/code
+- **Shapes**: Rounded corners (medium), glowing borders, layered depth with shadows
+- **Interaction**: Glow effects on hover, smooth scale transforms, pulsing animations for active states
+
+DESIGN TOKENS GUIDANCE:
+- Background: Very dark (near-black with blue/gray tint)
+- Primary: Neon cyan/teal with glow
+- Surface: Semi-transparent dark cards with glass-like blur
+- Radius: 0.75rem - 1rem (medium rounded)
+- Shadow: Multi-layer glowing box-shadows (cyan glow)
+- Animation: 300-600ms smooth easing, infinite pulses (3-6s)
+
+COMPONENT PATTERNS:
+- Buttons: Pill-shaped with gradient fills (cyan→teal), glow on hover, scale feedback
+- Cards: Dark with subtle gradient overlay, border glow, glass morphism effect
+- Inputs: Dark background, neon border on focus, glow effect
+- Text: Use gradient text effects for emphasis, uppercase tracking for labels
+
+LAYOUT & SPACING:
+- Generous spacing (py-12, py-24, py-32 for sections)
+- Centered hero layouts with large typography
+- Grid-based dashboards with hover lift effects
+- Background: Network grid patterns, ambient gradient glows (radial)
+
+ATMOSPHERE:
+- High-tech, cutting-edge, digital future
+- Dramatic lighting with multiple glow sources
+- Depth through layering and shadows
+- Motion suggests energy and interactivity
+
+DO NOT:
+- Use bright/light backgrounds
+- Use serif fonts extensively
+- Create flat designs without depth
+- Skip animations and transitions
+
+================================================================================
+

@@ -1,0 +1,37 @@
+{
+  "name": "react-ts-shadcn-minimal",
+  "displayName": "React + TypeScript + shadcn/ui (Minimal)",
+  "description": "现代化的 React 应用模板，Minimal 极简主义风格，精炼留白，克制优雅设计",
+  "version": "1.0.0",
+  "tags": ["react", "typescript", "shadcn", "tailwind", "vite", "minimal"],
+  "language": "typescript",
+  "framework": "react",
+  "buildTool": "vite",
+  "uiLibrary": "shadcn/ui",
+  "animationLibrary": "framer-motion",
+  "style": "minimal",
+  "适用场景": [
+    "landing-page",
+    "portfolio",
+    "blog",
+    "documentation"
+  ],
+  "预装组件": [
+    "Button",
+    "Card",
+    "Input",
+    "Textarea",
+    "Tabs",
+    "Separator",
+    "ScrollArea"
+  ],
+  "特性": [
+    "完整的 TypeScript 支持",
+    "Tailwind CSS 样式系统",
+    "shadcn/ui 组件库",
+    "framer-motion 动画",
+    "React Router 路由",
+    "响应式设计",
+    "极简主义风格"
+  ]
+}

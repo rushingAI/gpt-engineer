@@ -1,0 +1,37 @@
+{
+  "name": "react-ts-shadcn-retro-futurism",
+  "displayName": "React + TypeScript + shadcn/ui (Retro Futurism)",
+  "description": "现代化的 React 应用模板，Retro Futurism 复古未来风格，暖色渐变，80s 未来感设计",
+  "version": "1.0.0",
+  "tags": ["react", "typescript", "shadcn", "tailwind", "vite", "retro"],
+  "language": "typescript",
+  "framework": "react",
+  "buildTool": "vite",
+  "uiLibrary": "shadcn/ui",
+  "animationLibrary": "framer-motion",
+  "style": "retro_futurism",
+  "适用场景": [
+    "landing-page",
+    "creative-site",
+    "portfolio",
+    "marketing-site"
+  ],
+  "预装组件": [
+    "Button",
+    "Card",
+    "Input",
+    "Textarea",
+    "Tabs",
+    "Separator",
+    "ScrollArea"
+  ],
+  "特性": [
+    "完整的 TypeScript 支持",
+    "Tailwind CSS 样式系统",
+    "shadcn/ui 组件库",
+    "framer-motion 动画",
+    "React Router 路由",
+    "响应式设计",
+    "复古未来主题"
+  ]
+}

@@ -1,0 +1,45 @@
+================================================================================
+✨ MINIMAL STYLE GUIDE (Refined Minimalism)
+================================================================================
+
+VISUAL LANGUAGE:
+- **Form**: Clean, restrained, sophisticated with maximum whitespace
+- **Colors**: Neutral grays (#f5f5f5, #e5e5e5), single accent color (muted blue #6366f1 or green #10b981)
+- **Typography**: Refined sans-serif (Inter, Helvetica Neue) with careful hierarchy, generous line-height
+- **Shapes**: Small to medium rounded corners (0.5rem), subtle or no borders
+- **Interaction**: Gentle, refined transitions (400-600ms), subtle opacity changes
+
+DESIGN TOKENS GUIDANCE:
+- Background: Off-white (#fafafa, #f9fafb) or pure white
+- Primary: Single muted accent (#6366f1, #10b981, #64748b)
+- Surface: Very subtle elevation (1px border or minimal shadow)
+- Radius: 0.5rem - 0.75rem (subtle rounded)
+- Shadow: Minimal (0 1px 3px rgba(0,0,0,0.1)) or none
+- Animation: 400-600ms ease-out, understated motion
+
+COMPONENT PATTERNS:
+- Buttons: Subtle background, thin border or slight shadow, minimal hover change
+- Cards: Almost flat with 1px border or very soft shadow, ample padding
+- Inputs: Simple border, clean focus state (color change only)
+- Text: Generous spacing, clear hierarchy through size/weight, not color
+
+LAYOUT & SPACING:
+- Maximum breathing room (py-16, py-24, py-32+)
+- Generous margins and padding (p-8, p-12)
+- Centered, balanced layouts with asymmetric accents
+- Background: Plain solid colors, no textures or patterns
+
+ATMOSPHERE:
+- Calm, focused, sophisticated
+- Content is king, design is invisible
+- Swiss design principles: clarity, hierarchy, whitespace
+- Subtle motion respects user attention
+
+DO NOT:
+- Use multiple accent colors
+- Add unnecessary decoration
+- Create busy or cluttered layouts
+- Use aggressive shadows or glows
+
+================================================================================
+

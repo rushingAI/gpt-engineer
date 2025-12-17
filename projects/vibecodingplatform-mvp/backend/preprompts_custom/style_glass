@@ -1,0 +1,45 @@
+================================================================================
+💎 GLASS STYLE GUIDE (Glassmorphism)
+================================================================================
+
+VISUAL LANGUAGE:
+- **Form**: Translucent, layered, frosted glass aesthetic
+- **Colors**: Subtle tints on transparent surfaces, light primary (#60a5fa, #3b82f6), white/light text
+- **Typography**: Clean sans-serif (Inter, SF Pro) with medium weights
+- **Shapes**: Large rounded corners (1rem+), semi-transparent layers
+- **Interaction**: Subtle opacity shifts, blur intensity changes, smooth transitions
+
+DESIGN TOKENS GUIDANCE:
+- Background: Light gradient or soft image with blur overlay
+- Primary: Light blue or teal (#60a5fa, #22d3ee) with low opacity
+- Surface: backdrop-blur with rgba backgrounds (white/10-20%), thin borders
+- Radius: 1rem - 1.5rem (smooth, large rounded)
+- Shadow: Subtle, soft shadows with low opacity
+- Animation: 300-500ms smooth, focus on opacity/blur transitions
+
+COMPONENT PATTERNS:
+- Buttons: Translucent with border, increase opacity on hover, subtle backdrop blur
+- Cards: Semi-transparent white/10-15% with backdrop-blur-lg, thin white border (30% opacity)
+- Inputs: Glass-like with subtle border, increase blur on focus
+- Text: Crisp contrast on blur backgrounds, avoid overuse of transparency on text
+
+LAYOUT & SPACING:
+- Layered depth with overlapping glass panels
+- Generous padding (p-8, p-10) to separate content from edges
+- Floating layouts with space between elements
+- Background: Soft gradients, abstract shapes, or images (always blurred)
+
+ATMOSPHERE:
+- Clean, modern, premium feel
+- Translucency creates depth and sophistication
+- Light, airy, minimalist with focus on content
+- Subtle motion maintains elegance
+
+DO NOT:
+- Use fully opaque backgrounds on primary surfaces
+- Over-complicate with too many layers
+- Use heavy shadows or glows
+- Skip backdrop-blur (it's essential to glass aesthetic)
+
+================================================================================
+

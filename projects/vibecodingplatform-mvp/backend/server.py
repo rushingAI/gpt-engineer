@@ -32,6 +32,7 @@ from gpt_engineer.core.default.paths import PREPROMPTS_PATH
 from template_manager import template_manager
 from preprompt_manager import custom_preprompts_manager
 from dependency_detector import detect_dependencies_in_files, add_dependencies_to_package_json
+from style_selector import select_style_deterministic, get_template_for_style
 
 app = FastAPI(
     title="Vibecoding Platform API",
@@ -95,7 +96,8 @@ def list_templates():
 def generate_app(
     prompt_text: str = Body(..., embed=True),
     use_template: bool = Body(default=True, embed=True),
-    template_name: str = Body(default=None, embed=True)
+    template_name: str = Body(default=None, embed=True),
+    style: str = Body(default="auto", embed=True)
 ) -> Dict[str, str]:
     """
     根据自然语言提示词生成应用代码
@@ -108,6 +110,7 @@ def generate_app(
         prompt_text: 用户的自然语言描述
         use_template: 是否使用模板系统（默认 True）
         template_name: 模板名称（可选，会自动检测）
+        style: 视觉风格（auto/cyberpunk/aurora/glass/neo_brutal/minimal/retro_futurism，默认 auto）
         
     Returns:
         Dict[str, str]: 文件名到文件内容的映射字典
@@ -116,7 +119,8 @@ def generate_app(
         POST /generate
         {
             "prompt_text": "创建一个现代化的 landing page",
-            "use_template": true
+            "use_template": true,
+            "style": "auto"
         }
     """
     if ai is None:
@@ -138,7 +142,7 @@ def generate_app(
         
         if use_template:
             # 模板模式：生成现代化的 React 应用
-            return generate_with_template(prompt_text, template_name)
+            return generate_with_template(prompt_text, template_name, style)
         else:
             # 传统模式：使用原始的 gpt-engineer 流程
             return generate_traditional(prompt_text)
@@ -261,26 +265,33 @@ def fix_lucide_icons(code: str) -> str:
     return fixed_code
 
 
-def generate_with_template(prompt_text: str, template_name: str = None) -> Dict[str, str]:
+def generate_with_template(prompt_text: str, template_name: str = None, style: str = "auto") -> Dict[str, str]:
     """模板生成模式：基于 React + TypeScript 模板生成"""
     
-    # 1. 检测应用类型和模板
-    app_type = custom_preprompts_manager.detect_app_type(prompt_text)
-    if template_name is None:
-        template_name = template_manager.detect_template_type(prompt_text)
+    # 1. 选择风格（deterministic）
+    selected_style, style_source, style_metadata = select_style_deterministic(prompt_text, style)
+    print(f"   风格选择: {selected_style} (来源: {style_source})")
+    if style_metadata:
+        print(f"   风格元数据: {style_metadata}")
     
+    # 2. 检测应用类型
+    app_type = custom_preprompts_manager.detect_app_type(prompt_text)
     print(f"   应用类型: {app_type}")
+    
+    # 3. 选择模板（优先用户指定，否则根据风格选择）
+    if template_name is None:
+        template_name = get_template_for_style(selected_style)
     print(f"   使用模板: {template_name}")
     
-    # 2. 加载模板
+    # 4. 加载模板
     template = template_manager.get_template(template_name)
     if template is None:
         raise Exception(f"模板不存在: {template_name}")
     
-    # 3. 构建增强的系统提示词
-    system_prompt = custom_preprompts_manager.build_system_prompt(app_type)
+    # 5. 构建增强的系统提示词（基于风格和应用类型）
+    system_prompt = custom_preprompts_manager.build_system_prompt(app_type, selected_style)
     
-    # 4. 构建用户提示词
+    # 6. 构建用户提示词
     # 告诉 AI 它正在使用模板，只需要生成业务代码
     enhanced_prompt = f"""{system_prompt}
 
@@ -291,7 +302,7 @@ USER REQUEST:
 {prompt_text}
 
 IMPORTANT INSTRUCTIONS:
-- You are working with a pre-configured React + TypeScript project with Cyberpunk design system
+- You are working with a pre-configured React + TypeScript project with a modern design system
 - DO NOT generate configuration files (package.json, vite.config.ts, etc.)
 - DO NOT generate src/main.tsx - the entry point is already configured
 - DO NOT generate src/index.css - global styles are already configured
@@ -299,7 +310,7 @@ IMPORTANT INSTRUCTIONS:
 - Use the pre-installed shadcn/ui components from @/components/ui/
 - Import icons from lucide-react
 - Use framer-motion for animations
-- Follow the Cyberpunk design system (deep dark bg, neon cyan primary)
+- Follow the design system style guide provided in the system prompt
 - The main entry point is src/pages/Index.tsx - this is where you should create your UI
 
 ⚠️ CRITICAL - ROUTING SETUP:
@@ -343,10 +354,14 @@ DO NOT use markdown headings (###) or add descriptions!
 DO NOT use language tags like ```tsx or ```typescript!
 Just: FILENAME then ``` CODE ```
 
-Generate ALL necessary files including src/pages/Index.tsx and component files.
+⚠️⚠️⚠️ CRITICAL FILE STRUCTURE RULE ⚠️⚠️⚠️
+Generate ONLY src/pages/Index.tsx - DO NOT create separate component files!
+Write ALL your application logic in Index.tsx as a single file!
+ONLY import from existing @/components/ui/ components (button, card, input, etc.)
+DO NOT create @/components/todoList or ANY other custom component files!
 """
     
-    # 5. 调用 AI 生成代码
+    # 7. 调用 AI 生成代码
     with tempfile.TemporaryDirectory() as tmp_dir:
         memory = DiskMemory(tmp_dir)
         prompt = Prompt(enhanced_prompt)
@@ -356,7 +371,7 @@ Generate ALL necessary files including src/pages/Index.tsx and component files.
         
         print(f"   AI 生成了 {len(generated_files)} 个文件")
         
-        # 6. 后处理：修正组件导入路径和图标导入
+        # 8. 后处理：修正组件导入路径和图标导入
         fixed_generated_files = {}
         component_fixes = 0
         icon_fixes = 0
@@ -387,10 +402,10 @@ Generate ALL necessary files including src/pages/Index.tsx and component files.
         if icon_fixes > 0:
             print(f"   ✓ 自动修正了 {icon_fixes} 个文件的图标导入")
         
-        # 7. 检测生成代码中的额外依赖
+        # 9. 检测生成代码中的额外依赖
         extra_deps = detect_dependencies_in_files(fixed_generated_files)
         
-        # 8. 合并模板和生成的文件
+        # 10. 合并模板和生成的文件
         template_files = template['files']
         
         # 如果检测到额外依赖，更新 package.json
@@ -403,7 +418,19 @@ Generate ALL necessary files including src/pages/Index.tsx and component files.
         
         final_files = template_manager.merge_files(template_files, fixed_generated_files)
         
-        print(f"✓ 模板模式生成完成，最终 {len(final_files)} 个文件")
+        # 11. 生成并写入 vibe.meta.json
+        vibe_meta = {
+            "style": selected_style,
+            "style_source": style_source,
+            "template_name": template_name,
+            "app_type": app_type,
+            "metadata": style_metadata,
+            "generated_at": __import__('datetime').datetime.now().isoformat()
+        }
+        
+        final_files['vibe.meta.json'] = json.dumps(vibe_meta, indent=2, ensure_ascii=False)
+        
+        print(f"✓ 模板模式生成完成，最终 {len(final_files)} 个文件（含 vibe.meta.json）")
         
         return final_files
 
@@ -478,6 +505,11 @@ DO NOT use markdown headings (###) or add descriptions!
 DO NOT use language tags like ```tsx or ```typescript!
 Just: FILENAME then ``` CODE ```
 
+⚠️ CRITICAL FILE STRUCTURE RULE:
+- If modifying Index.tsx, keep ALL logic in that single file
+- DO NOT create separate component files like @/components/todoList
+- ONLY import from existing @/components/ui/ components
+
 Output ALL modified files with their complete content.
 """
         else:
@@ -530,7 +562,8 @@ CODE
 async def generate_app_stream(
     prompt_text: str = Body(..., embed=True),
     use_template: bool = Body(default=True, embed=True),
-    template_name: str = Body(default=None, embed=True)
+    template_name: str = Body(default=None, embed=True),
+    style: str = Body(default="auto", embed=True)
 ):
     """
     流式生成应用代码 (SSE)
@@ -572,7 +605,8 @@ async def generate_app_stream(
                 files_dict = await asyncio.to_thread(
                     generate_with_template, 
                     prompt_text_clean, 
-                    detected_template
+                    detected_template,
+                    style
                 )
                 
                 # 步骤 4: 发送文件生成事件
@@ -663,13 +697,13 @@ USER REQUEST:
 {improvement_request}
 
 IMPORTANT INSTRUCTIONS:
-- This is a React + TypeScript project using Vite, Tailwind CSS, shadcn/ui with Cyberpunk design system
+- This is a React + TypeScript project using Vite, Tailwind CSS, shadcn/ui with a modern design system
 - Modify ONLY the files that need changes based on the user's request
 - Keep all configuration files unchanged (package.json, vite.config.js, etc.)
 - DO NOT modify src/main.tsx or src/index.css unless absolutely necessary
 - Use @/components/ui/ imports for shadcn components
 - Import icons from lucide-react
-- Follow the Cyberpunk design system (deep dark bg, neon cyan primary)
+- Follow the project's existing design system style
 - IMPORTANT: BrowserRouter is already set up in main.tsx - do NOT add another one in App.tsx
 
 ⚠️ CRITICAL - FILE OUTPUT FORMAT:
@@ -680,9 +714,14 @@ FILENAME
 CODE
 ```
 
-DO NOT use markdown headings (###) or add descriptions!
+                DO NOT use markdown headings (###) or add descriptions!
 DO NOT use language tags like ```tsx or ```typescript!
 Just: FILENAME then ``` CODE ```
+
+⚠️ CRITICAL FILE STRUCTURE RULE:
+- If modifying Index.tsx, keep ALL logic in that single file
+- DO NOT create separate component files like @/components/todoList
+- ONLY import from existing @/components/ui/ components
 
 Output ALL modified files with their complete content.
 """

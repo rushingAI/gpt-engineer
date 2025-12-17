@@ -1,0 +1,45 @@
+================================================================================
+🌌 AURORA STYLE GUIDE
+================================================================================
+
+VISUAL LANGUAGE:
+- **Form**: Ethereal, soft, dreamlike with flowing gradients
+- **Colors**: Cool purples, pinks, blues like northern lights (#a78bfa, #ec4899, #06b6d4), soft pastels
+- **Typography**: Elegant sans-serif (Inter, Plus Jakarta Sans) with light weights for body, semi-bold for headings
+- **Shapes**: Soft rounded corners (large radius), organic blob shapes, flowing curves
+- **Interaction**: Gentle fade transitions, floating animations, color shift on hover
+
+DESIGN TOKENS GUIDANCE:
+- Background: Soft gradient (purple→blue→pink) or muted dark with colorful overlay
+- Primary: Purple/pink (#a78bfa, #ec4899) with soft glow
+- Surface: Frosted glass cards with gradient borders
+- Radius: 1rem - 1.5rem (large rounded, almost pill)
+- Shadow: Soft, colorful shadows (purple/pink tint)
+- Animation: 400-800ms gentle easing, floating/drifting motions
+
+COMPONENT PATTERNS:
+- Buttons: Soft gradients, gentle glow, floating hover effect
+- Cards: Translucent with gradient borders, backdrop blur, subtle color shifts
+- Inputs: Light borders with gradient on focus, soft inner shadow
+- Text: Gradient text with aurora colors, gentle letter-spacing
+
+LAYOUT & SPACING:
+- Flowing, organic layouts with asymmetry
+- Large breathing room (py-16, py-32)
+- Centered content with soft edges
+- Background: Abstract gradient blobs, aurora-like light streams
+
+ATMOSPHERE:
+- Magical, serene, otherworldly
+- Soft lighting with colorful ambient glow
+- Dreamlike quality through blur and gradients
+- Gentle motion evokes calm and wonder
+
+DO NOT:
+- Use harsh contrasts or neon intensity
+- Create rigid, geometric layouts
+- Use monochrome or single-color schemes
+- Apply aggressive animations
+
+================================================================================
+

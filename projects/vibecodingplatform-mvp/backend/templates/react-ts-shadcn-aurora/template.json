@@ -1,0 +1,37 @@
+{
+  "name": "react-ts-shadcn-aurora",
+  "displayName": "React + TypeScript + shadcn/ui (Aurora)",
+  "description": "现代化的 React 应用模板，Aurora 极光风格，紫粉渐变主题，梦幻流动设计",
+  "version": "1.0.0",
+  "tags": ["react", "typescript", "shadcn", "tailwind", "vite", "aurora"],
+  "language": "typescript",
+  "framework": "react",
+  "buildTool": "vite",
+  "uiLibrary": "shadcn/ui",
+  "animationLibrary": "framer-motion",
+  "style": "aurora",
+  "适用场景": [
+    "landing-page",
+    "portfolio",
+    "creative-site",
+    "saas-app"
+  ],
+  "预装组件": [
+    "Button",
+    "Card",
+    "Input",
+    "Textarea",
+    "Tabs",
+    "Separator",
+    "ScrollArea"
+  ],
+  "特性": [
+    "完整的 TypeScript 支持",
+    "Tailwind CSS 样式系统",
+    "shadcn/ui 组件库",
+    "framer-motion 动画",
+    "React Router 路由",
+    "响应式设计",
+    "极光梦幻主题"
+  ]
+}

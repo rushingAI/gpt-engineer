@@ -1,0 +1,38 @@
+{
+  "name": "react-ts-shadcn-cyberpunk",
+  "displayName": "React + TypeScript + shadcn/ui (Cyberpunk)",
+  "description": "现代化的 React 应用模板，Cyberpunk 赛博朋克风格，霓虹青色主题，暗黑背景，未来感设计",
+  "version": "1.0.0",
+  "tags": ["react", "typescript", "shadcn", "tailwind", "vite", "cyberpunk"],
+  "language": "typescript",
+  "framework": "react",
+  "buildTool": "vite",
+  "uiLibrary": "shadcn/ui",
+  "animationLibrary": "framer-motion",
+  "style": "cyberpunk",
+  "适用场景": [
+    "landing-page",
+    "dashboard",
+    "saas-app",
+    "admin-panel",
+    "marketing-site"
+  ],
+  "预装组件": [
+    "Button",
+    "Card",
+    "Input",
+    "Textarea",
+    "Tabs",
+    "Separator",
+    "ScrollArea"
+  ],
+  "特性": [
+    "完整的 TypeScript 支持",
+    "Tailwind CSS 样式系统",
+    "shadcn/ui 组件库",
+    "framer-motion 动画",
+    "React Router 路由",
+    "响应式设计",
+    "赛博朋克暗黑主题"
+  ]
+}

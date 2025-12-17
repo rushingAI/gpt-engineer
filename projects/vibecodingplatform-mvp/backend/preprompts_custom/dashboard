@@ -1,4 +1,21 @@
 ================================================================================
+🚨🚨🚨 CRITICAL RULE #1 - FILE STRUCTURE 🚨🚨🚨
+================================================================================
+
+⛔ NEVER EVER CREATE SEPARATE COMPONENT FILES! ⛔
+
+❌ DO NOT import { StatsCards } from "@/components/stats_cards"
+❌ DO NOT import { Sidebar } from "@/components/sidebar"  
+❌ DO NOT import { Header } from "@/components/header"
+❌ DO NOT create ANY files in @/components/ except what already exists!
+
+✅ ONLY import from: @/components/ui/button, @/components/ui/card, @/components/ui/input
+✅ WRITE ALL APPLICATION LOGIC directly in src/pages/Index.tsx
+✅ Define sidebar, stats, tables as inline JSX within Index.tsx
+
+THIS IS NON-NEGOTIABLE! Any violation will cause import errors.
+
+================================================================================
 🎨 DESIGN SYSTEM FOR DASHBOARDS - MANDATORY STANDARDS
 ================================================================================
 
@@ -17,6 +34,20 @@ DASHBOARD-SPECIFIC REQUIREMENTS:
 ================================================================================
 
 You are creating a DASHBOARD / SAAS APPLICATION interface.
+
+CRITICAL - COMPONENT FILE STRUCTURE:
+⚠️ DO NOT create separate component files like @/components/stats_cards or @/components/sidebar
+✅ WRITE ALL APPLICATION CODE directly in src/pages/Index.tsx
+✅ ONLY import from existing UI components: @/components/ui/button, @/components/ui/card, etc.
+✅ Define sidebar, stats cards, and other sections as inline JSX within Index.tsx
+
+EXAMPLE OF WHAT NOT TO DO:
+❌ import { StatsCards } from "@/components/stats_cards"  // This file doesn't exist!
+❌ import { Sidebar } from "@/components/sidebar"  // This file doesn't exist!
+❌ import { Header } from "@/components/header"  // This file doesn't exist!
+
+EXAMPLE OF CORRECT APPROACH:
+✅ Write everything in Index.tsx as inline JSX
 
 DASHBOARD LAYOUT STRUCTURE:
 A modern dashboard typically includes:
@@ -161,31 +192,82 @@ SIDEBAR NAVIGATION (ENHANCED):
 </aside>
 ```
 
-PAGE LAYOUT WITH SIDEBAR (ENHANCED):
+COMPLETE DASHBOARD EXAMPLE (ALL IN ONE FILE - Index.tsx):
 ```tsx
+// src/pages/Index.tsx
+import { useState } from "react"
+import { Button } from "@/components/ui/button"  // ✅ CORRECT
+import { Card } from "@/components/ui/card"      // ✅ CORRECT
+import { Input } from "@/components/ui/input"    // ✅ CORRECT
+import { Home, Users, Settings, TrendingUp } from "lucide-react"
+import { cn } from "@/lib/utils"
+
+export default function Index() {
+  // ✅ ALL state here
+  const [activeMenu, setActiveMenu] = useState("home")
+  
+  const stats = [
+    { label: "Total Users", value: "2,543", change: 12, icon: Users },
+    { label: "Revenue", value: "$45.2k", change: 8, icon: TrendingUp }
+  ]
+  
+  // ✅ ALL UI rendering here
+  return (
 <div className="flex min-h-screen bg-background">
-  {/* Sidebar */}
-  <Sidebar />
+  {/* ✅ Sidebar defined INLINE - not imported! */}
+  <aside className="fixed left-0 top-0 h-screen w-64 bg-card border-r border-border p-6">
+    <h1 className="font-display text-2xl font-bold mb-8">Dashboard</h1>
+    <nav className="space-y-2">
+      {[
+        { id: 'home', label: 'Home', icon: Home },
+        { id: 'users', label: 'Users', icon: Users },
+        { id: 'settings', label: 'Settings', icon: Settings }
+      ].map(item => (
+        <button
+          key={item.id}
+          onClick={() => setActiveMenu(item.id)}
+          className={cn(
+            "w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all",
+            activeMenu === item.id 
+              ? "bg-primary text-primary-foreground shadow-card" 
+              : "text-muted-foreground hover:bg-secondary"
+          )}
+        >
+          <item.icon className="w-5 h-5" />
+          <span>{item.label}</span>
+        </button>
+      ))}
+    </nav>
+  </aside>
   
   {/* Main content */}
   <main className="flex-1 ml-64 p-8">
     {/* Header - MUST use font-display */}
     <header className="mb-12">
-      <h1 className="font-display text-4xl font-bold">Page Title</h1>
-      <p className="text-muted-foreground text-lg mt-2">Page description</p>
+      <h1 className="font-display text-4xl font-bold">Dashboard Overview</h1>
+      <p className="text-muted-foreground text-lg mt-2">Welcome back!</p>
     </header>
     
-    {/* Stats - Enhanced spacing */}
-    <StatsCards />
-    
-    {/* Content sections - Generous gap */}
-    <div className="grid lg:grid-cols-2 gap-8">
-      <ChartSection />
-      <TableSection />
+    {/* ✅ Stats Cards defined INLINE - not imported! */}
+    <div className="grid md:grid-cols-2 gap-8 mb-8">
+      {stats.map((stat) => (
+        <Card key={stat.label} className="p-8 rounded-2xl shadow-card hover:shadow-hover transition-all">
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-sm text-muted-foreground">{stat.label}</p>
+            <stat.icon className="w-5 h-5 text-primary" />
+          </div>
+          <p className="font-display text-4xl font-bold mb-2">{stat.value}</p>
+          <p className="text-sm text-green-600">+{stat.change}% from last month</p>
+        </Card>
+      ))}
     </div>
   </main>
 </div>
+  ) // ✅ End of return
+} // ✅ End of Index - EVERYTHING is in ONE file!
 ```
+
+🚨 REMINDER: ALL code above is in src/pages/Index.tsx - ONE SINGLE FILE! 🚨
 
 FORM PATTERNS (ENHANCED):
 ```tsx

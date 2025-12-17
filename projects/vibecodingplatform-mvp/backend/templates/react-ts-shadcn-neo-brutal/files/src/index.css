@@ -1,0 +1,113 @@
+/* Neo Brutal 新粗野主义风格 */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+:root {
+    /* 基础色彩系统 - 高对比 */
+    --background: 45 100% 96%;
+    --foreground: 0 0% 0%;
+    
+    /* 卡片和弹出层 */
+  --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+  --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    
+    /* 主色调 (橙色) */
+    --primary: 27 96% 50%;
+    --primary-foreground: 0 0% 0%;
+    
+    /* 次要色 */
+    --secondary: 45 100% 85%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 45 100% 90%;
+    --muted-foreground: 0 0% 30%;
+    --accent: 142 76% 36%;
+    --accent-foreground: 0 0% 100%;
+    
+    /* 状态色 */
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+    
+    /* 边框和输入 - 粗黑边 */
+    --border: 0 0% 0%;
+    --input: 0 0% 0%;
+    --ring: 27 96% 50%;
+    
+    /* 圆角系统 - 小圆角 */
+    --radius: 0.25rem;
+    
+    /* 阴影系统 - 硬阴影 */
+    --shadow-brutal: 4px 4px 0 hsl(0 0% 0%);
+    --shadow-brutal-lg: 6px 6px 0 hsl(0 0% 0%);
+    --shadow-brutal-xl: 8px 8px 0 hsl(0 0% 0%);
+    
+    /* 字体系统 */
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+}
+
+body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+    font-weight: 600;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+  /* 标题使用粗体 */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+  }
+  
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl;
+  }
+  
+  h2 {
+    @apply text-3xl md:text-4xl lg:text-5xl;
+  }
+  
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+}
+
+@layer utilities {
+  /* 硬阴影工具类 */
+  .shadow-brutal {
+    box-shadow: var(--shadow-brutal);
+  }
+  
+  .shadow-brutal-lg {
+    box-shadow: var(--shadow-brutal-lg);
+  }
+  
+  .shadow-brutal-xl {
+    box-shadow: var(--shadow-brutal-xl);
+}
+
+  /* 快速过渡 */
+  .transition-brutal {
+    transition: all 0.1s linear;
+  }
+  
+  /* 粗边框 */
+  .border-brutal {
+    border-width: 3px;
+    border-color: hsl(0 0% 0%);
+  }
+}

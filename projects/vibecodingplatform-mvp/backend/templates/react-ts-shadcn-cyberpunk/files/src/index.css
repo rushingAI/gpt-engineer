@@ -1,0 +1,136 @@
+/* Cyberpunk 赛博朋克风格 - 霓虹青色主题 */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+:root {
+    /* 基础色彩系统 - 暗黑赛博朋克 */
+    --background: 222 17% 7%;
+    --foreground: 180 20% 95%;
+    
+    /* 卡片和弹出层 */
+    --card: 220 14% 10%;
+    --card-foreground: 180 20% 95%;
+    --popover: 220 14% 10%;
+    --popover-foreground: 180 20% 95%;
+    
+    /* 主色调 (霓虹青色) */
+    --primary: 172 66% 50%;
+    --primary-foreground: 222 17% 7%;
+    
+    /* 次要色 */
+    --secondary: 220 14% 15%;
+    --secondary-foreground: 180 20% 95%;
+    --muted: 220 14% 15%;
+    --muted-foreground: 180 10% 60%;
+    --accent: 282 66% 50%;
+    --accent-foreground: 180 20% 95%;
+    
+    /* 状态色 */
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+    
+    /* 边框和输入 */
+    --border: 220 14% 20%;
+    --input: 220 14% 20%;
+    --ring: 172 66% 50%;
+    
+    /* 圆角系统 */
+  --radius: 0.75rem;
+    
+    /* 自定义渐变 - 霓虹青色 */
+    --gradient-primary: linear-gradient(135deg, hsl(172 66% 50%), hsl(162 66% 45%));
+    --gradient-subtle: linear-gradient(180deg, hsl(220 14% 10%), hsl(220 14% 8%));
+    --gradient-radial: radial-gradient(ellipse at center, hsl(172 66% 50% / 0.15), transparent 70%);
+    
+    /* 阴影系统 - 霓虹发光 */
+    --shadow-glow: 0 0 80px hsl(172 66% 50% / 0.4), 0 0 30px hsl(172 66% 50% / 0.3);
+    --shadow-card: 0 4px 24px hsl(0 0% 0% / 0.5);
+    --shadow-hover: 0 8px 32px hsl(0 0% 0% / 0.6), 0 0 40px hsl(172 66% 50% / 0.2);
+    
+    /* 字体系统 */
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+}
+
+body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+  /* 标题使用未来感字体 */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl;
+  }
+  
+  h2 {
+    @apply text-3xl md:text-4xl lg:text-5xl;
+  }
+  
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+  
+  /* 数字和代码使用等宽字体 */
+  code, .tabular-nums {
+    font-family: var(--font-mono);
+  }
+}
+
+@layer utilities {
+  /* 霓虹渐变文字效果 */
+.text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-primary);
+  }
+  
+  /* 霓虹发光效果 */
+  .glow-primary {
+    box-shadow: var(--shadow-glow);
+  }
+  
+  /* 径向渐变背景 */
+  .bg-gradient-radial {
+    background-image: var(--gradient-radial);
+  }
+  
+  /* 卡片阴影 */
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+  
+  .shadow-hover {
+    box-shadow: var(--shadow-hover);
+}
+
+/* 平滑过渡 */
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* 赛博网格背景 */
+  .bg-cyber-grid {
+    background-image: 
+      linear-gradient(rgba(45, 212, 191, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(45, 212, 191, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+}

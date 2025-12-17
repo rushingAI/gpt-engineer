@@ -1,0 +1,45 @@
+================================================================================
+🚀 RETRO FUTURISM STYLE GUIDE
+================================================================================
+
+VISUAL LANGUAGE:
+- **Form**: 80s/90s inspired, warm analog-meets-digital aesthetic
+- **Colors**: Warm sunset palette (#f97316, #fbbf24, #fb923c), coral/peach, vintage cyan, cream backgrounds
+- **Typography**: Bold geometric sans (Archivo Black, Outfit) + retro monospace (Courier, Space Mono)
+- **Shapes**: Medium rounded (0.75rem) or soft squares, gradient overlays, scan-line effects
+- **Interaction**: Retro transitions (linear), VHS glitch effects (optional), warm glow on hover
+
+DESIGN TOKENS GUIDANCE:
+- Background: Warm cream (#fef3c7), soft peach, or dark with warm tint (#2d1b16)
+- Primary: Orange/coral gradient (#f97316 → #fbbf24), warm glow
+- Surface: Gradient cards with subtle noise texture, warm shadows
+- Radius: 0.75rem (balanced rounded)
+- Shadow: Warm-tinted shadows (orange/red glow), medium spread
+- Animation: 200-400ms linear or stepped easing (retro feel)
+
+COMPONENT PATTERNS:
+- Buttons: Gradient fills (orange→yellow), chunky with warm glow, slight bevel effect
+- Cards: Gradient backgrounds, subtle grain/noise texture, warm border glow
+- Inputs: Thick borders, warm focus state, inner bevel/emboss (subtle)
+- Text: Bold for headings, use gradients sparingly, retro color palette
+
+LAYOUT & SPACING:
+- Structured grids with vintage proportions
+- Moderate spacing (py-12, py-20)
+- Hero sections with bold typography and sunset gradients
+- Background: Gradient overlays (warm), grid patterns, retro shapes (circles, triangles)
+
+ATMOSPHERE:
+- Nostalgic yet forward-looking
+- Optimistic, energetic, analog warmth
+- 80s tech aesthetic meets modern UX
+- Warmth through color temperature and glows
+
+DO NOT:
+- Use cold blue tones as primary
+- Create overly smooth, modern gradients
+- Skip texture or grain overlays
+- Use thin, delicate typography
+
+================================================================================
+

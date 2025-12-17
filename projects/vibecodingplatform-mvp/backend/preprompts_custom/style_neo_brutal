@@ -1,0 +1,45 @@
+================================================================================
+💥 NEO BRUTAL STYLE GUIDE (Neobrutalism)
+================================================================================
+
+VISUAL LANGUAGE:
+- **Form**: Bold, unapologetic, raw with thick borders and hard shadows
+- **Colors**: High contrast black/white base, punchy accent colors (#f59e0b, #ef4444, #10b981), flat tones
+- **Typography**: Bold sans-serif (Space Grotesk, Archivo Black) with thick weights, tight tracking
+- **Shapes**: Sharp corners or minimal rounding (0.25rem), thick borders (2-4px), hard drop shadows
+- **Interaction**: Instant feedback (no slow transitions), color inversions, position shifts
+
+DESIGN TOKENS GUIDANCE:
+- Background: White or bold color (#fef3c7, #fce7f3, #dbeafe) or pure black
+- Primary: Vibrant solid colors (#f59e0b, #ef4444) with thick black borders
+- Surface: White/colored cards with 3-4px black borders, hard offset shadows (4-8px solid black)
+- Radius: 0.25rem (minimal) or 0 (sharp corners)
+- Shadow: Hard drop shadows with no blur (e.g., 4px 4px 0 black)
+- Animation: 100-200ms snap transitions, no easing (linear)
+
+COMPONENT PATTERNS:
+- Buttons: Thick black border, bold background color, hard shadow, invert on hover/press
+- Cards: Solid border, offset hard shadow, no gradients, bold titles
+- Inputs: Thick border, no inner shadow, solid focus state with color change
+- Text: All caps for emphasis, bold weights, high contrast
+
+LAYOUT & SPACING:
+- Grid-based layouts with clear separation
+- Bold section dividers (thick horizontal lines)
+- Compact spacing with intentional density
+- Background: Solid colors or bold patterns (dots, stripes), no gradients
+
+ATMOSPHERE:
+- Rebellious, confident, in-your-face
+- Maximalist use of color and contrast
+- Raw, unpolished intentionally
+- Instant, snappy interactions
+
+DO NOT:
+- Use soft shadows or blurs
+- Apply gradients or transparency
+- Create rounded pill shapes
+- Use subtle or muted colors
+
+================================================================================
+

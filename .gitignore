@@ -22,6 +22,7 @@ venv_test_installation/
 # IDE-specific files
 .vscode/
 .idea/
+.cursor/
 
 # Compiled Python modules
 *.pyc
@@ -61,6 +62,8 @@ projects/*
 !projects/example-improve
 !projects/example-vision
 !projects/vibecodingplatform-mvp
+projects/example-shudu/
+projects/gpt-new-test-projects/
 projects/vibecodingplatform-mvp/client/node_modules
 projects/vibecodingplatform-mvp/client/dist
 projects/vibecodingplatform-mvp/client/package-lock.json
@@ -100,3 +103,7 @@ gpt_engineer/benchmark/benchmarks/mbpp/dataset
 gpt_engineer/benchmark/minimal_bench_config.toml
 
 test.json
+
+# Competition comparison files
+和竞品对比/
+counter_app.json

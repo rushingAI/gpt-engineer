@@ -1,0 +1,103 @@
+/* Minimal 极简主义风格 */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+:root {
+    /* 基础色彩系统 - 极简中性 */
+  --background: 0 0% 100%;
+  --foreground: 0 0% 10%;
+    
+    /* 卡片和弹出层 */
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 10%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 10%;
+    
+    /* 主色调 (单一中性蓝) */
+    --primary: 222 47% 40%;
+  --primary-foreground: 0 0% 100%;
+    
+    /* 次要色 */
+  --secondary: 0 0% 96%;
+  --secondary-foreground: 0 0% 10%;
+  --muted: 0 0% 96%;
+  --muted-foreground: 0 0% 45%;
+  --accent: 0 0% 96%;
+  --accent-foreground: 0 0% 10%;
+    
+    /* 状态色 */
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+    
+    /* 边框和输入 - 极细 */
+  --border: 0 0% 89%;
+  --input: 0 0% 89%;
+    --ring: 222 47% 40%;
+    
+    /* 圆角系统 - 中等圆角 */
+    --radius: 0.5rem;
+    
+    /* 阴影系统 - 极柔和 */
+    --shadow-card: 0 1px 3px hsl(0 0% 0% / 0.1);
+    --shadow-hover: 0 4px 6px hsl(0 0% 0% / 0.1);
+    
+    /* 字体系统 */
+    --font-display: 'Inter', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+}
+
+body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+    font-weight: 400;
+    line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+  /* 标题 */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+  
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl;
+  }
+  
+  h2 {
+    @apply text-3xl md:text-4xl lg:text-5xl;
+  }
+  
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+}
+
+@layer utilities {
+  /* 卡片阴影 */
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+  
+  .shadow-hover {
+    box-shadow: var(--shadow-hover);
+}
+
+  /* 精致过渡 */
+  .transition-smooth {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
