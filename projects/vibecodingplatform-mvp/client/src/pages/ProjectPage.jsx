@@ -6,7 +6,7 @@ import PreviewPanel from '../components/preview/PreviewPanel'
 import CodeView from '../components/preview/CodeView'
 import { getProject, saveCurrentProject, addToHistory } from '../utils/storage'
 import { generateApp, improveApp, generateAppStreaming, improveAppStreaming } from '../utils/api'
-import { shouldUseImprove, buildFullPrompt } from '../utils/promptAnalyzer'
+import { buildFullPrompt } from '../utils/promptAnalyzer'
 import { ensureProjectTheme, applyTheme, getProjectTheme, getProjectThemeOverrides } from '../utils/theme'
 import { extractColorIntent, selectThemeByIntent } from '../utils/colorIntent'
 
@@ -74,25 +74,47 @@ function ProjectPage() {
     }
 
     try {
-      // 智能判断使用 improve 还是 generate
-      const useImprove = shouldUseImprove(userMessage)
+      // 判断是否使用 generate（重新生成）还是 improve（改进）
+      // 规则：从首页跳转（?generate=true）→ generate
+      //      项目页中对话 → 默认improve，但检测强关键词时用generate
+      const isFromLandingPage = searchParams.get('generate') === 'true'
+      
+      let useGenerate = false
+      let reason = ''
+      
+      if (isFromLandingPage) {
+        // 从首页创建新应用
+        useGenerate = true
+        reason = '首次生成'
+      } else {
+        // 项目页中继续对话：检测"重新创建"等强关键词
+        const strongGenKeywords = /重新创建|重新生成|completely new|rebuild|recreate|start over|from scratch/i
+        if (strongGenKeywords.test(userMessage)) {
+          useGenerate = true
+          reason = '重新生成'
+        } else {
+          useGenerate = false
+          reason = '改进代码'
+        }
+      }
+      
       let newFiles
 
       // 开始流式生成
-      if (useImprove) {
-        console.log('📝 使用流式 improve 优化代码')
-        newFiles = await improveAppStreaming(
-          userMessage, 
-          project.files,
-          (event) => handleStreamEvent(event, aiMsg, updatedMessages)
-        )
-      } else {
-        console.log('🆕 使用流式 generate 重新生成')
+      if (useGenerate) {
+        console.log(`🆕 使用流式 generate (${reason})`)
         const fullPrompt = buildFullPrompt(project.messages, userMessage)
         newFiles = await generateAppStreaming(
           fullPrompt,
           (event) => handleStreamEvent(event, aiMsg, updatedMessages),
           true // useTemplate
+        )
+      } else {
+        console.log(`📝 使用流式 improve (${reason})`)
+        newFiles = await improveAppStreaming(
+          userMessage, 
+          project.files,
+          (event) => handleStreamEvent(event, aiMsg, updatedMessages)
         )
       }
 
@@ -300,25 +322,28 @@ function ProjectPage() {
     setProject({ ...project, messages: updatedMessages })
 
     try {
-      // 智能判断使用 improve 还是 generate
-      const useImprove = shouldUseImprove(userMessage)
+      // 判断是否使用 generate（重新生成）还是 improve（改进）
+      // 规则：项目页中对话 → 默认improve，但检测强关键词时用generate
+      const strongGenKeywords = /重新创建|重新生成|completely new|rebuild|recreate|start over|from scratch/i
+      const useGenerate = strongGenKeywords.test(userMessage)
+      
       let newFiles
 
       // 3. 开始流式生成
-      if (useImprove) {
-        console.log('📝 使用流式 improve 优化代码')
-        newFiles = await improveAppStreaming(
-          userMessage, 
-          project.files,
-          (event) => handleStreamEvent(event, aiMsg, updatedMessages)
-        )
-      } else {
-        console.log('🆕 使用流式 generate 重新生成')
+      if (useGenerate) {
+        console.log('🆕 使用流式 generate (重新生成)')
         const fullPrompt = buildFullPrompt(project.messages, userMessage)
         newFiles = await generateAppStreaming(
           fullPrompt,
           (event) => handleStreamEvent(event, aiMsg, updatedMessages),
           true // useTemplate
+        )
+      } else {
+        console.log('📝 使用流式 improve (改进代码)')
+        newFiles = await improveAppStreaming(
+          userMessage, 
+          project.files,
+          (event) => handleStreamEvent(event, aiMsg, updatedMessages)
         )
       }
 

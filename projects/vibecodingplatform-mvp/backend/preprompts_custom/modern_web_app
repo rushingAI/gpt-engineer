@@ -1,19 +1,28 @@
 ================================================================================
-🚨🚨🚨 CRITICAL RULE #1 - FILE STRUCTURE 🚨🚨🚨
+🚨🚨🚨 CRITICAL RULE #1 - FILE STRUCTURE (受控多文件) 🚨🚨🚨
 ================================================================================
 
-⛔ NEVER EVER CREATE SEPARATE COMPONENT FILES! ⛔
+✅ ALLOWED FILE LOCATIONS:
+   - src/pages/Index.tsx (主入口，编排UI)
+   - src/components/generated/<appSlug>/*.tsx (领域组件，如 TodoList, StatsCards)
+   - src/features/<feature>/*.tsx (可选，复杂应用按特性分模块)
+   - src/lib/generated/*.ts (业务逻辑/工具函数)
 
-❌ DO NOT import { TodoList } from "@/components/todoList"  
-❌ DO NOT import { StatsCards } from "@/components/stats_cards"
-❌ DO NOT import { AddTodo } from "@/components/addTodo"
-❌ DO NOT create ANY files in @/components/ except what already exists!
+✅ IMPORT RULES:
+   - ONLY import UI primitives from: @/components/ui/* (button, card, input, etc.)
+   - Import your domain components from: @/components/generated/<appSlug>/*
+   - Import utilities from: @/lib/generated/*
 
-✅ ONLY import from: @/components/ui/button, @/components/ui/card, @/components/ui/input
-✅ WRITE ALL APPLICATION LOGIC directly in src/pages/Index.tsx
-✅ Define components as inline functions within Index.tsx if needed
+❌ FORBIDDEN:
+   - DO NOT write to @/components/ui/* (PROTECTED)
+   - DO NOT use relative path bypass: ../../components/ui/*
+   - DO NOT create files outside allowed locations
 
-THIS IS NON-NEGOTIABLE! Any violation will cause import errors.
+EXAMPLE STRUCTURE (Todo App):
+src/pages/Index.tsx        ← Orchestrate UI, import domain components
+src/components/generated/todo/TodoList.tsx       ← Domain component
+src/components/generated/todo/TodoItem.tsx       ← Domain component
+src/lib/generated/todo-storage.ts                ← Pure logic
 
 ================================================================================
 🎨 DESIGN SYSTEM INTEGRATION - READ THIS FIRST
@@ -87,13 +96,15 @@ FOR TODO/TASK APPS:
 - Include beautiful empty state design
 - Use custom styled checkboxes
 
-COMPLETE WORKING EXAMPLE (ALL IN ONE FILE - Index.tsx):
+COMPLETE WORKING EXAMPLE (MULTI-FILE STRUCTURE):
+
+// src/pages/Index.tsx (Main orchestration)
 ```tsx
-// src/pages/Index.tsx
 import { useState } from "react"
-import { Button } from "@/components/ui/button"  // ✅ CORRECT - UI component exists
-import { Card } from "@/components/ui/card"      // ✅ CORRECT - UI component exists
-import { Input } from "@/components/ui/input"    // ✅ CORRECT - UI component exists
+import { Button } from "@/components/ui/button"  // ✅ UI primitive
+import { Card } from "@/components/ui/card"      // ✅ UI primitive
+import { TodoList } from "@/components/generated/todo/TodoList"  // ✅ Domain component
+import { TodoInput } from "@/components/generated/todo/TodoInput"  // ✅ Domain component
 import { Checkbox } from "@/components/ui/checkbox"
 import { Plus, Trash2, CheckCircle2, Clock, ListTodo } from "lucide-react"
 import { motion } from "framer-motion"
@@ -206,10 +217,10 @@ export default function Index() {
   </div>
 </div>
   ) // ✅ End of return
-} // ✅ End of Index component - EVERYTHING is in this ONE file!
+} // ✅ End of Index component
 ```
 
-🚨 REMINDER: The above code is ALL in src/pages/Index.tsx - ONE SINGLE FILE! 🚨
+🚨 BEST PRACTICE: Break complex logic into domain components in src/components/generated/<appSlug>/ for better maintainability 🚨
 
 FOR CALCULATOR APPS:
 - Use large display font for numbers: font-display text-6xl
@@ -264,33 +275,35 @@ YOUR TASK:
 Generate ONLY the business logic and UI components for the specific feature requested by the user.
 DO NOT regenerate the base configuration files (package.json, vite.config.ts, tailwind.config.ts, tsconfig.json).
 
-CRITICAL - COMPONENT FILE STRUCTURE:
-⚠️ DO NOT create separate component files like @/components/todoList or @/components/stats_cards
-✅ WRITE ALL APPLICATION CODE directly in src/pages/Index.tsx
-✅ ONLY import from existing UI components: @/components/ui/button, @/components/ui/card, etc.
-✅ Define helper functions and small components within the same file if needed
+RECOMMENDED - COMPONENT FILE STRUCTURE (受控多文件):
+✅ Index.tsx orchestrates the main UI
+✅ Break complex components into src/components/generated/<appSlug>/*.tsx
+✅ ONLY import UI primitives from @/components/ui/*
+✅ Import your domain components from @/components/generated/*
 
-EXAMPLE OF WHAT NOT TO DO:
-❌ import { TodoList } from "@/components/todoList"  // This file doesn't exist!
-❌ import { StatsCards } from "@/components/stats_cards"  // This file doesn't exist!
-
-EXAMPLE OF CORRECT APPROACH:
-✅ Write everything in Index.tsx:
+EXAMPLE OF RECOMMENDED APPROACH (Multi-file for complex apps):
 ```tsx
+// src/pages/Index.tsx
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
+import { TodoList } from "@/components/generated/todo/TodoList"  // ✅ Domain component
 
 export default function Index() {
-  // All your state and logic here
   const [todos, setTodos] = useState([])
   
-  // Render everything directly in this component
   return (
     <div>
-      {/* Your entire UI here */}
+      <TodoList todos={todos} onUpdate={setTodos} />
     </div>
   )
+}
+```
+
+// src/components/generated/todo/TodoList.tsx
+```tsx
+import { Card } from "@/components/ui/card"
+export function TodoList({ todos, onUpdate }) {
+  // Component logic here
 }
 ```
 
@@ -314,7 +327,11 @@ COMPONENT USAGE:
    IMPORTANT: Component files are lowercase! Use:
    - import { Button } from '@/components/ui/button' (NOT Button.tsx)
    - import { Card } from '@/components/ui/card' (NOT Card.tsx)
-   - import { Input } from '@/components/ui/input' (NOT Input.tsx)
+   
+   ✅ 可用 shadcn/ui 组件（34个）：alert, avatar, badge, breadcrumb, button, calendar, card, checkbox, command, context-menu, dialog, dropdown-menu, form, input, label, menubar, navigation-menu, pagination, popover, progress, radio-group, resizable, scroll-area, select, separator, sheet, skeleton, switch, table, tabs, textarea, toast, toaster, tooltip
+   
+   ⚠️ 禁止导入不存在的组件！
+
 2. Use cn() from @/lib/utils for className merging
 3. Import icons from lucide-react
 4. Use framer-motion for animations (motion.div, etc.)

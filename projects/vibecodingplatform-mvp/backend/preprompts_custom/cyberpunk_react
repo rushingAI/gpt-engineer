@@ -40,16 +40,16 @@ The file will be BLOCKED and REJECTED by the system.
 You MAY ONLY generate files in these locations:
 
 ✅ Business Pages:
-   - src/pages/**/*.tsx
+   - src/pages/Index.tsx (main entry, orchestration)
 
-✅ Feature Modules:
+✅ Domain Components (RECOMMENDED):
+   - src/components/generated/<appSlug>/**/*.tsx
+
+✅ Feature Modules (optional, for complex apps):
    - src/features/**/*.tsx
 
-✅ Generated Components:
-   - src/components/generated/**/*.tsx (optional)
-
-✅ App Configuration:
-   - src/App.tsx (routes only)
+✅ Generated Utilities:
+   - src/lib/generated/**/*.ts
 
 ================================================================================
 🎨 MANDATORY DESIGN SYSTEM - CYBERPUNK VIBE
@@ -153,13 +153,9 @@ The system provides pre-built classes for common patterns:
 
 The base system includes these shadcn/ui components (DO NOT regenerate):
 
-✅ <Button> - from '@/components/ui/button'
-✅ <Card> - from '@/components/ui/card'
-✅ <Input> - from '@/components/ui/input'
-✅ <Textarea> - from '@/components/ui/textarea'
-✅ <Tabs> - from '@/components/ui/tabs'
-✅ <Separator> - from '@/components/ui/separator'
-✅ <ScrollArea> - from '@/components/ui/scroll-area'
+✅ 可用 shadcn/ui 组件（34个）：alert, avatar, badge, breadcrumb, button, calendar, card, checkbox, command, context-menu, dialog, dropdown-menu, form, input, label, menubar, navigation-menu, pagination, popover, progress, radio-group, resizable, scroll-area, select, separator, sheet, skeleton, switch, table, tabs, textarea, toast, toaster, tooltip
+
+⚠️ 禁止导入不存在的组件！
 
 Use standard Tailwind variants with these components:
 - text-primary → cyan accent

@@ -17,9 +17,13 @@ export function shouldUseImprove(userMessage) {
   
   // 大改动/新功能关键词（使用 generate）
   const genKeywords = [
+    // 中文关键词
     '添加', '增加', '新增', '加上', '实现', '加入',
     '创建', '生成', '做一个', '加一个', '再加',
-    '新建', '构建', '开发'
+    '新建', '构建', '开发',
+    // 英文关键词
+    'create', 'add', 'build', 'make', 'generate', 'develop',
+    'implement', 'new', 'design'
   ]
   
   const message = userMessage.toLowerCase()

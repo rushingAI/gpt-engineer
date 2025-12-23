@@ -143,7 +143,7 @@ export async function improveAppStreaming(prompt, currentFiles, onEvent) {
             onEvent(data)
             
             if (data.type === 'complete') {
-              finalFiles = processFiles(data.files)
+              finalFiles = processReactFiles(data.files)
             }
           } catch (err) {
             console.error('解析 SSE 数据失败:', err, line)

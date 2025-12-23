@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 from typing import Dict, Optional, List
+from policies import policy_manager
 
 
 class TemplateManager:
@@ -129,10 +130,10 @@ class TemplateManager:
         """
         合并模板文件和 AI 生成的文件
         
-        策略:
-        1. 保留模板的配置文件（package.json, vite.config.ts 等）
-        2. 替换 src/ 目录下的页面和组件
-        3. 保留 src/components/ui/ 和 src/lib/ 等基础设施
+        策略（基于 policy_manager）:
+        1. 禁止覆盖模板中已存在的受保护文件
+        2. 允许在白名单范围内新增文件（尤其是 generated 子目录）
+        3. 黑名单文件直接丢弃
         
         Args:
             template_files: 模板文件字典
@@ -143,40 +144,31 @@ class TemplateManager:
         """
         result = dict(template_files)  # 复制模板文件
         
-        # 需要保留的模板文件路径模式
-        preserve_patterns = [
-            'package.json',
-            'vite.config',
-            'tsconfig',
-            'tailwind.config',
-            'postcss.config',
-            'index.html',
-            'src/main.tsx',
-            'src/App.tsx',
-            'src/index.css',
-            'src/components/ui/',
-            'src/lib/',
-        ]
+        blocked_count = 0
+        allowed_count = 0
+        protected_count = 0
         
         # 处理 AI 生成的文件
         for file_path, content in generated_files.items():
-            # 检查是否应该保留模板文件
-            should_preserve = any(
-                pattern in file_path for pattern in preserve_patterns
-            )
+            clean_path = file_path.lstrip('/')
             
-            if should_preserve:
-                # 特殊处理：对于 src/App.tsx，可能需要合并路由
-                if 'App.tsx' in file_path:
-                    # 这里可以添加更智能的合并逻辑
-                    # 暂时简单替换
-                    pass
-                else:
-                    # 保留模板文件，不覆盖
-                    continue
+            # 1. 检查是否在允许写入范围内（白名单）
+            if not policy_manager.is_path_allowed(clean_path):
+                print(f"  🚫 Blocked by allowlist: {clean_path}")
+                blocked_count += 1
+                continue
             
-            # 添加或替换文件
-            result[file_path] = content
+            # 2. 检查是否是受保护的模板文件（不可覆盖）
+            if policy_manager.is_path_protected(clean_path, template_files):
+                print(f"  🛡️  Protected template file: {clean_path}")
+                protected_count += 1
+                continue
+            
+            # 3. 允许写入（新增或覆盖业务文件）
+            result[clean_path] = content
+            allowed_count += 1
+        
+        print(f"📦 Merge complete: {allowed_count} allowed, {protected_count} protected, {blocked_count} blocked")
         
         return result
     

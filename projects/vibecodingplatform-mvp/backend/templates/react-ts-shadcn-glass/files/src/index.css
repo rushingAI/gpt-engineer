@@ -62,7 +62,7 @@
 }
 
 body {
-    @apply bg-background text-foreground;
+    @apply bg-background;
     font-family: var(--font-body);
     font-weight: 400;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);

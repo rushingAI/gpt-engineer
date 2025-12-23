@@ -64,7 +64,7 @@
 }
 
 body {
-    @apply bg-background text-foreground;
+    @apply bg-background;
     font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

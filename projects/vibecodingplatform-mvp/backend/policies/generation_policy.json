@@ -1,0 +1,378 @@
+{
+  "version": "1.0.0",
+  "description": "Vibecoding 平台代码生成策略配置",
+  
+  "dependency_policy": {
+    "description": "依赖管理策略 - 白名单审批制",
+    "enabled": true,
+    "mode": "whitelist",
+    "allowed_dependencies": [
+      "axios",
+      "lodash",
+      "date-fns",
+      "uuid",
+      "clsx",
+      "zustand",
+      "react-hook-form",
+      "zod",
+      "recharts",
+      "lucide-react",
+      "framer-motion",
+      "react-router-dom",
+      "react-query",
+      "@tanstack/react-query"
+    ],
+    "auto_approve_patterns": [
+      "@types/*"
+    ],
+    "description_note": "AI 只能添加白名单中的依赖，或匹配 auto_approve_patterns 的类型定义"
+  },
+  
+  "file_policy": {
+    "description": "文件写入白名单/黑名单策略（中等隔离级别，支持 CSS Modules）",
+    "allowlist_patterns": [
+      "src/pages/**",
+      "src/features/**",
+      "src/components/generated/**",
+      "src/components/generated/**/*.module.css",
+      "src/lib/generated/**",
+      "src/hooks/generated/**",
+      "src/__tests__/**",
+      "tests/**"
+    ],
+    "css_modules": {
+      "enabled": true,
+      "allowed_locations": ["src/components/generated/**"],
+      "naming_convention": "same_as_component",
+      "forbidden_patterns": [":global"],
+      "description": "CSS Modules 必须与组件同目录同名，禁止 :global() 污染全局"
+    },
+    "denylist_patterns": [
+      "package.json",
+      "package-lock.json",
+      "vite.config.*",
+      "tsconfig*.json",
+      "tailwind.config.*",
+      "postcss.config.*",
+      "index.html",
+      "src/main.tsx",
+      "src/main.jsx",
+      "src/App.tsx",
+      "src/App.jsx",
+      "src/index.css",
+      "src/components/ui/**",
+      "src/lib/utils.ts",
+      "src/lib/cn.ts",
+      ".env*",
+      ".git*"
+    ],
+    "protected_directories": {
+      "description": "这些目录下的模板文件不可被 AI 覆盖，但允许新增 generated 子目录的文件",
+      "paths": [
+        "src/components/ui/",
+        "src/lib/"
+      ]
+    }
+  },
+  
+  "quality_gates": {
+    "description": "质量门禁配置（最快失败优先）",
+    "enabled": true,
+    "levels": {
+      "L0_static": {
+        "description": "静态闸门（秒级）：AST/Regex 混合扫描",
+        "enabled": true,
+        "priority": 1,
+        "rules": [
+          {
+            "id": "controlled_input_missing_onchange",
+            "severity": "error",
+            "description": "受控输入 value= 缺少 onChange 且非 readOnly"
+          },
+          {
+            "id": "readonly_wrong_condition",
+            "severity": "warning",
+            "description": "readOnly 锁定条件错误：用当前 cell 而非 original"
+          },
+          {
+            "id": "onclick_no_state_update",
+            "severity": "warning",
+            "description": "onClick handler 内无任何 setState/dispatch"
+          },
+          {
+            "id": "empty_handler",
+            "severity": "error",
+            "description": "按钮存在但 handler 为空或 TODO"
+          },
+          {
+            "id": "no_state_management",
+            "severity": "warning",
+            "description": "声称可交互但无 useState/useReducer"
+          },
+          {
+            "id": "unreferenced_generated_file",
+            "severity": "warning",
+            "description": "新增的 generated 文件未被任何 ts/tsx 引用"
+          },
+          {
+            "id": "import_boundary_violation",
+            "severity": "error",
+            "description": "导入边界违规：../ 跨越到受保护目录或黑名单路径"
+          },
+          {
+            "id": "css_module_global_usage",
+            "severity": "error",
+            "description": "CSS Module 使用了 :global() 污染全局"
+          },
+          {
+            "id": "index_tsx_too_large",
+            "severity": "warning",
+            "description": "Index.tsx 超过 300 行，建议拆分到 generated 组件",
+            "threshold_lines": 300
+          },
+          {
+            "id": "index_missing_default_export",
+            "severity": "error",
+            "description": "Index.tsx 必须使用默认导出"
+          },
+          {
+            "id": "component_missing_export",
+            "severity": "error",
+            "description": "组件文件缺少对应的导出（命名或默认）"
+          },
+          {
+            "id": "component_should_use_named_export",
+            "severity": "warning",
+            "description": "组件建议使用命名导出而不是默认导出"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "description": "TypeScript 类型检查",
+        "enabled": true,
+        "priority": 2,
+        "command": "tsc --noEmit",
+        "max_errors_to_show": 10
+      },
+      "L2_smoke_test": {
+        "description": "最小冒烟测试（Vitest + RTL）",
+        "enabled": true,
+        "priority": 3,
+        "test_file": "src/__tests__/smoke.test.tsx",
+        "min_acceptance_tests": 2,
+        "timeout_seconds": 30
+      },
+      "L3_lint": {
+        "description": "代码风格检查（仅在失败时或发布前）",
+        "enabled": false,
+        "priority": 4,
+        "command": "eslint --max-warnings 10"
+      }
+    }
+  },
+  
+  "shadcn_ui_components": {
+    "description": "项目中可用的 shadcn/ui 组件白名单（与模板实际文件同步）",
+    "allowed_components": [
+      "alert",
+      "avatar",
+      "badge",
+      "breadcrumb",
+      "button",
+      "calendar",
+      "card",
+      "checkbox",
+      "command",
+      "context-menu",
+      "dialog",
+      "dropdown-menu",
+      "form",
+      "input",
+      "label",
+      "menubar",
+      "navigation-menu",
+      "pagination",
+      "popover",
+      "progress",
+      "radio-group",
+      "resizable",
+      "scroll-area",
+      "select",
+      "separator",
+      "sheet",
+      "skeleton",
+      "switch",
+      "table",
+      "tabs",
+      "textarea",
+      "toast",
+      "toaster",
+      "tooltip"
+    ],
+    "note": "AI 只能导入这些组件，导入其他组件会导致运行时错误。当前列出 34 个组件。"
+  },
+  
+  "api_usage_rules": {
+    "description": "常见库的 API 使用规范，防止混淆不同库的 API",
+    "enabled": true,
+    "libraries": {
+      "date-fns": {
+        "style": "functional",
+        "correct_apis": ["format(date, pattern)", "parseISO(string)", "subDays(date, n)", "addDays(date, n)", "differenceInDays(date1, date2)"],
+        "forbidden_patterns": [".from()", ".format()", "moment()"],
+        "common_mistake": "混淆 moment.js 的链式 API"
+      },
+      "recharts": {
+        "style": "declarative_jsx",
+        "correct_apis": ["<LineChart>", "<BarChart>", "<PieChart>", "<ResponsiveContainer>"],
+        "forbidden_patterns": ["Chart.Line()", "Chart.Bar()", "new Chart()"],
+        "common_mistake": "混淆 Chart.js 的命令式 API"
+      },
+      "react-hook-form": {
+        "style": "hooks",
+        "correct_apis": ["useForm()", "register()", "handleSubmit()"],
+        "forbidden_patterns": ["<Field>", "<Formik>"],
+        "common_mistake": "混淆 Formik 的组件 API"
+      },
+      "axios": {
+        "style": "promise_based",
+        "correct_apis": ["axios.get()", "axios.post()", "response.data"],
+        "forbidden_patterns": ["response.json()", ".then(r => r.json())"],
+        "common_mistake": "混淆 fetch API 的 .json() 方法"
+      }
+    }
+  },
+  
+  "l0_style_gates": {
+    "description": "L0 交互/样式门禁 - 专门针对结构性应用（数独/棋盘/网格）的样式和交互检查",
+    "enabled": true,
+    "structural_keywords": [
+      "sudoku", "minesweeper", "2048", "grid", "board", "pixel", "canvas",
+      "calendar", "gantt", "kanban", "spreadsheet", "datagrid", "timeline",
+      "flow", "diagram", "drag", "chess", "checkers", "tic-tac-toe",
+      "棋盘", "网格", "数独", "像素", "画布", "日历", "甘特", "看板", "拖拽", "表格",
+      "扫雷", "象棋", "围棋", "五子棋", "井字棋"
+    ],
+    "structural_filename_keywords": [
+      "Sudoku", "Grid", "Board", "Cell", "Canvas", "Kanban", "Calendar",
+      "Gantt", "Spreadsheet", "Minesweeper", "Chess", "Checkers", "Pixel",
+      "Drag", "Drop", "Timeline", "Flow", "Diagram"
+    ],
+    "forbidden_css_patterns": [
+      ":global\\s*\\(",
+      "@import",
+      "url\\s*\\(\\s*[\"']?https?:"
+    ],
+    "gate5_structural_fail": true,
+    "gate6_orphan_severity_mode": "error_structural",
+    "description_modes": {
+      "error_structural": "结构性应用的孤儿文件作为 Error（触发自愈），普通应用为 Warning",
+      "warn_default": "所有孤儿文件都是 Warning（不触发自愈）",
+      "error_always": "所有孤儿文件都是 Error（最严格）"
+    }
+  },
+  
+  "self_heal": {
+    "description": "自愈循环配置",
+    "enabled": true,
+    "max_iterations": 3,
+    "max_files_per_iteration": 8,
+    "allowed_modification_patterns": [
+      "src/pages/**",
+      "src/features/**",
+      "src/components/generated/**",
+      "src/lib/generated/**",
+      "src/hooks/generated/**",
+      "src/__tests__/**",
+      "tests/**"
+    ],
+    "reuse_node_modules": true,
+    "description_reuse": "自愈迭代时复用已安装的 node_modules，只 patch 文件并 rerun 门禁"
+  },
+  
+  "preview_modes": {
+    "description": "预览模式配置",
+    "webcontainer": {
+      "enabled": true,
+      "supported_platforms": ["desktop"],
+      "supported_browsers": ["chrome", "edge", "firefox", "safari"]
+    },
+    "hosted": {
+      "enabled": false,
+      "description": "服务端构建预览（未实现，预留）",
+      "build_timeout_seconds": 180
+    },
+    "fallback_reasons": {
+      "MOBILE_NOT_SUPPORTED": {
+        "en": "WebContainer preview is not available on mobile devices. Please use a desktop browser.",
+        "zh": "移动端暂不支持 WebContainer 预览，请使用桌面浏览器。"
+      },
+      "BROWSER_NOT_SUPPORTED": {
+        "en": "Your browser does not support WebContainer. Please use Chrome, Edge, Firefox, or Safari.",
+        "zh": "您的浏览器不支持 WebContainer，请使用 Chrome、Edge、Firefox 或 Safari。"
+      },
+      "DISABLED_BY_POLICY": {
+        "en": "Preview is disabled by platform policy.",
+        "zh": "预览功能已被平台策略禁用。"
+      },
+      "SHARED_ARRAY_BUFFER_NOT_AVAILABLE": {
+        "en": "SharedArrayBuffer is not available. Please ensure your site is cross-origin isolated.",
+        "zh": "SharedArrayBuffer 不可用，请确保站点已启用跨域隔离。"
+      }
+    }
+  },
+  
+  "spec_first": {
+    "description": "Spec-first 生成策略",
+    "enabled": true,
+    "spec_location": "src/lib/generated/interactionSpec.json",
+    "strict_json": true,
+    "auto_repair_json": true,
+    "max_repair_attempts": 1,
+    "required_sections": ["state", "events", "constraints", "acceptance"],
+    "min_acceptance_tests": 2,
+    "max_acceptance_tests": 5
+  },
+  
+  "regression_suites": {
+    "description": "平台级回归测试用例",
+    "enabled": true,
+    "suites": [
+      {
+        "id": "sudoku",
+        "name": "Sudoku Game",
+        "priority": "P0",
+        "description": "网格选中 + 输入 + original 锁定（覆盖 state、约束、校验）",
+        "prompt": "创建一个数独游戏",
+        "acceptance_criteria": [
+          "点击空格可以选中",
+          "可以输入数字（键盘或数字面板）",
+          "非空初始格不可编辑（基于 original 状态）",
+          "冲突高亮或阻止非法输入"
+        ]
+      },
+      {
+        "id": "kanban",
+        "name": "Kanban Board",
+        "priority": "P1",
+        "description": "新增卡片 + 拖拽（覆盖复杂交互）",
+        "enabled": false
+      },
+      {
+        "id": "form_wizard",
+        "name": "Form Wizard",
+        "priority": "P1",
+        "description": "多步表单校验（覆盖表单状态机）",
+        "enabled": false
+      },
+      {
+        "id": "dashboard",
+        "name": "Dashboard",
+        "priority": "P1",
+        "description": "筛选联动图表/表格（覆盖派生状态）",
+        "enabled": false
+      }
+    ]
+  }
+}
+

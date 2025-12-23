@@ -8,36 +8,49 @@ import { getTheme } from './themes.js'
 
 /**
  * 过滤 AI 生成的文件，只保留允许的业务文件
+ * 
+ * 策略（与后端 policy_manager 一致）:
+ * - 允许写入: src/pages/**, src/features/**, src/components/generated/**, 
+ *            src/lib/generated/**, src/hooks/generated/**, src/__tests__/**, tests/**
+ * - 禁止覆盖: 受保护的模板文件（package.json, vite.config, src/main.tsx 等）
+ * 
  * @param {Object} files - AI 生成的文件字典
  * @returns {Object} 过滤后的文件字典
  */
 export function filterGeneratedFiles(files) {
-  // 允许的文件路径模式
+  // 允许的文件路径模式（中等隔离级别 + CSS Modules 支持）
+  // 注意：这些模式应与后端 generation_policy.json 的 allowlist_patterns 保持一致
   const allowedPatterns = [
-    /^src\/pages\//,              // 允许页面文件
-    /^src\/features\//,           // 允许功能模块
-    /^src\/App\.tsx$/,            // 允许路由配置
-    /^src\/components\/generated\// // 允许生成的业务组件
+    /^src\/pages\//,                    // 允许页面文件
+    /^src\/features\//,                 // 允许功能模块
+    /^src\/components\/generated\//,    // 允许生成的业务组件
+    /^src\/lib\/generated\//,           // 允许生成的业务逻辑
+    /^src\/hooks\/generated\//,         // 允许生成的自定义 hooks
+    /^src\/__tests__\//,                // 允许测试文件
+    /^tests\//,                         // 允许测试目录
+    /^src\/(components|lib|hooks)\/generated\/.*\.module\.css$/,  // 允许 CSS Modules（仅限 generated 目录下）
+    /^vibe\.meta\.json$/,               // 允许 vibe.meta.json（元数据文件）
   ];
 
   const filteredFiles = {};
   let blockedCount = 0;
   let allowedCount = 0;
+  let protectedCount = 0;
   
   for (const [path, content] of Object.entries(files)) {
     // 移除开头的 /
     const cleanPath = path.startsWith('/') ? path.slice(1) : path;
     
-    // 检查是否在受保护路径列表中
+    // 1. 检查是否在受保护路径列表中（黑名单，优先级最高）
     const isProtected = PROTECTED_PATHS.some(pattern => pattern.test(cleanPath));
     
     if (isProtected) {
-      console.warn(`🚫 Blocked AI write to protected file: ${cleanPath}`);
-      blockedCount++;
+      console.warn(`🛡️  Blocked AI write to protected file: ${cleanPath}`);
+      protectedCount++;
       continue;
     }
     
-    // 检查是否在允许列表中
+    // 2. 检查是否在允许列表中（白名单）
     const isAllowed = allowedPatterns.some(pattern => pattern.test(cleanPath));
     
     if (isAllowed) {
@@ -49,7 +62,7 @@ export function filterGeneratedFiles(files) {
     }
   }
   
-  console.log(`✅ File filtering complete: ${allowedCount} allowed, ${blockedCount} blocked`);
+  console.log(`✅ File filtering complete: ${allowedCount} allowed, ${protectedCount} protected, ${blockedCount} blocked`);
   
   return filteredFiles;
 }
@@ -111,45 +124,146 @@ export function mergeWithPreset(aiFiles, themeName = 'teal', themeOverrides = {}
   return mergedFiles;
 }
 
+// 依赖白名单（与后端策略同步）
+// 🤖 此部分由 backend/scripts/sync_dependency_whitelist.py 自动生成
+// 请勿手动修改，运行 python backend/scripts/sync_dependency_whitelist.py 更新
+const ALLOWED_DEPENDENCIES = [
+  'axios',
+  'lodash',
+  'date-fns',
+  'uuid',
+  'clsx',
+  'zustand',
+  'react-hook-form',
+  'zod',
+  'recharts',
+  'lucide-react',
+  'framer-motion',
+  'react-router-dom',
+  'react-query',
+  '@tanstack/react-query',
+];
+
+// 自动批准的模式（类型定义等）
+const AUTO_APPROVE_PATTERNS = [
+  /^@types\//,  // 匹配所有以 @types/ 开头的包
+];
+
+
+
+
+
 /**
- * 智能合并 package.json
- * 保留预设的核心依赖和配置，但允许 AI 添加新的依赖
+ * 检查依赖是否在白名单中
+ * @param {string} depName - 依赖名称
+ * @returns {boolean}
+ */
+function isDependencyAllowed(depName) {
+  // 检查白名单
+  if (ALLOWED_DEPENDENCIES.includes(depName)) {
+    return true;
+  }
+  
+  // 检查自动批准模式
+  for (const pattern of AUTO_APPROVE_PATTERNS) {
+    if (pattern.test(depName)) {
+      return true;
+    }
+  }
+  
+  return false;
+}
+
+/**
+ * 验证并修复 JSON 字符串
+ * @param {string} jsonStr - JSON 字符串
+ * @param {string} context - 上下文描述（用于错误日志）
+ * @returns {Object|null} 解析后的对象，失败返回 null
+ */
+function validateAndParseJSON(jsonStr, context = 'JSON') {
+  try {
+    // 尝试解析
+    const obj = JSON.parse(jsonStr);
+    return obj;
+  } catch (error) {
+    console.error(`❌ ${context} 解析失败:`, error.message);
+    
+    // 尝试基本修复：移除常见问题
+    try {
+      // 移除尾部逗号
+      let fixed = jsonStr.replace(/,(\s*[}\]])/g, '$1');
+      // 尝试再次解析
+      return JSON.parse(fixed);
+    } catch (fixError) {
+      console.error(`❌ ${context} 修复失败，返回 null`);
+      return null;
+    }
+  }
+}
+
+/**
+ * 智能合并 package.json（带依赖白名单和 JSON 验证）
  * @param {string} presetPackageJson - 预设的 package.json 字符串
  * @param {string} aiPackageJson - AI 生成的 package.json 字符串
  * @returns {string} 合并后的 package.json 字符串
  */
 function mergePackageJson(presetPackageJson, aiPackageJson) {
+  // 验证并解析预设 package.json
+  const preset = validateAndParseJSON(presetPackageJson, 'Preset package.json');
+  if (!preset) {
+    console.error('❌ 预设 package.json 无效，返回原始预设');
+    return presetPackageJson;
+  }
+  
+  // 验证并解析 AI package.json
+  const ai = validateAndParseJSON(aiPackageJson, 'AI package.json');
+  if (!ai) {
+    console.warn('⚠️  AI package.json 无效，忽略 AI 依赖');
+    return presetPackageJson;
+  }
+  
   try {
-    const preset = JSON.parse(presetPackageJson);
-    const ai = JSON.parse(aiPackageJson);
-    
     // 从预设依赖开始
     const mergedDependencies = { ...preset.dependencies };
     
-    // 检查 AI 添加的新依赖（不在预设中的）
+    // 检查 AI 添加的新依赖（白名单过滤）
     const aiDeps = ai.dependencies || {};
-    const newDeps = [];
+    const approvedDeps = [];
+    const rejectedDeps = [];
     
     for (const [dep, version] of Object.entries(aiDeps)) {
       if (!preset.dependencies || !preset.dependencies[dep]) {
-        // 这是新依赖，添加进去
+        // 这是新依赖，检查白名单
+        if (isDependencyAllowed(dep)) {
         mergedDependencies[dep] = version;
-        newDeps.push(dep);
+          approvedDeps.push(dep);
+        } else {
+          rejectedDeps.push(dep);
+          console.warn(`🚫 依赖 "${dep}" 不在白名单中，已拒绝`);
+        }
       }
       // 如果依赖已存在于预设中，保留预设的版本（确保兼容性）
     }
     
-    if (newDeps.length > 0) {
-      console.log(`  ↳ AI 添加了新依赖: ${newDeps.join(', ')}`);
+    if (approvedDeps.length > 0) {
+      console.log(`  ✅ 批准新依赖: ${approvedDeps.join(', ')}`);
+    }
+    if (rejectedDeps.length > 0) {
+      console.warn(`  🚫 拒绝依赖: ${rejectedDeps.join(', ')}`);
     }
     
-    // 合并 devDependencies（同样的逻辑）
+    // 合并 devDependencies（同样的白名单逻辑）
     const mergedDevDependencies = { ...preset.devDependencies };
     const aiDevDeps = ai.devDependencies || {};
     
     for (const [dep, version] of Object.entries(aiDevDeps)) {
       if (!preset.devDependencies || !preset.devDependencies[dep]) {
+        // 开发依赖也需要白名单检查
+        if (isDependencyAllowed(dep)) {
         mergedDevDependencies[dep] = version;
+        } else {
+          console.warn(`🚫 开发依赖 "${dep}" 不在白名单中，已拒绝`);
+        }
       }
     }
     
@@ -160,7 +274,19 @@ function mergePackageJson(presetPackageJson, aiPackageJson) {
       devDependencies: mergedDevDependencies
     };
     
-    return JSON.stringify(merged, null, 2);
+    // 安全地序列化为 JSON（带双重检查）
+    try {
+      const result = JSON.stringify(merged, null, 2);
+      
+      // 验证结果是否可以被解析（防止格式错误）
+      JSON.parse(result);
+      
+      console.log('  ✅ package.json 合并成功并通过验证');
+      return result;
+    } catch (serializeError) {
+      console.error('❌ package.json 序列化失败:', serializeError);
+      return presetPackageJson;
+    }
   } catch (error) {
     console.warn('⚠️ package.json 合并失败，使用预设版本:', error);
     return presetPackageJson;
@@ -329,10 +455,12 @@ class WebContainerManager {
    */
   async getContainer() {
     if (this.activeContainer) {
+      console.log('📦 Using existing WebContainer instance')
       return this.activeContainer
     }
     
     if (this.isBooting) {
+      console.log('⏳ Waiting for WebContainer boot to complete...')
       // 等待当前启动完成
       await new Promise(resolve => {
         const checkInterval = setInterval(() => {
@@ -342,10 +470,25 @@ class WebContainerManager {
           }
         }, 100)
       })
+      
+      // 确保启动成功
+      if (!this.activeContainer) {
+        throw new Error('WebContainer 启动失败：boot 完成但 container 为 null')
+      }
+      
+      console.log('✅ WebContainer boot completed, returning container')
       return this.activeContainer
     }
     
-    return await this.bootContainer()
+    console.log('🚀 Booting new WebContainer instance...')
+    const container = await this.bootContainer()
+    
+    if (!container) {
+      throw new Error('WebContainer 启动失败：bootContainer 返回 null')
+    }
+    
+    console.log('✅ WebContainer boot successful')
+    return container
   }
   
   /**
@@ -353,13 +496,72 @@ class WebContainerManager {
    * @returns {Promise<WebContainer>}
    */
   async bootContainer() {
+    // 双重检查：防止并发启动
+    if (this.activeContainer) {
+      console.log('📦 Container already exists, skipping boot')
+      return this.activeContainer
+    }
+    
+    if (this.isBooting) {
+      console.log('⏳ Boot already in progress, waiting...')
+      // 等待当前启动完成
+      while (this.isBooting) {
+        await new Promise(resolve => setTimeout(resolve, 100))
+      }
+      if (this.activeContainer) {
+        return this.activeContainer
+      }
+      // 如果启动失败，抛出错误
+      throw new Error('WebContainer boot failed in another call')
+    }
+    
     this.isBooting = true
     
     try {
+      // 检查内存情况（如果API可用）
+      if (performance.memory) {
+        const memoryInfo = performance.memory
+        const usedPercent = (memoryInfo.usedJSHeapSize / memoryInfo.jsHeapSizeLimit) * 100
+        console.log(`📊 内存使用情况: ${usedPercent.toFixed(1)}% (${(memoryInfo.usedJSHeapSize / 1024 / 1024).toFixed(0)}MB / ${(memoryInfo.jsHeapSizeLimit / 1024 / 1024).toFixed(0)}MB)`)
+        
+        if (usedPercent > 90) {
+          console.warn('⚠️  内存使用率过高，可能影响 WebContainer 启动')
+        }
+      }
+      
+      console.log('🔧 Importing WebContainer API...')
       const { WebContainer } = await import('@webcontainer/api')
+      
+      console.log('🔧 Calling WebContainer.boot()...')
       const container = await WebContainer.boot()
+      
+      if (!container) {
+        throw new Error('WebContainer.boot() 返回 null 或 undefined')
+      }
+      
+      console.log('✅ WebContainer.boot() 成功，container 实例已创建')
       this.activeContainer = container
       return container
+    } catch (error) {
+      console.error('❌ WebContainer boot 失败:', error)
+      
+      // 检查是否是内存错误
+      if (error.message && (
+        error.message.includes('memory') || 
+        error.message.includes('Out of memory') ||
+        error.message.includes('Cannot allocate')
+      )) {
+        throw new Error('内存不足：请关闭其他浏览器标签页，然后刷新页面重试。如果问题持续，请重启浏览器。')
+      }
+      
+      // 如果错误是"已经有一个实例"，尝试返回现有实例
+      if (error.message && error.message.includes('single WebContainer')) {
+        console.warn('⚠️  检测到已存在的 WebContainer 实例，返回当前实例')
+        if (this.activeContainer) {
+          return this.activeContainer
+        }
+      }
+      throw new Error(`WebContainer 启动失败: ${error.message}`)
     } finally {
       this.isBooting = false
     }

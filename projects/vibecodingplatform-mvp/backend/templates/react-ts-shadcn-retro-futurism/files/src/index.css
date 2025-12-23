@@ -64,7 +64,6 @@
 }
 
 body {
-    @apply text-foreground;
     background: var(--gradient-sunset);
     font-family: var(--font-body);
     font-weight: 500;

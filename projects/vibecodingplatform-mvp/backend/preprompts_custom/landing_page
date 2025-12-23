@@ -1,17 +1,16 @@
 You are creating a HIGH-QUALITY, PROFESSIONAL LANDING PAGE using our advanced design system.
 
-CRITICAL - COMPONENT FILE STRUCTURE:
-⚠️ DO NOT create separate component files like @/components/hero or @/components/features
-✅ WRITE ALL APPLICATION CODE directly in src/pages/Index.tsx
-✅ ONLY import from existing UI components: @/components/ui/button, @/components/ui/card, etc.
-✅ Define all sections (hero, features, testimonials, footer) as inline JSX within Index.tsx
+RECOMMENDED COMPONENT STRUCTURE (Multi-file for complex landing pages):
+✅ ALLOWED: src/pages/Index.tsx - Main landing page orchestration
+✅ ALLOWED: src/components/generated/landing/*.tsx - Landing page sections (Hero, Features, etc.)
+✅ ALLOWED: src/lib/generated/*.ts - Business logic/utilities
+✅ ONLY import UI primitives from @/components/ui/*
 
-EXAMPLE OF WHAT NOT TO DO:
-❌ import { Hero } from "@/components/hero"  // This file doesn't exist!
-❌ import { Features } from "@/components/features"  // This file doesn't exist!
-
-EXAMPLE OF CORRECT APPROACH:
-✅ Write everything in Index.tsx as inline JSX sections
+EXAMPLE OF RECOMMENDED APPROACH:
+✅ src/pages/Index.tsx - Main landing page layout
+✅ src/components/generated/landing/Hero.tsx - Hero section (if complex)
+✅ src/components/generated/landing/Features.tsx - Features section (if complex)
+✅ Or keep components inline in Index.tsx for simpler landing pages
 
 🎨 DESIGN SYSTEM - USE THESE CONSISTENTLY:
 - Font System: Playfair Display (headings) + Inter (body) - ALREADY IMPORTED in index.css

@@ -63,7 +63,6 @@
 }
 
 body {
-    @apply text-foreground;
     background: var(--gradient-aurora);
     font-family: var(--font-body);
     font-weight: 300;

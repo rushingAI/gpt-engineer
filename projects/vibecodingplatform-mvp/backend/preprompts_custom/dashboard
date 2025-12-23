@@ -1,19 +1,28 @@
 ================================================================================
-🚨🚨🚨 CRITICAL RULE #1 - FILE STRUCTURE 🚨🚨🚨
+🚨🚨🚨 CRITICAL RULE #1 - FILE STRUCTURE (受控多文件) 🚨🚨🚨
 ================================================================================
 
-⛔ NEVER EVER CREATE SEPARATE COMPONENT FILES! ⛔
+✅ ALLOWED FILE LOCATIONS:
+   - src/pages/Index.tsx (主入口，编排 Dashboard UI)
+   - src/components/generated/dashboard/*.tsx (Dashboard 领域组件，如 StatsCards, Sidebar, DataTable)
+   - src/features/<feature>/*.tsx (可选，复杂应用按特性分模块)
+   - src/lib/generated/*.ts (业务逻辑/工具函数)
 
-❌ DO NOT import { StatsCards } from "@/components/stats_cards"
-❌ DO NOT import { Sidebar } from "@/components/sidebar"  
-❌ DO NOT import { Header } from "@/components/header"
-❌ DO NOT create ANY files in @/components/ except what already exists!
+✅ IMPORT RULES:
+   - ONLY import UI primitives from: @/components/ui/* (button, card, input, etc.)
+   - Import your domain components from: @/components/generated/dashboard/*
+   - Import utilities from: @/lib/generated/*
 
-✅ ONLY import from: @/components/ui/button, @/components/ui/card, @/components/ui/input
-✅ WRITE ALL APPLICATION LOGIC directly in src/pages/Index.tsx
-✅ Define sidebar, stats, tables as inline JSX within Index.tsx
+❌ FORBIDDEN:
+   - DO NOT write to @/components/ui/* (PROTECTED)
+   - DO NOT use relative path bypass: ../../components/ui/*
+   - DO NOT create files outside allowed locations
 
-THIS IS NON-NEGOTIABLE! Any violation will cause import errors.
+EXAMPLE STRUCTURE (Dashboard):
+src/pages/Index.tsx                              ← Orchestrate Dashboard UI
+src/components/generated/dashboard/Sidebar.tsx   ← Domain component
+src/components/generated/dashboard/StatsCards.tsx ← Domain component
+src/lib/generated/dashboard-api.ts               ← Pure logic
 
 ================================================================================
 🎨 DESIGN SYSTEM FOR DASHBOARDS - MANDATORY STANDARDS
@@ -35,19 +44,17 @@ DASHBOARD-SPECIFIC REQUIREMENTS:
 
 You are creating a DASHBOARD / SAAS APPLICATION interface.
 
-CRITICAL - COMPONENT FILE STRUCTURE:
-⚠️ DO NOT create separate component files like @/components/stats_cards or @/components/sidebar
-✅ WRITE ALL APPLICATION CODE directly in src/pages/Index.tsx
-✅ ONLY import from existing UI components: @/components/ui/button, @/components/ui/card, etc.
-✅ Define sidebar, stats cards, and other sections as inline JSX within Index.tsx
+RECOMMENDED COMPONENT STRUCTURE (Multi-file):
+✅ Break complex Dashboard into domain components in src/components/generated/dashboard/
+✅ Import domain components: import { Sidebar } from "@/components/generated/dashboard/Sidebar"
+✅ Index.tsx orchestrates layout and data flow
+✅ Keep ONLY UI primitives from @/components/ui/*
 
-EXAMPLE OF WHAT NOT TO DO:
-❌ import { StatsCards } from "@/components/stats_cards"  // This file doesn't exist!
-❌ import { Sidebar } from "@/components/sidebar"  // This file doesn't exist!
-❌ import { Header } from "@/components/header"  // This file doesn't exist!
-
-EXAMPLE OF CORRECT APPROACH:
-✅ Write everything in Index.tsx as inline JSX
+EXAMPLE OF RECOMMENDED APPROACH:
+✅ src/pages/Index.tsx - Main Dashboard orchestration
+✅ src/components/generated/dashboard/Sidebar.tsx - Sidebar component
+✅ src/components/generated/dashboard/StatsCards.tsx - Stats display component
+✅ src/components/generated/dashboard/DataTable.tsx - Data table component
 
 DASHBOARD LAYOUT STRUCTURE:
 A modern dashboard typically includes:
@@ -192,9 +199,9 @@ SIDEBAR NAVIGATION (ENHANCED):
 </aside>
 ```
 
-COMPLETE DASHBOARD EXAMPLE (ALL IN ONE FILE - Index.tsx):
+COMPLETE DASHBOARD EXAMPLE (Multi-file structure):
 ```tsx
-// src/pages/Index.tsx
+// src/pages/Index.tsx (main orchestration)
 import { useState } from "react"
 import { Button } from "@/components/ui/button"  // ✅ CORRECT
 import { Card } from "@/components/ui/card"      // ✅ CORRECT
@@ -264,10 +271,10 @@ export default function Index() {
   </main>
 </div>
   ) // ✅ End of return
-} // ✅ End of Index - EVERYTHING is in ONE file!
+} // ✅ End of Index component
 ```
 
-🚨 REMINDER: ALL code above is in src/pages/Index.tsx - ONE SINGLE FILE! 🚨
+🚨 REMINDER: Break dashboard sections into components in src/components/generated/dashboard/ 🚨
 
 FORM PATTERNS (ENHANCED):
 ```tsx

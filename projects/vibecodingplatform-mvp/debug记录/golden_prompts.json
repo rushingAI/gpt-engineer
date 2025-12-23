@@ -1,0 +1,133 @@
+[
+  {
+    "id": "01",
+    "title": "待办事项 (LocalStorage Persistence)",
+    "category": "State Management",
+    "prompt": "使用 React + TypeScript + Tailwind CSS 开发一个待办事项应用。功能要求：\n1. 支持新增任务、删除任务。\n2. 支持标记任务为完成/未完成状态。\n3. 底部提供筛选栏：全部 (All) / 未完成 (Active) / 已完成 (Completed)。\n4. 数据持久化：刷新页面后数据不丢失（使用 localStorage）。\n5. UI 需美观，使用卡片式设计。",
+    "acceptance_criteria": [
+      "输入为空时无法添加任务。",
+      "刷新页面后，之前的任务列表和完成状态保持不变。",
+      "切换到'未完成'Tab时，已完成的任务应当隐藏。",
+      "点击任务完成状态，UI样式（如删除线）应立即更新。",
+      "在没有任何任务时，显示友好的空状态提示。"
+    ]
+  },
+  {
+    "id": "02",
+    "title": "个人记账 (CRUD + Aggregation)",
+    "category": "Data Logic",
+    "prompt": "使用 React + TypeScript + Tailwind CSS 开发一个个人记账应用。\n1. 核心表单：包含金额（输入）、类型（收入/支出）、分类（如下拉选择餐饮/交通/工资等）、日期。\n2. 列表展示：按时间倒序展示记录，支持删除单条记录。\n3. 顶部统计卡片：实时计算并显示本月总收入、总支出、当前结余。\n4. 数据需保存在 localStorage 中。",
+    "acceptance_criteria": [
+      "新增一条支出记录后，顶部的'结余'和'总支出'数字应立即更新且计算正确。",
+      "删除一条记录后，统计数据应自动回滚。",
+      "金额输入框应限制只能输入数字。",
+      "刷新页面数据不丢失。",
+      "列表应正确区分收入（绿色）和支出（红色）的视觉样式。"
+    ]
+  },
+  {
+    "id": "03",
+    "title": "注册表单 (Real-time Validation)",
+    "category": "Form Handling",
+    "prompt": "使用 React + TypeScript + Tailwind CSS 实现一个带有实时校验的注册表单。\n1. 字段：邮箱、密码、确认密码。\n2. 校验规则（实时反馈）：\n   - 邮箱：必须符合邮箱格式。\n   - 密码：长度至少8位，包含字母和数字。\n   - 确认密码：必须与密码完全一致。\n3. 交互：有错误时提交按钮禁用或点击无效；提交成功后显示Success Message。\n4. 错误信息需显示在对应输入框下方，颜色为红色。",
+    "acceptance_criteria": [
+      "输入非法邮箱格式时，立刻显示错误提示。",
+      "两次密码输入不一致时，确认密码框下方应显示'密码不匹配'。",
+      "所有字段校验通过前，提交按钮应处于Disabled状态或点击无响应。",
+      "提交成功后，表单应清空或显示成功状态。",
+      "Tab键切换焦点时，Touch状态触发的校验显示逻辑正常。"
+    ]
+  },
+  {
+    "id": "04",
+    "title": "多步向导 (Multi-step Form/State Machine)",
+    "category": "Complex State",
+    "prompt": "使用 React + TypeScript + Tailwind CSS 实现一个三步注册向导。\n1. 步骤指示器：顶部显示 Step 1 -> Step 2 -> Step 3，高亮当前步骤。\n2. Step 1：填写姓名（必填）。\n3. Step 2：填写邮箱（必填，需校验格式）。\n4. Step 3：确认页，展示前两步填写的信息，点击'提交'。\n5. 导航控制：提供'上一步'、'下一步'按钮。校验失败不允许进入下一步。\n6. 最终提交后显示'注册成功'摘要。",
+    "acceptance_criteria": [
+      "在Step 1未填写姓名点击下一步，应阻止跳转并提示错误。",
+      "在Step 2点击'上一步'回到Step 1，Step 1之前填写的数据应保留（状态回显）。",
+      "Step 3显示的数据必须与前两步输入的一致。",
+      "步骤条（Stepper）应正确反映当前所在的步骤进度。",
+      "完成提交后无法再点击'上一步'回退修改（或重置流程）。"
+    ]
+  },
+  {
+    "id": "05",
+    "title": "任务仪表盘 (Filter Combination)",
+    "category": "List Interaction",
+    "prompt": "使用 React + TypeScript + Tailwind CSS 做一个任务管理仪表盘。\n1. 顶部 Tabs：All / Active / Completed。\n2. 搜索框：支持按任务名称进行模糊搜索。\n3. 列表展示：初始化 12 条模拟数据。支持'Tab切换'和'搜索关键词'的叠加过滤。\n   例如：在 'Completed' Tab 下搜索 'Meeting'，只显示已完成且名字包含 Meeting 的任务。\n4. 列表为空时显示 Empty State。",
+    "acceptance_criteria": [
+      "默认加载时应显示所有12条数据。",
+      "切换到Active Tab，应只显示Active的数据。",
+      "在Active Tab下输入搜索词，结果应取交集（即既是Active又匹配关键词）。",
+      "搜索词清空后，列表应恢复到当前Tab的全量数据。",
+      "无匹配结果时，应显示'未找到相关任务'的提示。"
+    ]
+  },
+  {
+    "id": "06",
+    "title": "销售仪表盘 (Charts & Derived State)",
+    "category": "Visualization",
+    "prompt": "使用 React + TypeScript + Tailwind CSS 开发一个销售仪表盘，不使用任何第三方图表库。\n1. 顶部 KPIs：Revenue, Orders, Refunds 三个卡片。\n2. 中间图表：使用 HTML div + CSS flex/grid 模拟一个'最近7天订单量'的柱状图。高度根据数值动态计算。\n3. 右侧列表：最近5条订单记录。\n4. 交互：顶部提供'最近7天' / '最近30天' 切换按钮，点击后模拟数据变化，图表和KPI数值需随之更新。",
+    "acceptance_criteria": [
+      "柱状图的高度比例应准确反映数据大小（最大值对应100%高度）。",
+      "切换日期范围（7天/30天），KPI数值和图表柱子数量/高度应有明显变化。",
+      "整个布局在移动端应自动适配（如从横排变为竖排）。",
+      "柱状图应有Tooltip或数值标签，鼠标悬停显示具体数值。",
+      "不应引入 recharts/chart.js 等重型库，必须用纯CSS实现可视化。"
+    ]
+  },
+  {
+    "id": "07",
+    "title": "数据表格 (Sort & Pagination)",
+    "category": "Data Component",
+    "prompt": "使用 React + TypeScript + Tailwind CSS 实现一个数据表格，不依赖第三方 Table 库。\n1. 列定义：Name, Amount (数字), Status, Date。\n2. 排序：点击 Amount 表头支持 升序/降序/默认 三态切换。\n3. 分页：每页显示 5 条数据，底部显示'上一页'、'下一页'及'第 X 页 / 共 Y 页'。\n4. 数据源：生成 25 条模拟数据。\n5. 样式：斑马纹或简单的边框样式。",
+    "acceptance_criteria": [
+      "点击Amount表头，数据应正确按数字大小排序，而非字符串排序（例如 100 应大于 9）。",
+      "翻页功能正常，第一页'上一页'禁用，最后一页'下一页'禁用。",
+      "在第2页进行排序，排序后应重置回第1页，或者在当前页正确显示排序后的结果（通常重置回第1页体验更好）。",
+      "日期格式应格式化为易读形式（如 YYYY-MM-DD）。",
+      "无数据或加载中应有对应状态展示。"
+    ]
+  },
+  {
+    "id": "08",
+    "title": "数独游戏 (Game Logic)",
+    "category": "Algorithm",
+    "prompt": "使用 React + TypeScript + Tailwind CSS 实现一个数独游戏。\n1. 棋盘：9x9 网格，3x3 宫格之间有加粗边框区分。\n2. 输入：点击空格选中，高亮当前格，使用键盘或数字面板输入 1-9。\n3. 验证规则：行、列、3x3宫格内不能有重复数字。如有冲突，相关单元格显示红色背景。\n4. 初始状态：随机生成或预设一个简单的残局，初始数字不可修改（灰色/锁定）。\n5. 胜利判定：填满且无冲突时提示胜利。",
+    "acceptance_criteria": [
+      "预设的初始数字（Original numbers）不能被用户修改。",
+      "输入冲突数字时，当前格及冲突来源格应当高亮提示错误。",
+      "支持'清除'操作，删除当前格填写的数字。",
+      "3x3 宫格的边界线样式应清晰可见，区分于普通网格线。",
+      "游戏通关后应有明确的视觉反馈（如弹窗或烟花效果）。"
+    ]
+  },
+  {
+    "id": "09",
+    "title": "扫雷 (Recursion/Flood Fill)",
+    "category": "Algorithm",
+    "prompt": "使用 React + TypeScript + Tailwind CSS 实现经典扫雷游戏。\n1. 网格：10x10，包含 10 个雷。\n2. 交互：左键点击翻开，右键点击插旗标记。\n3. 核心逻辑：\n   - 点击雷：游戏结束（失败），显示所有雷的位置。\n   - 点击数字：显示周围雷数。\n   - 点击空白（0雷）：自动递归翻开周围所有空白区（Flood Fill 算法）。\n4. 状态栏：显示剩余雷数（总雷数 - 插旗数）。\n5. 第一次点击保证不炸（可选）。",
+    "acceptance_criteria": [
+      "点击空白区域时，应自动展开相连的一片空白区域，直到遇到数字边界。",
+      "右键标记旗帜后，剩余雷数计数器应减1。",
+      "踩雷后，游戏结束，且不能再继续点击其他格子。",
+      "所有非雷格子都被翻开后，自动判定为胜利。",
+      "重新开始（Reset）功能应重置棋盘和地雷分布。"
+    ]
+  },
+  {
+    "id": "10",
+    "title": "贪吃蛇 (Loop & Reducer)",
+    "category": "Real-time Game",
+    "prompt": "使用 React + TypeScript + Tailwind CSS 实现贪吃蛇游戏。\n1. 画布：20x20 网格（使用 div grid 实现，不使用 canvas）。\n2. 蛇：初始长度3，绿色。食物：红色。\n3. 移动逻辑：\n   - 使用 useInterval 或 requestAnimationFrame 驱动游戏循环。\n   - 方向键控制，禁止直接反向（如向右时按左无效）。\n4. 游戏机制：\n   - 吃到食物：长度+1，分数+1，生成新食物（不能在蛇身上）。\n   - 撞墙或撞自己：Game Over。\n   - 升级机制：每得5分速度提升一级。\n5. 架构要求：使用 useReducer 管理游戏状态（蛇身坐标、食物坐标、方向、状态）。",
+    "acceptance_criteria": [
+      "蛇的移动应流畅，无明显的按键延迟。",
+      "快速连续按下两个方向键（如上、左）应能被正确响应，不会导致蛇头撞到蛇身（解决了常见的 race condition bug）。",
+      "吃到食物后，蛇身长度应立刻增加。",
+      "暂停游戏时，蛇应停止移动，且不可操作方向。",
+      "Game Over 后提供 Restart 按钮，点击后状态完全重置。"
+    ]
+  }
+]
+

@@ -65,10 +65,26 @@ export function clearCurrentProject() {
 
 /**
  * 获取项目（通过ID）
+ * 优先从当前项目读取（确保获取最新数据），然后才从历史记录查找
  */
 export function getProject(id) {
+  // 1. 先检查是否是当前项目（最新数据）
+  const currentProject = getCurrentProject()
+  if (currentProject && currentProject.id === id) {
+    console.log(`✓ 从当前项目读取: ${id}`)
+    return currentProject
+  }
+  
+  // 2. 从历史记录中查找
   const history = getHistory()
   const project = history.find(p => p.id === id) || null
+  
+  if (project) {
+    console.log(`✓ 从历史记录读取: ${id}`)
+  } else {
+    console.warn(`⚠️ 未找到项目: ${id}`)
+  }
+  
   return project ? migrateProjectFormat(project) : null
 }
 
