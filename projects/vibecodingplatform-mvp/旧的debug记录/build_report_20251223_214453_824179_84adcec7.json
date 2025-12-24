@@ -1,0 +1,182 @@
+{
+  "runId": "84adcec7-1af3-4bd3-8541-ce1949ba61d6",
+  "timestamp": "2025-12-23T13:44:53.976Z",
+  "prompt": "创建一个计数器应用，有增加和减少按钮",
+  "themeName": "red",
+  "telemetry": {
+    "mode": "generate",
+    "policy_version": "1.0.0",
+    "prompt_hash": "82417991c3f55753",
+    "prompt_length": 4406,
+    "activated_dynamic_rules": [],
+    "spec_mode": "summary"
+  },
+  "l0": {
+    "status": "fail",
+    "ruleSetVersion": "1.0",
+    "errorCount": 1,
+    "warningCount": 0,
+    "issues": [
+      {
+        "ruleId": "G7_IMPORT_EXPORT_MISMATCH",
+        "severity": "error",
+        "message": "相对导入的命名导出不存在（第 4 行）：src/lib/generated/counterLogic.ts 未导出 type CounterEvent, type CounterState",
+        "files": [
+          "src/components/generated/counter/CounterCard.tsx",
+          "src/lib/generated/counterLogic.ts"
+        ],
+        "evidence": "import { computeCounterState, type CounterEvent, type CounterState } from '@/lib/generated/counterLogic'",
+        "suggestion": "要么在 src/lib/generated/counterLogic.ts 中添加 `export const type CounterEvent = ...`（命名导出），要么把 src/components/generated/counter/CounterCard.tsx 的导入改为 default import（并确保目标文件有 export default）。建议 generated 组件统一使用命名导出并用 `import { X }` 导入。"
+      }
+    ],
+    "appliedFixes": []
+  },
+  "qualityGates": {
+    "enabled": true,
+    "initial": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": false,
+        "issues_count": 1,
+        "issues": [
+          {
+            "severity": "error",
+            "file": "src/components/generated/counter/CounterCard.tsx",
+            "line": 1,
+            "message": "[G7_IMPORT_EXPORT_MISMATCH] 相对导入的命名导出不存在（第 4 行）：src/lib/generated/counterLogic.ts 未导出 type CounterEvent, type CounterState",
+            "suggestion": "要么在 src/lib/generated/counterLogic.ts 中添加 `export const type CounterEvent = ...`（命名导出），要么把 src/components/generated/counter/CounterCard.tsx 的导入改为 default import（并确保目标文件有 export default）。建议 generated 组件统一使用命名导出并用 `import { X }` 导入。",
+            "gate": "L0_static"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L0_style_interaction": {
+        "level": "L0_style_interaction",
+        "passed": false,
+        "issues_count": 1,
+        "issues": [
+          {
+            "rule_id": "G7_IMPORT_EXPORT_MISMATCH",
+            "severity": "error",
+            "file": "src/components/generated/counter/CounterCard.tsx",
+            "line": 0,
+            "message": "相对导入的命名导出不存在（第 4 行）：src/lib/generated/counterLogic.ts 未导出 type CounterEvent, type CounterState",
+            "snippet": "import { computeCounterState, type CounterEvent, type CounterState } from '@/lib/generated/counterLogic'",
+            "suggestion": "要么在 src/lib/generated/counterLogic.ts 中添加 `export const type CounterEvent = ...`（命名导出），要么把 src/components/generated/counter/CounterCard.tsx 的导入改为 default import（并确保目标文件有 export default）。建议 generated 组件统一使用命名导出并用 `import { X }` 导入。",
+            "gate": "L0_style_interaction"
+          }
+        ]
+      }
+    },
+    "results": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": false,
+        "issues_count": 1,
+        "issues": [
+          {
+            "severity": "error",
+            "file": "src/components/generated/counter/CounterCard.tsx",
+            "line": 1,
+            "message": "[G7_IMPORT_EXPORT_MISMATCH] 相对导入的命名导出不存在（第 4 行）：src/lib/generated/counterLogic.ts 未导出 type CounterEvent, type CounterState",
+            "suggestion": "要么在 src/lib/generated/counterLogic.ts 中添加 `export const type CounterEvent = ...`（命名导出），要么把 src/components/generated/counter/CounterCard.tsx 的导入改为 default import（并确保目标文件有 export default）。建议 generated 组件统一使用命名导出并用 `import { X }` 导入。",
+            "gate": "L0_static"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L0_style_interaction": {
+        "level": "L0_style_interaction",
+        "passed": false,
+        "issues_count": 1,
+        "issues": [
+          {
+            "rule_id": "G7_IMPORT_EXPORT_MISMATCH",
+            "severity": "error",
+            "file": "src/components/generated/counter/CounterCard.tsx",
+            "line": 0,
+            "message": "相对导入的命名导出不存在（第 4 行）：src/lib/generated/counterLogic.ts 未导出 type CounterEvent, type CounterState",
+            "snippet": "import { computeCounterState, type CounterEvent, type CounterState } from '@/lib/generated/counterLogic'",
+            "suggestion": "要么在 src/lib/generated/counterLogic.ts 中添加 `export const type CounterEvent = ...`（命名导出），要么把 src/components/generated/counter/CounterCard.tsx 的导入改为 default import（并确保目标文件有 export default）。建议 generated 组件统一使用命名导出并用 `import { X }` 导入。",
+            "gate": "L0_style_interaction"
+          }
+        ]
+      }
+    },
+    "passed": false,
+    "failed_gates": [
+      "L0_static",
+      "L0_style_interaction"
+    ],
+    "healing_history": [],
+    "final": null
+  },
+  "phases": {
+    "install": {
+      "status": "success",
+      "startedAt": "2025-12-23T13:44:48.802Z",
+      "endedAt": "2025-12-23T13:44:51.767Z",
+      "duration_ms": 2965,
+      "exitCode": 0,
+      "logTail": "\r\nadded 2 packages in 2s\r\n\r\n28 packages are looking for funding\r\n  run `npm fund` for details\r\n"
+    },
+    "dev": {
+      "status": "success",
+      "startedAt": "2025-12-23T13:44:51.768Z",
+      "endedAt": "2025-12-23T13:44:52.890Z",
+      "duration_ms": 1122,
+      "exitCode": 0,
+      "logTail": "\r\n> cyberpunk-app@0.0.0 dev\r\n> vite\r\n\r\n\u001b[1G\u001b[0KPort 5173 is in use, trying another one...\r\n",
+      "url": "https://k03e2io1v3fx9wvj0vr8qd5q58o56n-fkdo--5174--365214aa.local-corp.webcontainer-api.io",
+      "port": 5174
+    },
+    "render": {
+      "status": "success",
+      "startedAt": "2025-12-23T13:44:52.890Z",
+      "endedAt": "2025-12-23T13:44:53.976Z",
+      "duration_ms": 1086,
+      "signal": "APP_RENDERED"
+    }
+  },
+  "deps": {
+    "approved": {},
+    "injected": [],
+    "injectError": null
+  },
+  "errors": {
+    "console": {
+      "total": 0,
+      "uniqueCount": 0,
+      "samples": []
+    },
+    "classified": {
+      "INSTALL": 0,
+      "DEPENDENCY": 0,
+      "BUILD": 0,
+      "EXPORT": 0,
+      "RUNTIME": 0
+    }
+  }
+}

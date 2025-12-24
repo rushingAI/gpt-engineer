@@ -1,0 +1,220 @@
+{
+  "runId": "467db91c-7fb2-46ed-ace3-fd2b27dd7df1",
+  "timestamp": "2025-12-23T06:36:10.605Z",
+  "prompt": "创建一个贪吃蛇游戏",
+  "themeName": "pink",
+  "telemetry": {
+    "policy_version": "1.0.0",
+    "prompt_hash": "a95a40cd8cd681c1",
+    "prompt_length": 4326,
+    "activated_dynamic_rules": [],
+    "spec_mode": "summary"
+  },
+  "l0": null,
+  "qualityGates": {
+    "enabled": true,
+    "results": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": false,
+        "issues_count": 13,
+        "issues": [
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'x', 'y'}，第3个return缺少{'x', 'y'}，多出{'isRunning', 'food', 'tick', 'pendingDirection', 'config', 'isGameOver', 'snake', 'score', 'direction'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'x', 'y'}，第4个return缺少{'x', 'y'}，多出{'...state', 'pendingDirection'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'x', 'y'}，第5个return缺少{'x', 'y'}，多出{'isRunning', 'tick', 'pendingDirection', 'isGameOver', '...state', 'direction'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'x', 'y'}，第6个return缺少{'x', 'y'}，多出{'isRunning', 'tick', 'pendingDirection', 'isGameOver', '...state', 'direction'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'x', 'y'}，第7个return缺少{'x', 'y'}，多出{'food', 'tick', 'pendingDirection', 'isGameOver', 'snake', 'score', '...state', 'direction'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'x', 'y'}，第8个return缺少{'x', 'y'}，多出{'isRunning', '...state'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'x', 'y'}，第9个return缺少{'x', 'y'}，多出{'isRunning', '...state'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'x', 'y'}，第10个return缺少{'x', 'y'}，多出{'...state', 'wrapAround', 'config'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'x', 'y'}，第11个return缺少{'x', 'y'}，多出{'wallCollision', '...state', 'config'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'x', 'y'}，第12个return缺少{'x', 'y'}，多出{'scoreIncreasesOnFood', 'gameOverOnCollision', 'foodNotOnSnake', 'snakeWithinBounds', 'noReverseDirection'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/snakeControls.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'type', 'direction'}，第5个return缺少{'direction'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/snakeControls.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'type', 'direction'}，第6个return缺少{'direction'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/snakeControls.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'type', 'direction'}，第7个return缺少{'direction'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "passed": false,
+    "failed_gates": [
+      "L0_static"
+    ]
+  },
+  "phases": {
+    "install": {
+      "status": "success",
+      "startedAt": "2025-12-23T06:29:15.153Z",
+      "endedAt": "2025-12-23T06:36:10.600Z",
+      "duration_ms": 415447,
+      "exitCode": 0,
+      "logTail": "\r\nadded 183 packages in 7m\r\n\r\n28 packages are looking for funding\r\n  run `npm fund` for details\r\n"
+    },
+    "dev": {
+      "status": "running",
+      "_startMs": 1766471770603,
+      "startedAt": "2025-12-23T06:36:10.603Z"
+    },
+    "render": null
+  },
+  "deps": {
+    "approved": {},
+    "injected": [],
+    "injectError": null
+  },
+  "errors": {
+    "console": {
+      "total": 0,
+      "uniqueCount": 0,
+      "samples": []
+    },
+    "classified": {
+      "INSTALL": 0,
+      "DEPENDENCY": 0,
+      "BUILD": 0,
+      "EXPORT": 0,
+      "RUNTIME": 0
+    }
+  }
+}

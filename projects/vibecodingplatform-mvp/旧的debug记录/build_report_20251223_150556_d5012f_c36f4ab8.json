@@ -1,0 +1,107 @@
+{
+  "runId": "c36f4ab8-2323-4f48-a3bc-e2a4d0c1b4df",
+  "timestamp": "2025-12-23T07:05:56.751Z",
+  "prompt": "创建一个计数器应用，有增加和减少按钮",
+  "themeName": "pink",
+  "telemetry": {
+    "mode": "generate",
+    "policy_version": "1.0.0",
+    "prompt_hash": "d5012f2f1878fcd1",
+    "prompt_length": 4388,
+    "activated_dynamic_rules": [],
+    "spec_mode": "summary"
+  },
+  "l0": {
+    "status": "pass",
+    "ruleSetVersion": "1.0",
+    "errorCount": 0,
+    "warningCount": 0,
+    "issues": [],
+    "appliedFixes": []
+  },
+  "qualityGates": {
+    "enabled": true,
+    "results": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": false,
+        "issues_count": 2,
+        "issues": [
+          {
+            "rule_id": "component_missing_export",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/components/generated/cyber-counter/neon-counter-card.tsx",
+            "line": 1,
+            "message": "组件文件 neon-counter-card.tsx 缺少对应的导出",
+            "snippet": "未找到 export const neon-counter-card 或 export default",
+            "suggestion": "添加 'export const neon-counter-card = ...' 或 'export default neon-counter-card'",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "component_missing_export",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/components/generated/cyber-counter/neon-counter-logic-summary.tsx",
+            "line": 1,
+            "message": "组件文件 neon-counter-logic-summary.tsx 缺少对应的导出",
+            "snippet": "未找到 export const neon-counter-logic-summary 或 export default",
+            "suggestion": "添加 'export const neon-counter-logic-summary = ...' 或 'export default neon-counter-logic-summary'",
+            "gate": "L0_static"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "passed": false,
+    "failed_gates": [
+      "L0_static"
+    ]
+  },
+  "phases": {
+    "install": {
+      "status": "success",
+      "startedAt": "2025-12-23T07:05:09.632Z",
+      "endedAt": "2025-12-23T07:05:56.750Z",
+      "duration_ms": 47118,
+      "exitCode": 0,
+      "logTail": "\r\nadded 183 packages in 46s\r\n\r\n28 packages are looking for funding\r\n  run `npm fund` for details\r\n"
+    },
+    "dev": {
+      "status": "running",
+      "_startMs": 1766473556750,
+      "startedAt": "2025-12-23T07:05:56.750Z"
+    },
+    "render": null
+  },
+  "deps": {
+    "approved": {},
+    "injected": [],
+    "injectError": null
+  },
+  "errors": {
+    "console": {
+      "total": 0,
+      "uniqueCount": 0,
+      "samples": []
+    },
+    "classified": {
+      "INSTALL": 0,
+      "DEPENDENCY": 0,
+      "BUILD": 0,
+      "EXPORT": 0,
+      "RUNTIME": 0
+    }
+  }
+}

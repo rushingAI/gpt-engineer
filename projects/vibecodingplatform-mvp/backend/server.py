@@ -81,7 +81,7 @@ if not os.getenv("OPENAI_API_KEY") and not os.getenv("ANTHROPIC_API_KEY"):
 
 try:
     ai = AI(
-        model_name=os.getenv("MODEL_NAME", "GPT-5.1-Codex-Max"),
+        model_name=os.getenv("MODEL_NAME", "gpt-5.1"),
         temperature=0.1
     )
     preprompts_holder = PrepromptsHolder(PREPROMPTS_PATH)
@@ -583,11 +583,41 @@ YOU ARE WORKING WITH:
             ),
             # Telemetry（策略版本与 prompt 哈希）
             "telemetry": {
+                "mode": "generate",  # generate 或 improve
                 "policy_version": get_policy_version(),
                 "prompt_hash": compute_prompt_hash(enhanced_prompt),
                 "prompt_length": len(enhanced_prompt),
                 "activated_dynamic_rules": activated_rule_ids,
                 "spec_mode": spec_mode
+            },
+            # L0 门禁结果
+            "l0": {
+                "status": "pass" if l0_result.pass_status else "fail",
+                "ruleSetVersion": l0_config.get('version', '1.0'),
+                "errorCount": len(l0_result.fails),
+                "warningCount": len(l0_result.warnings),
+                "issues": [
+                    {
+                        "ruleId": fail['gate'],
+                        "severity": "error",
+                        "message": fail['message'],
+                        "files": fail['files'],
+                        "evidence": fail.get('snippet', ''),
+                        "suggestion": fail.get('suggestion', '')
+                    }
+                    for fail in l0_result.fails
+                ] + [
+                    {
+                        "ruleId": warn['gate'],
+                        "severity": "warning",
+                        "message": warn['message'],
+                        "files": warn['files'],
+                        "evidence": warn.get('snippet', ''),
+                        "suggestion": warn.get('suggestion', '')
+                    }
+                    for warn in l0_result.warnings
+                ],
+                "appliedFixes": []  # 自愈后填充（未来扩展）
             }
         }
         
@@ -606,17 +636,35 @@ YOU ARE WORKING WITH:
             }
         
         # 添加质量门禁结果到 vibe.meta.json
+        # 🔧 先读取自愈循环中更新的 healing_history 和 final（如果存在）
+        existing_healing_history = []
+        existing_final = None
+        if 'vibe.meta.json' in final_files:
+            try:
+                existing_meta = json.loads(final_files['vibe.meta.json'])
+                existing_qg = existing_meta.get('quality_gates', {})
+                existing_healing_history = existing_qg.get('healing_history', [])
+                existing_final = existing_qg.get('final')
+            except (json.JSONDecodeError, KeyError):
+                pass  # 如果解析失败，使用默认空值
+        
         if gate_results:
+            gate_results_dict = {name: result.to_dict() for name, result in gate_results.items()}
             vibe_meta["quality_gates"] = {
                 "enabled": policy_manager.is_quality_gates_enabled(),
-                "results": {name: result.to_dict() for name, result in gate_results.items()},
+                "initial": gate_results_dict,  # 🆕 初始生成的质量门结果
+                "results": gate_results_dict,  # 保留兼容性
                 "passed": all(result.passed for result in gate_results.values()),
-                "failed_gates": [name for name, result in gate_results.items() if not result.passed]
+                "failed_gates": [name for name, result in gate_results.items() if not result.passed],
+                "healing_history": existing_healing_history,  # 🔧 保留自愈循环中写入的历史
+                "final": existing_final  # 🔧 保留自愈循环中写入的最终状态
             }
         else:
             vibe_meta["quality_gates"] = {
                 "enabled": policy_manager.is_quality_gates_enabled(),
-                "passed": True
+                "passed": True,
+                "healing_history": existing_healing_history,
+                "final": existing_final
             }
         
         # 添加自愈循环结果到 vibe.meta.json
@@ -1217,6 +1265,34 @@ CODE
             "X-Accel-Buffering": "no"
         }
     )
+
+
+@app.post("/save-build-report")
+def save_build_report(report: Dict[str, Any] = Body(...)):
+    """保存构建报告到 debug记录 文件夹"""
+    from datetime import datetime
+    
+    # 构建文件名：build_report_{timestamp}_{promptHash6}_{runId8}.json
+    run_id = report.get('runId', 'unknown')[:8]
+    
+    # 安全地获取 prompt_hash（telemetry 可能为 None）
+    telemetry = report.get('telemetry') or {}
+    prompt_hash_full = telemetry.get('prompt_hash', '') if isinstance(telemetry, dict) else ''
+    prompt_hash = prompt_hash_full[:6] if prompt_hash_full else 'nohash'
+    
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    filename = f"build_report_{timestamp}_{prompt_hash}_{run_id}.json"
+    
+    # 保存路径（相对于 backend 目录的上一级）
+    debug_folder = Path(__file__).parent.parent / "debug记录"
+    debug_folder.mkdir(exist_ok=True)
+    filepath = debug_folder / filename
+    
+    with open(filepath, 'w', encoding='utf-8') as f:
+        json.dump(report, f, indent=2, ensure_ascii=False)
+    
+    print(f"✓ 构建报告已保存: {filename}")
+    return {"success": True, "filename": filename}
 
 
 @app.get("/health")

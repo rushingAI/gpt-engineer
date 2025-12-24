@@ -351,3 +351,41 @@ function processFiles(generatedFiles) {
   return sandpackFiles
 }
 
+/**
+ * 保存构建报告到后端
+ * 
+ * @param {object} report - 构建报告对象
+ * @returns {Promise<{success: boolean, reason?: string, data?: any}>}
+ */
+export async function saveBuildReport(report) {
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), 2000) // 2 秒超时
+  
+  try {
+    const response = await fetch(`${API_URL}/save-build-report`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(report),
+      signal: controller.signal
+    })
+    
+    clearTimeout(timeoutId)
+    
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({ message: 'Unknown error' }))
+      return { 
+        success: false, 
+        reason: `Backend error: ${response.status} - ${errorData.message || 'Unknown'}` 
+      }
+    }
+    
+    return { success: true, data: await response.json() }
+  } catch (error) {
+    clearTimeout(timeoutId)
+    if (error.name === 'AbortError') {
+      return { success: false, reason: 'Report save timed out after 2 seconds.' }
+    }
+    return { success: false, reason: `Network error: ${error.message}` }
+  }
+}
+

@@ -1,0 +1,453 @@
+{
+  "runId": "c53b95e0-2c6a-4b31-a4b8-0631e0746f37",
+  "timestamp": "2025-12-23T14:05:43.044Z",
+  "prompt": "创建一个计数器应用，有增加和减少按钮",
+  "themeName": "blue",
+  "telemetry": {
+    "mode": "generate",
+    "policy_version": "1.0.0",
+    "prompt_hash": "539810cc39be750d",
+    "prompt_length": 4406,
+    "activated_dynamic_rules": [],
+    "spec_mode": "summary"
+  },
+  "l0": {
+    "status": "pass",
+    "ruleSetVersion": "1.0",
+    "errorCount": 0,
+    "warningCount": 0,
+    "issues": [],
+    "appliedFixes": []
+  },
+  "qualityGates": {
+    "enabled": true,
+    "initial": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": false,
+        "issues_count": 5,
+        "issues": [
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/counterMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'countWithinRange', 'stepPositive', 'minLessThanOrEqualMax'}，第2个return缺少{'countWithinRange', 'stepPositive', 'minLessThanOrEqualMax'}，多出{'state.max)', '...state', 'count'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/counterMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'countWithinRange', 'stepPositive', 'minLessThanOrEqualMax'}，第3个return缺少{'countWithinRange', 'stepPositive', 'minLessThanOrEqualMax'}，多出{'...state', 'state.min)', 'count'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/counterMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'countWithinRange', 'stepPositive', 'minLessThanOrEqualMax'}，第4个return缺少{'countWithinRange', 'stepPositive', 'minLessThanOrEqualMax'}，多出{'...state', 'count'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/counterMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'countWithinRange', 'stepPositive', 'minLessThanOrEqualMax'}，第5个return缺少{'countWithinRange', 'stepPositive', 'minLessThanOrEqualMax'}，多出{'step', '...state'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/counterMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'countWithinRange', 'stepPositive', 'minLessThanOrEqualMax'}，第6个return缺少{'countWithinRange', 'stepPositive', 'minLessThanOrEqualMax'}，多出{'statusLabel', 'canIncrement', 'interactionHint', 'canDecrement', 'constraints'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "results": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": false,
+        "issues_count": 5,
+        "issues": [
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/counterMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'countWithinRange', 'stepPositive', 'minLessThanOrEqualMax'}，第2个return缺少{'countWithinRange', 'stepPositive', 'minLessThanOrEqualMax'}，多出{'state.max)', '...state', 'count'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/counterMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'countWithinRange', 'stepPositive', 'minLessThanOrEqualMax'}，第3个return缺少{'countWithinRange', 'stepPositive', 'minLessThanOrEqualMax'}，多出{'...state', 'state.min)', 'count'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/counterMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'countWithinRange', 'stepPositive', 'minLessThanOrEqualMax'}，第4个return缺少{'countWithinRange', 'stepPositive', 'minLessThanOrEqualMax'}，多出{'...state', 'count'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/counterMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'countWithinRange', 'stepPositive', 'minLessThanOrEqualMax'}，第5个return缺少{'countWithinRange', 'stepPositive', 'minLessThanOrEqualMax'}，多出{'step', '...state'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/counterMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'countWithinRange', 'stepPositive', 'minLessThanOrEqualMax'}，第6个return缺少{'countWithinRange', 'stepPositive', 'minLessThanOrEqualMax'}，多出{'statusLabel', 'canIncrement', 'interactionHint', 'canDecrement', 'constraints'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "passed": false,
+    "failed_gates": [
+      "L0_static"
+    ],
+    "healing_history": [
+      {
+        "iteration": 1,
+        "timestamp": "2025-12-23T22:04:57.850100",
+        "issues_count": 1,
+        "regression": false,
+        "gates": {
+          "L0_static": {
+            "passed": false,
+            "issues_count": 1,
+            "issues": [
+              {
+                "rule_id": null,
+                "severity": "error",
+                "file": "src/components/generated/counter/CounterCard.tsx",
+                "message": "[G7_IMPORT_EXPORT_MISMATCH] 相对导入的命名导出不存在（第 4 行）：src/lib/generated/counterMachine.ts 未导出 CounterEvent, applyCounterEvent, canApplyEvent, getCounterDiagnostics"
+              }
+            ]
+          },
+          "L1_typecheck": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          },
+          "L2_smoke_test": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          }
+        }
+      },
+      {
+        "iteration": 2,
+        "timestamp": "2025-12-23T22:05:15.864268",
+        "issues_count": 1,
+        "regression": false,
+        "gates": {
+          "L0_static": {
+            "passed": false,
+            "issues_count": 1,
+            "issues": [
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "error",
+                "file": "src/lib/generated/counterMachine.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'step', '...state'}，第2个return缺少{'step'}，多出{'isMaxReached', 'isMinReached'}"
+              }
+            ]
+          },
+          "L1_typecheck": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          },
+          "L2_smoke_test": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          }
+        }
+      },
+      {
+        "iteration": 3,
+        "timestamp": "2025-12-23T22:05:29.337492",
+        "issues_count": 9,
+        "regression": true,
+        "gates": {
+          "L0_static": {
+            "passed": false,
+            "issues_count": 9,
+            "issues": [
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "error",
+                "file": "src/lib/generated/counterMachine.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'isMaxReached', 'isMinReached'}，第2个return缺少set()，多出{'step', 'count'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "error",
+                "file": "src/lib/generated/counterMachine.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'isMaxReached', 'isMinReached'}，第3个return缺少set()，多出{'step', 'count'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "error",
+                "file": "src/lib/generated/counterMachine.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'isMaxReached', 'isMinReached'}，第4个return缺少set()，多出{'step', 'count'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "error",
+                "file": "src/lib/generated/counterMachine.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'isMaxReached', 'isMinReached'}，第5个return缺少set()，多出{'step', 'count'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "error",
+                "file": "src/lib/generated/counterMachine.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'isMaxReached', 'isMinReached'}，第6个return缺少set()，多出{'step', 'count'}"
+              }
+            ]
+          },
+          "L1_typecheck": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          },
+          "L2_smoke_test": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          }
+        }
+      }
+    ],
+    "final": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": false,
+        "issues_count": 9,
+        "issues": [
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/counterMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isMaxReached', 'isMinReached'}，第2个return缺少set()，多出{'step', 'count'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/counterMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isMaxReached', 'isMinReached'}，第3个return缺少set()，多出{'step', 'count'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/counterMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isMaxReached', 'isMinReached'}，第4个return缺少set()，多出{'step', 'count'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/counterMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isMaxReached', 'isMinReached'}，第5个return缺少set()，多出{'step', 'count'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/counterMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isMaxReached', 'isMinReached'}，第6个return缺少set()，多出{'step', 'count'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/counterMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isMaxReached', 'isMinReached'}，第7个return缺少set()，多出{'step', 'count'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/counterMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isMaxReached', 'isMinReached'}，第8个return缺少set()，多出{'step', 'count'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/counterMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isMaxReached', 'isMinReached'}，第9个return缺少set()，多出{'step', 'count'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合"
+          },
+          {
+            "severity": "error",
+            "file": "src/components/generated/counter/CounterCard.tsx",
+            "line": 1,
+            "message": "[G7_IMPORT_EXPORT_MISMATCH] 相对导入的命名导出不存在（第 3 行）：src/lib/generated/counterMachine.ts 未导出 applyCounterEvent, canApplyEvent, getCounterDiagnostics",
+            "suggestion": "要么在 src/lib/generated/counterMachine.ts 中添加 `export const applyCounterEvent = ...`（命名导出），要么把 src/components/generated/counter/CounterCard.tsx 的导入改为 default import（并确保目标文件有 export default）。建议 generated 组件统一使用命名导出并用 `import { X }` 导入。"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    }
+  },
+  "phases": {
+    "install": {
+      "status": "success",
+      "startedAt": "2025-12-23T14:05:32.344Z",
+      "endedAt": "2025-12-23T14:05:33.093Z",
+      "duration_ms": 749,
+      "exitCode": 0,
+      "logTail": "\r\nup to date in 154ms\r\n\r\n28 packages are looking for funding\r\n  run `npm fund` for details\r\n"
+    },
+    "dev": {
+      "status": "success",
+      "startedAt": "2025-12-23T14:05:33.093Z",
+      "endedAt": "2025-12-23T14:05:35.042Z",
+      "duration_ms": 1949,
+      "exitCode": 0,
+      "logTail": "\r\n> cyberpunk-app@0.0.0 dev\r\n> vite\r\n\r\n\u001b[1G\u001b[0KPort 5173 is in use, trying another one...\r\nPort 5174 is in use, trying another one...\r\n",
+      "url": "https://k03e2io1v3fx9wvj0vr8qd5q58o56n-fkdo--5175--365214aa.local-corp.webcontainer-api.io",
+      "port": 5175
+    },
+    "render": {
+      "status": "fail",
+      "startedAt": "2025-12-23T14:05:35.043Z",
+      "endedAt": "2025-12-23T14:05:43.044Z",
+      "duration_ms": 8001,
+      "signal": "TIMEOUT_WITH_ERROR"
+    }
+  },
+  "deps": {
+    "approved": {},
+    "injected": [],
+    "injectError": null
+  },
+  "errors": {
+    "console": {
+      "total": 1,
+      "uniqueCount": 1,
+      "samples": [
+        "Uncaught SyntaxError: The requested module '/src/lib/generated/counterMachine.ts' does not provide an export named 'applyCounterEvent'"
+      ]
+    },
+    "classified": {
+      "INSTALL": 0,
+      "DEPENDENCY": 0,
+      "BUILD": 0,
+      "EXPORT": 1,
+      "RUNTIME": 0
+    }
+  }
+}

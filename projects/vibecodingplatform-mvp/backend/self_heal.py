@@ -169,10 +169,16 @@ def self_heal_loop(
     Returns:
         (final_files, success, iteration_count)
     """
+    from datetime import datetime
+    
     max_iterations = policy_manager.get_max_heal_iterations()
     
     current_files = dict(initial_files)
     current_gate_results = gate_results
+    
+    # 🆕 初始化治愈历史记录
+    healing_history = []
+    prev_issue_count = sum(len(r.issues) for r in gate_results.values() if not r.passed)
     
     for iteration in range(max_iterations):
         if not should_trigger_self_heal(current_gate_results):
@@ -234,8 +240,11 @@ def self_heal_loop(
                 fixed_files_dict = dict(list(fixed_files_dict.items())[:policy_manager.get_max_files_per_iteration()])
             
             # 合并修复后的文件（带路径过滤）
+            # 🆕 收集治愈行为信息
             allowed_patterns = policy_manager.get_heal_allowed_patterns()
             filtered_count = 0
+            filtered_paths = []
+            files_modified = []
             
             for filename, content in fixed_files_dict.items():
                 # 检查文件是否在允许修改的范围内
@@ -254,13 +263,29 @@ def self_heal_loop(
                 if is_allowed:
                     old_content = current_files.get(filename, "")
                     current_files[filename] = content
+                    
+                    # 🆕 记录文件修改详情
+                    is_new = filename not in initial_files and old_content == ""
+                    is_changed = old_content != content
+                    
+                    file_change_record = {
+                        "path": filename,
+                        "action": "created" if is_new else ("modified" if is_changed else "unchanged"),
+                        "size_before": len(old_content),
+                        "size_after": len(content),
+                        "lines_before": old_content.count('\n') + 1 if old_content else 0,
+                        "lines_after": content.count('\n') + 1 if content else 0
+                    }
+                    files_modified.append(file_change_record)
+                    
                     # 添加调试信息：显示文件是否真正被修改
-                    if old_content != content:
+                    if is_changed:
                         print(f"     ✓ 修复了: {filename} (内容已更新, {len(content)} 字符)")
                     else:
                         print(f"     ⚠️  修复了: {filename} (内容未变化)")
                 else:
                     filtered_count += 1
+                    filtered_paths.append(filename)
                     print(f"     ✗ 跳过（超出允许范围）: {filename}")
             
             if filtered_count > 0:
@@ -289,6 +314,59 @@ def self_heal_loop(
             print(f"   🚦 迭代 {iteration + 1}: 重新运行门禁...")
             current_gate_results = run_quality_gates(current_files)
             
+            # 🆕 记录本轮质量门结果到治愈历史
+            current_issue_count = sum(len(r.issues) for r in current_gate_results.values() if not r.passed)
+            is_regression = current_issue_count > prev_issue_count
+            
+            iteration_record = {
+                "iteration": iteration + 1,
+                "timestamp": datetime.now().isoformat(),
+                "issues_count": current_issue_count,
+                "regression": is_regression,
+                # 🆕 治愈行为记录（记录AI修改了哪些文件）
+                "healing_actions": {
+                    "ai_returned_files": len(fixed_files_dict),
+                    "files_applied": len(files_modified),
+                    "files_filtered": filtered_count,
+                    "filtered_paths": filtered_paths,
+                    "changes": files_modified  # 每个文件的修改详情
+                },
+                "gates": {
+                    gate_name: {
+                        "passed": result.passed,
+                        "issues_count": len(result.issues),
+                        "issues": [
+                            {
+                                "rule_id": issue.get('rule_id'),
+                                "severity": issue.get('severity'),
+                                "file": issue.get('file'),
+                                "message": issue.get('message')
+                            }
+                            for issue in result.issues  # 🔧 移除截断限制，记录所有问题
+                        ]
+                    }
+                    for gate_name, result in current_gate_results.items()
+                }
+            }
+            healing_history.append(iteration_record)
+            
+            # 更新 vibe.meta.json 的 quality_gates 字段
+            if 'vibe.meta.json' in current_files:
+                try:
+                    vibe_meta = json.loads(current_files['vibe.meta.json'])
+                    if 'quality_gates' not in vibe_meta:
+                        vibe_meta['quality_gates'] = {}
+                    
+                    vibe_meta['quality_gates']['healing_history'] = healing_history
+                    vibe_meta['quality_gates']['final'] = {
+                        gate_name: result.to_dict()
+                        for gate_name, result in current_gate_results.items()
+                    }
+                    current_files['vibe.meta.json'] = json.dumps(vibe_meta, indent=2)
+                    print(f"     📊 更新质量门历史: 迭代 {iteration + 1}, {current_issue_count} 个问题" + (" [回归⚠️]" if is_regression else ""))
+                except json.JSONDecodeError:
+                    print(f"     ⚠️  无法更新 vibe.meta.json: JSON 解析失败")
+            
             # 检查是否通过
             failed_count = sum(1 for r in current_gate_results.values() if not r.passed)
             if failed_count == 0:
@@ -296,6 +374,13 @@ def self_heal_loop(
                 return current_files, True, iteration + 1
             else:
                 print(f"   ⚠️  迭代 {iteration + 1}: 仍有 {failed_count} 个门禁失败")
+                
+                # 🆕 检测回归，考虑是否回滚或提前终止
+                if is_regression:
+                    print(f"   🚨 检测到回归：问题数从 {prev_issue_count} 增加到 {current_issue_count}")
+                    # 暂不回滚，继续尝试（可以根据需求调整）
+                
+                prev_issue_count = current_issue_count
         
         except Exception as e:
             print(f"   ✗ 迭代 {iteration + 1}: 修复失败 - {str(e)}")
@@ -303,5 +388,22 @@ def self_heal_loop(
     
     # 达到最大迭代次数，仍未通过
     print(f"   ✗ 自愈失败：已达到最大迭代次数 {max_iterations}")
+    
+    # 🆕 确保最终状态被记录到 vibe.meta.json
+    if 'vibe.meta.json' in current_files and healing_history:
+        try:
+            vibe_meta = json.loads(current_files['vibe.meta.json'])
+            if 'quality_gates' not in vibe_meta:
+                vibe_meta['quality_gates'] = {}
+            
+            vibe_meta['quality_gates']['healing_history'] = healing_history
+            vibe_meta['quality_gates']['final'] = {
+                gate_name: result.to_dict()
+                for gate_name, result in current_gate_results.items()
+            }
+            current_files['vibe.meta.json'] = json.dumps(vibe_meta, indent=2)
+        except json.JSONDecodeError:
+            pass
+    
     return current_files, False, max_iterations
 

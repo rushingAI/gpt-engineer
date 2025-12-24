@@ -1,0 +1,117 @@
+{
+  "runId": "3a9d5cff-3605-4d3f-b9e5-52b7d6536b15",
+  "timestamp": "2025-12-23T07:20:40.868Z",
+  "prompt": "创建一个计数器应用，有增加和减少按钮",
+  "themeName": "orange",
+  "telemetry": {
+    "mode": "generate",
+    "policy_version": "1.0.0",
+    "prompt_hash": "828a8d619cd30c34",
+    "prompt_length": 4388,
+    "activated_dynamic_rules": [],
+    "spec_mode": "summary"
+  },
+  "l0": {
+    "status": "pass",
+    "ruleSetVersion": "1.0",
+    "errorCount": 0,
+    "warningCount": 0,
+    "issues": [],
+    "appliedFixes": []
+  },
+  "qualityGates": {
+    "enabled": true,
+    "results": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": false,
+        "issues_count": 2,
+        "issues": [
+          {
+            "rule_id": "missing_explicit_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/pages/Index.tsx",
+            "line": 87,
+            "message": "H2 element missing explicit text color (line 87). Text may be invisible against background.",
+            "snippet": "<h2 className=\"text-xs font-mono uppercase tracking-[0.3em] text-cyan-300/80 mb-2\">\n                ...",
+            "suggestion": "Add text-white for dark backgrounds or text-gray-900 for light backgrounds to ensure readability"
+          },
+          {
+            "rule_id": "component_missing_export",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/components/generated/cyber-counter/neon-counter-card.tsx",
+            "line": 1,
+            "message": "组件文件 neon-counter-card.tsx 缺少对应的导出",
+            "snippet": "未找到 export const neon-counter-card 或 export default",
+            "suggestion": "添加 'export const neon-counter-card = ...' 或 'export default neon-counter-card'",
+            "gate": "L0_static"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "passed": false,
+    "failed_gates": [
+      "L0_static"
+    ]
+  },
+  "phases": {
+    "install": {
+      "status": "success",
+      "startedAt": "2025-12-23T07:20:34.953Z",
+      "endedAt": "2025-12-23T07:20:37.503Z",
+      "duration_ms": 2550,
+      "exitCode": 0,
+      "logTail": "\r\nadded 2 packages in 2s\r\n\r\n28 packages are looking for funding\r\n  run `npm fund` for details\r\n"
+    },
+    "dev": {
+      "status": "success",
+      "startedAt": "2025-12-23T07:20:37.503Z",
+      "endedAt": "2025-12-23T07:20:38.649Z",
+      "duration_ms": 1146,
+      "exitCode": 0,
+      "logTail": "\r\n> cyberpunk-app@0.0.0 dev\r\n> vite\r\n\r\n\u001b[1G\u001b[0KPort 5173 is in use, trying another one...\r\n",
+      "url": "https://k03e2io1v3fx9wvj0vr8qd5q58o56n-fkdo--5174--365214aa.local-corp.webcontainer-api.io",
+      "port": 5174
+    },
+    "render": {
+      "status": "success",
+      "startedAt": "2025-12-23T07:20:38.649Z",
+      "endedAt": "2025-12-23T07:20:40.868Z",
+      "duration_ms": 2219,
+      "signal": "APP_RENDERED"
+    }
+  },
+  "deps": {
+    "approved": {},
+    "injected": [],
+    "injectError": null
+  },
+  "errors": {
+    "console": {
+      "total": 0,
+      "uniqueCount": 0,
+      "samples": []
+    },
+    "classified": {
+      "INSTALL": 0,
+      "DEPENDENCY": 0,
+      "BUILD": 0,
+      "EXPORT": 0,
+      "RUNTIME": 0
+    }
+  }
+}

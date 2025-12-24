@@ -1,0 +1,862 @@
+{
+  "runId": "99e745cb-075d-4f5d-a1b0-46f862f85c2f",
+  "timestamp": "2025-12-23T14:28:14.450Z",
+  "prompt": "创建一个待办事项应用，支持添加、删除、标记完成，底部有筛选栏",
+  "themeName": "cyan",
+  "telemetry": {
+    "mode": "generate",
+    "policy_version": "1.0.0",
+    "prompt_hash": "b16d5ce33f674f2b",
+    "prompt_length": 4381,
+    "activated_dynamic_rules": [],
+    "spec_mode": "summary"
+  },
+  "l0": {
+    "status": "pass",
+    "ruleSetVersion": "1.0",
+    "errorCount": 0,
+    "warningCount": 0,
+    "issues": [],
+    "appliedFixes": []
+  },
+  "qualityGates": {
+    "enabled": true,
+    "initial": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": false,
+        "issues_count": 11,
+        "issues": [
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/aurora-todo/AuroraTodoApp.tsx",
+            "line": 62,
+            "message": "Input element may lack explicit text color styling (line 62). Text may be invisible against background.",
+            "snippet": "<Input\n              value={inputValue}\n              onChange={(e) =>",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "missing_explicit_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/aurora-todo/AuroraTodoHeader.tsx",
+            "line": 23,
+            "message": "H1 element missing explicit text color (line 23). Text may be invisible against background.",
+            "snippet": "<h1 className=\"mt-3 bg-gradient-to-r from-violet-300 via-sky-300 to-pink-300 bg-clip-text text-3xl f...",
+            "suggestion": "Add text-white for dark backgrounds or text-gray-900 for light backgrounds to ensure readability"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'filter', 'inputValue', 'lastUpdatedAt', 'todos'}，第2个return缺少{'filter', 'lastUpdatedAt', 'todos'}，多出{'...state'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'filter', 'inputValue', 'lastUpdatedAt', 'todos'}，第3个return缺少{'filter', 'lastUpdatedAt', 'todos'}，多出{'...nextState'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'filter', 'inputValue', 'lastUpdatedAt', 'todos'}，第4个return缺少{'filter', 'inputValue'}，多出{'...state', '...state.todos]'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'filter', 'inputValue', 'lastUpdatedAt', 'todos'}，第5个return缺少{'filter', 'inputValue'}，多出{'...state'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'filter', 'inputValue', 'lastUpdatedAt', 'todos'}，第6个return缺少{'filter', 'inputValue', 'lastUpdatedAt'}，多出{'...state', 'completed'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'filter', 'inputValue', 'lastUpdatedAt', 'todos'}，第7个return缺少{'inputValue', 'lastUpdatedAt', 'todos'}，多出{'...state'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'filter', 'inputValue', 'lastUpdatedAt', 'todos'}，第8个return缺少{'filter', 'inputValue'}，多出{'...state'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'filter', 'inputValue', 'lastUpdatedAt', 'todos'}，第9个return缺少{'filter', 'inputValue'}，多出{'...state'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'filter', 'inputValue', 'lastUpdatedAt', 'todos'}，第10个return缺少{'filter', 'inputValue', 'lastUpdatedAt', 'todos'}，多出{'remaining', 'completed', 'total'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "results": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": false,
+        "issues_count": 11,
+        "issues": [
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/aurora-todo/AuroraTodoApp.tsx",
+            "line": 62,
+            "message": "Input element may lack explicit text color styling (line 62). Text may be invisible against background.",
+            "snippet": "<Input\n              value={inputValue}\n              onChange={(e) =>",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "missing_explicit_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/aurora-todo/AuroraTodoHeader.tsx",
+            "line": 23,
+            "message": "H1 element missing explicit text color (line 23). Text may be invisible against background.",
+            "snippet": "<h1 className=\"mt-3 bg-gradient-to-r from-violet-300 via-sky-300 to-pink-300 bg-clip-text text-3xl f...",
+            "suggestion": "Add text-white for dark backgrounds or text-gray-900 for light backgrounds to ensure readability"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'filter', 'inputValue', 'lastUpdatedAt', 'todos'}，第2个return缺少{'filter', 'lastUpdatedAt', 'todos'}，多出{'...state'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'filter', 'inputValue', 'lastUpdatedAt', 'todos'}，第3个return缺少{'filter', 'lastUpdatedAt', 'todos'}，多出{'...nextState'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'filter', 'inputValue', 'lastUpdatedAt', 'todos'}，第4个return缺少{'filter', 'inputValue'}，多出{'...state', '...state.todos]'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'filter', 'inputValue', 'lastUpdatedAt', 'todos'}，第5个return缺少{'filter', 'inputValue'}，多出{'...state'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'filter', 'inputValue', 'lastUpdatedAt', 'todos'}，第6个return缺少{'filter', 'inputValue', 'lastUpdatedAt'}，多出{'...state', 'completed'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'filter', 'inputValue', 'lastUpdatedAt', 'todos'}，第7个return缺少{'inputValue', 'lastUpdatedAt', 'todos'}，多出{'...state'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'filter', 'inputValue', 'lastUpdatedAt', 'todos'}，第8个return缺少{'filter', 'inputValue'}，多出{'...state'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'filter', 'inputValue', 'lastUpdatedAt', 'todos'}，第9个return缺少{'filter', 'inputValue'}，多出{'...state'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'filter', 'inputValue', 'lastUpdatedAt', 'todos'}，第10个return缺少{'filter', 'inputValue', 'lastUpdatedAt', 'todos'}，多出{'remaining', 'completed', 'total'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "passed": false,
+    "failed_gates": [
+      "L0_static"
+    ],
+    "healing_history": [
+      {
+        "iteration": 1,
+        "timestamp": "2025-12-23T22:27:12.178346",
+        "issues_count": 4,
+        "regression": false,
+        "healing_actions": {
+          "ai_returned_files": 1,
+          "files_applied": 1,
+          "files_filtered": 0,
+          "filtered_paths": [],
+          "changes": [
+            {
+              "path": "src/lib/generated/todoLogic.ts",
+              "action": "modified",
+              "size_before": 4016,
+              "size_after": 5912,
+              "lines_before": 163,
+              "lines_after": 226
+            }
+          ]
+        },
+        "gates": {
+          "L0_static": {
+            "passed": false,
+            "issues_count": 4,
+            "issues": [
+              {
+                "rule_id": "input_missing_text_color",
+                "severity": "warning",
+                "file": "src/components/generated/aurora-todo/AuroraTodoApp.tsx",
+                "message": "Input element may lack explicit text color styling (line 62). Text may be invisible against background."
+              },
+              {
+                "rule_id": "missing_explicit_text_color",
+                "severity": "warning",
+                "file": "src/components/generated/aurora-todo/AuroraTodoHeader.tsx",
+                "message": "H1 element missing explicit text color (line 23). Text may be invisible against background."
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "error",
+                "file": "src/lib/generated/todoLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'editingTodoId', 'todos', 'editingText', 'inputValue', 'filter'}，第3个return缺少set()，多出{'newTodo]'}"
+              },
+              {
+                "rule_id": null,
+                "severity": "error",
+                "file": "src/pages/Index.tsx",
+                "message": "[G7_IMPORT_EXPORT_MISMATCH] 相对导入的命名导出不存在（第 9 行）：src/lib/generated/todoLogic.ts 未导出 createInitialTodoState, selectStats"
+              }
+            ]
+          },
+          "L1_typecheck": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          },
+          "L2_smoke_test": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          }
+        }
+      },
+      {
+        "iteration": 2,
+        "timestamp": "2025-12-23T22:27:42.347866",
+        "issues_count": 8,
+        "regression": true,
+        "healing_actions": {
+          "ai_returned_files": 2,
+          "files_applied": 2,
+          "files_filtered": 0,
+          "filtered_paths": [],
+          "changes": [
+            {
+              "path": "src/lib/generated/todoLogic.ts",
+              "action": "modified",
+              "size_before": 5912,
+              "size_after": 5527,
+              "lines_before": 226,
+              "lines_after": 240
+            },
+            {
+              "path": "src/pages/Index.tsx",
+              "action": "modified",
+              "size_before": 2421,
+              "size_after": 7336,
+              "lines_before": 86,
+              "lines_after": 255
+            }
+          ]
+        },
+        "gates": {
+          "L0_static": {
+            "passed": false,
+            "issues_count": 8,
+            "issues": [
+              {
+                "rule_id": "input_missing_text_color",
+                "severity": "warning",
+                "file": "src/pages/Index.tsx",
+                "message": "Input element may lack explicit text color styling (line 218). Text may be invisible against background."
+              },
+              {
+                "rule_id": "input_missing_text_color",
+                "severity": "warning",
+                "file": "src/components/generated/aurora-todo/AuroraTodoApp.tsx",
+                "message": "Input element may lack explicit text color styling (line 62). Text may be invisible against background."
+              },
+              {
+                "rule_id": "missing_explicit_text_color",
+                "severity": "warning",
+                "file": "src/components/generated/aurora-todo/AuroraTodoHeader.tsx",
+                "message": "H1 element missing explicit text color (line 23). Text may be invisible against background."
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "error",
+                "file": "src/lib/generated/todoLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'editingTodoId', 'todos', 'editingText', 'inputValue', 'filter'}，第2个return缺少set()，多出{'...state'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "error",
+                "file": "src/lib/generated/todoLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'editingTodoId', 'todos', 'editingText', 'inputValue', 'filter'}，第3个return缺少set()，多出{'newTodo]'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "error",
+                "file": "src/lib/generated/todoLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'editingTodoId', 'todos', 'editingText', 'inputValue', 'filter'}，第6个return缺少{'inputValue', 'editingText', 'editingTodoId', 'filter'}，多出{'completed'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "error",
+                "file": "src/lib/generated/todoLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'editingTodoId', 'todos', 'editingText', 'inputValue', 'filter'}，第14个return缺少{'editingTodoId', 'todos', 'editingText', 'inputValue', 'filter'}，多出{'completed', 'total', 'active'}"
+              },
+              {
+                "rule_id": null,
+                "severity": "warning",
+                "file": "src/components/generated/aurora-todo/AuroraTodoApp.tsx",
+                "message": "[G6_ORPHAN_FILES] 检测到 1 个未被引用的组件文件"
+              }
+            ]
+          },
+          "L1_typecheck": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          },
+          "L2_smoke_test": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          }
+        }
+      },
+      {
+        "iteration": 3,
+        "timestamp": "2025-12-23T22:27:57.661712",
+        "issues_count": 18,
+        "regression": true,
+        "healing_actions": {
+          "ai_returned_files": 1,
+          "files_applied": 1,
+          "files_filtered": 0,
+          "filtered_paths": [],
+          "changes": [
+            {
+              "path": "src/lib/generated/todoLogic.ts",
+              "action": "modified",
+              "size_before": 5527,
+              "size_after": 5063,
+              "lines_before": 240,
+              "lines_after": 236
+            }
+          ]
+        },
+        "gates": {
+          "L0_static": {
+            "passed": false,
+            "issues_count": 18,
+            "issues": [
+              {
+                "rule_id": "input_missing_text_color",
+                "severity": "warning",
+                "file": "src/pages/Index.tsx",
+                "message": "Input element may lack explicit text color styling (line 218). Text may be invisible against background."
+              },
+              {
+                "rule_id": "input_missing_text_color",
+                "severity": "warning",
+                "file": "src/components/generated/aurora-todo/AuroraTodoApp.tsx",
+                "message": "Input element may lack explicit text color styling (line 62). Text may be invisible against background."
+              },
+              {
+                "rule_id": "missing_explicit_text_color",
+                "severity": "warning",
+                "file": "src/components/generated/aurora-todo/AuroraTodoHeader.tsx",
+                "message": "H1 element missing explicit text color (line 23). Text may be invisible against background."
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "error",
+                "file": "src/lib/generated/todoLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'...state', 'inputValue'}，第2个return缺少{'inputValue'}，多出set()"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "error",
+                "file": "src/lib/generated/todoLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'...state', 'inputValue'}，第3个return缺少set()，多出{'todos', 'newTodo]'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "error",
+                "file": "src/lib/generated/todoLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'...state', 'inputValue'}，第4个return缺少{'inputValue'}，多出{'todos'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "error",
+                "file": "src/lib/generated/todoLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'...state', 'inputValue'}，第5个return缺少{'inputValue'}，多出{'completed', 'todos'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "error",
+                "file": "src/lib/generated/todoLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'...state', 'inputValue'}，第6个return缺少{'inputValue'}，多出{'filter'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "error",
+                "file": "src/lib/generated/todoLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'...state', 'inputValue'}，第7个return缺少{'inputValue'}，多出{'editingText', 'editingTodoId'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "error",
+                "file": "src/lib/generated/todoLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'...state', 'inputValue'}，第8个return缺少{'inputValue'}，多出{'editingText'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "error",
+                "file": "src/lib/generated/todoLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'...state', 'inputValue'}，第9个return缺少{'inputValue'}，多出set()"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "error",
+                "file": "src/lib/generated/todoLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'...state', 'inputValue'}，第10个return缺少{'inputValue'}，多出{'editingText', 'editingTodoId'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "error",
+                "file": "src/lib/generated/todoLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'...state', 'inputValue'}，第11个return缺少{'inputValue'}，多出{'text', 'todos'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "error",
+                "file": "src/lib/generated/todoLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'...state', 'inputValue'}，第12个return缺少{'inputValue'}，多出{'editingText', 'editingTodoId'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "error",
+                "file": "src/lib/generated/todoLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'...state', 'inputValue'}，第13个return缺少{'inputValue'}，多出set()"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "error",
+                "file": "src/lib/generated/todoLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'...state', 'inputValue'}，第14个return缺少{'inputValue'}，多出{'todos'}"
+              },
+              {
+                "rule_id": null,
+                "severity": "error",
+                "file": "src/pages/Index.tsx",
+                "message": "[G7_IMPORT_EXPORT_MISMATCH] 相对导入的命名导出不存在（第 4 行）：src/lib/generated/todoLogic.ts 未导出 createInitialTodoState, startEditing, selectStats, selectVisibleTodos, TodoItem, TodoFilter"
+              },
+              {
+                "rule_id": null,
+                "severity": "warning",
+                "file": "src/components/generated/aurora-todo/AuroraTodoApp.tsx",
+                "message": "[G6_ORPHAN_FILES] 检测到 1 个未被引用的组件文件"
+              }
+            ]
+          },
+          "L1_typecheck": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          },
+          "L2_smoke_test": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          }
+        }
+      }
+    ],
+    "final": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": false,
+        "issues_count": 18,
+        "issues": [
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/pages/Index.tsx",
+            "line": 218,
+            "message": "Input element may lack explicit text color styling (line 218). Text may be invisible against background.",
+            "snippet": "<input\n        type=\"checkbox\"\n        checked={todo.completed}\n        onChange={() =>",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/aurora-todo/AuroraTodoApp.tsx",
+            "line": 62,
+            "message": "Input element may lack explicit text color styling (line 62). Text may be invisible against background.",
+            "snippet": "<Input\n              value={inputValue}\n              onChange={(e) =>",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "missing_explicit_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/aurora-todo/AuroraTodoHeader.tsx",
+            "line": 23,
+            "message": "H1 element missing explicit text color (line 23). Text may be invisible against background.",
+            "snippet": "<h1 className=\"mt-3 bg-gradient-to-r from-violet-300 via-sky-300 to-pink-300 bg-clip-text text-3xl f...",
+            "suggestion": "Add text-white for dark backgrounds or text-gray-900 for light backgrounds to ensure readability"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'...state', 'inputValue'}，第2个return缺少{'inputValue'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'...state', 'inputValue'}，第3个return缺少set()，多出{'todos', 'newTodo]'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'...state', 'inputValue'}，第4个return缺少{'inputValue'}，多出{'todos'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'...state', 'inputValue'}，第5个return缺少{'inputValue'}，多出{'completed', 'todos'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'...state', 'inputValue'}，第6个return缺少{'inputValue'}，多出{'filter'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'...state', 'inputValue'}，第7个return缺少{'inputValue'}，多出{'editingText', 'editingTodoId'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'...state', 'inputValue'}，第8个return缺少{'inputValue'}，多出{'editingText'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'...state', 'inputValue'}，第9个return缺少{'inputValue'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'...state', 'inputValue'}，第10个return缺少{'inputValue'}，多出{'editingText', 'editingTodoId'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'...state', 'inputValue'}，第11个return缺少{'inputValue'}，多出{'text', 'todos'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'...state', 'inputValue'}，第12个return缺少{'inputValue'}，多出{'editingText', 'editingTodoId'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'...state', 'inputValue'}，第13个return缺少{'inputValue'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'...state', 'inputValue'}，第14个return缺少{'inputValue'}，多出{'todos'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合"
+          },
+          {
+            "severity": "error",
+            "file": "src/pages/Index.tsx",
+            "line": 1,
+            "message": "[G7_IMPORT_EXPORT_MISMATCH] 相对导入的命名导出不存在（第 4 行）：src/lib/generated/todoLogic.ts 未导出 createInitialTodoState, startEditing, selectStats, selectVisibleTodos, TodoItem, TodoFilter",
+            "suggestion": "要么在 src/lib/generated/todoLogic.ts 中添加 `export const createInitialTodoState = ...`（命名导出），要么把 src/pages/Index.tsx 的导入改为 default import（并确保目标文件有 export default）。建议 generated 组件统一使用命名导出并用 `import { X }` 导入。"
+          },
+          {
+            "severity": "warning",
+            "file": "src/components/generated/aurora-todo/AuroraTodoApp.tsx",
+            "line": 1,
+            "message": "[G6_ORPHAN_FILES] 检测到 1 个未被引用的组件文件",
+            "suggestion": "考虑在页面中接线这些组件，或删除它们：AuroraTodoApp"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    }
+  },
+  "phases": {
+    "install": {
+      "status": "success",
+      "startedAt": "2025-12-23T14:28:00.926Z",
+      "endedAt": "2025-12-23T14:28:03.326Z",
+      "duration_ms": 2400,
+      "exitCode": 0,
+      "logTail": "\r\nadded 2 packages in 2s\r\n\r\n28 packages are looking for funding\r\n  run `npm fund` for details\r\n"
+    },
+    "dev": {
+      "status": "success",
+      "startedAt": "2025-12-23T14:28:03.326Z",
+      "endedAt": "2025-12-23T14:28:06.448Z",
+      "duration_ms": 3122,
+      "exitCode": 0,
+      "logTail": "\r\n> cyberpunk-app@0.0.0 dev\r\n> vite\r\n\r\n\u001b[1G\u001b[0KPort 5173 is in use, trying another one...\r\n",
+      "url": "https://k03e2io1v3fx9wvj0vr8qd5q58o56n-fkdo--5174--365214aa.local-corp.webcontainer-api.io",
+      "port": 5174
+    },
+    "render": {
+      "status": "fail",
+      "startedAt": "2025-12-23T14:28:06.448Z",
+      "endedAt": "2025-12-23T14:28:14.449Z",
+      "duration_ms": 8001,
+      "signal": "TIMEOUT_WITH_ERROR"
+    }
+  },
+  "deps": {
+    "approved": {},
+    "injected": [],
+    "injectError": null
+  },
+  "errors": {
+    "console": {
+      "total": 1,
+      "uniqueCount": 1,
+      "samples": [
+        "Uncaught SyntaxError: The requested module '/src/lib/generated/todoLogic.ts' does not provide an export named 'createInitialTodoState'"
+      ]
+    },
+    "classified": {
+      "INSTALL": 0,
+      "DEPENDENCY": 0,
+      "BUILD": 0,
+      "EXPORT": 1,
+      "RUNTIME": 0
+    }
+  }
+}

@@ -1,0 +1,355 @@
+{
+  "runId": "5b774cf6-1db6-44cd-a27e-657533e6de84",
+  "timestamp": "2025-12-23T15:01:48.049Z",
+  "prompt": "使用 React + TypeScript + Tailwind CSS 做一个任务管理仪表盘。\\n1. 顶部 Tabs：All / Active / Completed。\\n2. 搜索框：支持按任务名称进行模糊搜索。\\n3. 列表展示：初始化 12 条模拟数据。支持'Tab切换'和'搜索关键词'的叠加过滤。\\n   例如：在 'Completed' Tab 下搜索 'Meeting'，只显示已完成且名字包含 Meeting 的任务。\\n4. 列表为空时显示 Empty State。",
+  "themeName": "magenta",
+  "telemetry": {
+    "mode": "generate",
+    "policy_version": "1.0.0",
+    "prompt_hash": "b88c91fd0b4b9fc3",
+    "prompt_length": 20827,
+    "activated_dynamic_rules": [
+      "data_handling_inline_only"
+    ],
+    "spec_mode": "summary"
+  },
+  "l0": {
+    "status": "fail",
+    "ruleSetVersion": "1.0",
+    "errorCount": 1,
+    "warningCount": 0,
+    "issues": [
+      {
+        "ruleId": "G1_STRUCTURAL_NO_SHADCN_INPUT",
+        "severity": "error",
+        "message": "结构性应用（网格/棋盘/画布）不得使用 shadcn Input 组件，必须使用原生 <input>/<button>",
+        "files": [
+          "src/pages/Index.tsx",
+          "src/components/generated/dashboard/TaskFiltersBar.tsx"
+        ],
+        "evidence": "",
+        "suggestion": "将 <Input> 替换为原生 <input> 或 <button>，并将 CSS Modules 的 className 施加在原生元素本体上，而不是仅在 wrapper div。示例：<input className={styles.cell} ... /> 而不是 <div className={styles.cell}><Input /></div>"
+      }
+    ],
+    "appliedFixes": []
+  },
+  "qualityGates": {
+    "enabled": true,
+    "initial": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 3,
+        "issues": [
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/pages/Index.tsx",
+            "line": 210,
+            "message": "Input element may lack explicit text color styling (line 210). Text may be invisible against background.",
+            "snippet": "<input\n                        type=\"checkbox\"\n                        checked={task.status === 'Com...",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/dashboard/TaskFiltersBar.tsx",
+            "line": 19,
+            "message": "Input element may lack explicit text color styling (line 19). Text may be invisible against background.",
+            "snippet": "<Input\n        value={searchQuery}\n        onChange={(e) =>",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "severity": "warning",
+            "file": "src/components/generated/dashboard/Sidebar.tsx",
+            "line": 1,
+            "message": "[G6_ORPHAN_FILES] 检测到 4 个未被引用的组件文件",
+            "suggestion": "考虑在页面中接线这些组件，或删除它们：Sidebar, TasksTable, TaskFiltersBar, EmptyState"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "results": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 3,
+        "issues": [
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/pages/Index.tsx",
+            "line": 210,
+            "message": "Input element may lack explicit text color styling (line 210). Text may be invisible against background.",
+            "snippet": "<input\n                        type=\"checkbox\"\n                        checked={task.status === 'Com...",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/dashboard/TaskFiltersBar.tsx",
+            "line": 19,
+            "message": "Input element may lack explicit text color styling (line 19). Text may be invisible against background.",
+            "snippet": "<Input\n        value={searchQuery}\n        onChange={(e) =>",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "severity": "warning",
+            "file": "src/components/generated/dashboard/Sidebar.tsx",
+            "line": 1,
+            "message": "[G6_ORPHAN_FILES] 检测到 4 个未被引用的组件文件",
+            "suggestion": "考虑在页面中接线这些组件，或删除它们：Sidebar, TasksTable, TaskFiltersBar, EmptyState"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "passed": true,
+    "failed_gates": [],
+    "healing_history": [
+      {
+        "iteration": 1,
+        "timestamp": "2025-12-23T23:01:04.879471",
+        "issues_count": 4,
+        "regression": false,
+        "healing_actions": {
+          "ai_returned_files": 1,
+          "files_applied": 1,
+          "files_filtered": 0,
+          "filtered_paths": [],
+          "changes": [
+            {
+              "path": "src/pages/Index.tsx",
+              "action": "modified",
+              "size_before": 8646,
+              "size_after": 5400,
+              "lines_before": 202,
+              "lines_after": 164
+            }
+          ]
+        },
+        "gates": {
+          "L0_static": {
+            "passed": false,
+            "issues_count": 4,
+            "issues": [
+              {
+                "rule_id": "input_missing_text_color",
+                "severity": "warning",
+                "file": "src/pages/Index.tsx",
+                "message": "Input element may lack explicit text color styling (line 88). Text may be invisible against background."
+              },
+              {
+                "rule_id": "input_missing_text_color",
+                "severity": "warning",
+                "file": "src/components/generated/dashboard/TaskFiltersBar.tsx",
+                "message": "Input element may lack explicit text color styling (line 19). Text may be invisible against background."
+              },
+              {
+                "rule_id": null,
+                "severity": "error",
+                "file": "src/pages/Index.tsx",
+                "message": "[G4_CONTROLLED_INPUT_NO_HANDLER] 受控输入 value= 缺少 onChange 处理器（第 88 行）"
+              },
+              {
+                "rule_id": null,
+                "severity": "warning",
+                "file": "src/components/generated/dashboard/Sidebar.tsx",
+                "message": "[G6_ORPHAN_FILES] 检测到 4 个未被引用的组件文件"
+              }
+            ]
+          },
+          "L1_typecheck": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          },
+          "L2_smoke_test": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          }
+        }
+      },
+      {
+        "iteration": 2,
+        "timestamp": "2025-12-23T23:01:41.515808",
+        "issues_count": 0,
+        "regression": false,
+        "healing_actions": {
+          "ai_returned_files": 1,
+          "files_applied": 1,
+          "files_filtered": 0,
+          "filtered_paths": [],
+          "changes": [
+            {
+              "path": "src/pages/Index.tsx",
+              "action": "modified",
+              "size_before": 5400,
+              "size_after": 8438,
+              "lines_before": 164,
+              "lines_after": 241
+            }
+          ]
+        },
+        "gates": {
+          "L0_static": {
+            "passed": true,
+            "issues_count": 3,
+            "issues": [
+              {
+                "rule_id": "input_missing_text_color",
+                "severity": "warning",
+                "file": "src/pages/Index.tsx",
+                "message": "Input element may lack explicit text color styling (line 210). Text may be invisible against background."
+              },
+              {
+                "rule_id": "input_missing_text_color",
+                "severity": "warning",
+                "file": "src/components/generated/dashboard/TaskFiltersBar.tsx",
+                "message": "Input element may lack explicit text color styling (line 19). Text may be invisible against background."
+              },
+              {
+                "rule_id": null,
+                "severity": "warning",
+                "file": "src/components/generated/dashboard/Sidebar.tsx",
+                "message": "[G6_ORPHAN_FILES] 检测到 4 个未被引用的组件文件"
+              }
+            ]
+          },
+          "L1_typecheck": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          },
+          "L2_smoke_test": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          }
+        }
+      }
+    ],
+    "final": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 3,
+        "issues": [
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/pages/Index.tsx",
+            "line": 210,
+            "message": "Input element may lack explicit text color styling (line 210). Text may be invisible against background.",
+            "snippet": "<input\n                        type=\"checkbox\"\n                        checked={task.status === 'Com...",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/dashboard/TaskFiltersBar.tsx",
+            "line": 19,
+            "message": "Input element may lack explicit text color styling (line 19). Text may be invisible against background.",
+            "snippet": "<Input\n        value={searchQuery}\n        onChange={(e) =>",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "severity": "warning",
+            "file": "src/components/generated/dashboard/Sidebar.tsx",
+            "line": 1,
+            "message": "[G6_ORPHAN_FILES] 检测到 4 个未被引用的组件文件",
+            "suggestion": "考虑在页面中接线这些组件，或删除它们：Sidebar, TasksTable, TaskFiltersBar, EmptyState"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    }
+  },
+  "phases": {
+    "install": {
+      "status": "success",
+      "startedAt": "2025-12-23T15:01:44.710Z",
+      "endedAt": "2025-12-23T15:01:45.160Z",
+      "duration_ms": 450,
+      "exitCode": 0,
+      "logTail": "\r\nup to date in 163ms\r\n\r\n28 packages are looking for funding\r\n  run `npm fund` for details\r\n"
+    },
+    "dev": {
+      "status": "success",
+      "startedAt": "2025-12-23T15:01:45.160Z",
+      "endedAt": "2025-12-23T15:01:46.853Z",
+      "duration_ms": 1693,
+      "exitCode": 0,
+      "logTail": "\r\n> cyberpunk-app@0.0.0 dev\r\n> vite\r\n\r\n\u001b[1G\u001b[0KPort 5173 is in use, trying another one...\r\nPort 5174 is in use, trying another one...\r\nPort 5175 is in use, trying another one...\r\nPort 5176 is in use, trying another one...\r\nPort 5177 is in use, trying another one...\r\nPort 5178 is in use, trying another one...\r\n(node:35) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 listening listeners added to [Server]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit\r\n(Use `node --trace-warnings ...` to show where the warning was created)\r\n",
+      "url": "https://k03e2io1v3fx9wvj0vr8qd5q58o56n-fkdo--5179--365214aa.local-corp.webcontainer-api.io",
+      "port": 5179
+    },
+    "render": {
+      "status": "success",
+      "startedAt": "2025-12-23T15:01:46.853Z",
+      "endedAt": "2025-12-23T15:01:48.049Z",
+      "duration_ms": 1196,
+      "signal": "APP_RENDERED"
+    }
+  },
+  "deps": {
+    "approved": {},
+    "injected": [],
+    "injectError": null
+  },
+  "errors": {
+    "console": {
+      "total": 0,
+      "uniqueCount": 0,
+      "samples": []
+    },
+    "classified": {
+      "INSTALL": 0,
+      "DEPENDENCY": 0,
+      "BUILD": 0,
+      "EXPORT": 0,
+      "RUNTIME": 0
+    }
+  }
+}

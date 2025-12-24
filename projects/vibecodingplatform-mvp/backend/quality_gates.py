@@ -689,11 +689,12 @@ class L0StaticGate:
     
     def _check_import_export_consistency(self, files: Dict[str, str]) -> List[Dict[str, Any]]:
         """
-        检查导入和导出的一致性（防止 Index.tsx 导入不存在的导出）
+        检查导入和导出的一致性（防止导入不存在的导出）
         
         常见问题：
         - Index.tsx 导入 computeOrderStats，但 dashboard-orders.ts 导出的是 getOrderStats
-        - 自愈修改了 generated 文件的导出，但没有同步修改 Index.tsx 的导入
+        - 组件导入 FILTER_OPTIONS，但逻辑文件忘记导出
+        - 自愈修改了 generated 文件的导出，但没有同步修改导入
         """
         issues = []
         
@@ -705,13 +706,22 @@ class L0StaticGate:
                 if exports:
                     exports_map[filename] = exports
         
-        # 2. 检查 Index.tsx 的导入
-        index_file = 'src/pages/Index.tsx'
-        if index_file not in files:
-            return issues
+        # 2. 检查所有业务代码文件的导入（Index.tsx 和 generated 组件）
+        files_to_check = []
         
-        index_content = files[index_file]
-        imports = self._extract_named_imports_with_source(index_content)
+        # 添加 Index.tsx
+        if 'src/pages/Index.tsx' in files:
+            files_to_check.append('src/pages/Index.tsx')
+        
+        # 添加所有 generated 目录下的组件
+        for filename in files.keys():
+            if '/generated/' in filename and filename.endswith(('.tsx', '.jsx', '.ts')):
+                files_to_check.append(filename)
+        
+        # 检查每个文件的导入
+        for file_path in files_to_check:
+            file_content = files[file_path]
+            imports = self._extract_named_imports_with_source(file_content)
         
         for imported_name, source_path in imports:
             # 只检查项目内部的导入（@/ 开头）
@@ -731,17 +741,18 @@ class L0StaticGate:
                     if similar:
                         suggestion = f"'{actual_path}' 导出的是 '{similar}'，请在 {actual_path} 中将 '{similar}' 改名为 '{imported_name}'，或添加别名：export {{ {similar} as {imported_name} }}"
                     else:
-                        suggestion = f"'{actual_path}' 没有导出 '{imported_name}'，请检查导出名称"
+                            suggestion = f"'{actual_path}' 没有导出 '{imported_name}'，请在 {actual_path} 中添加：export {{ {imported_name} }}"
                     
                     issues.append({
                         'rule_id': 'import_export_mismatch',
                         'severity': 'error',
                         'priority': 1,
-                        'file': index_file,
-                        'line': self._find_import_line(index_content, imported_name),
+                            'file': file_path,
+                            'line': self._find_import_line(file_content, imported_name),
                         'message': f"导入的 '{imported_name}' 在 '{actual_path}' 中不存在",
                         'snippet': f'import {{ {imported_name} }} from "{source_path}"',
-                        'suggestion': suggestion
+                            'suggestion': suggestion,
+                            'gate': 'L0_static'
                     })
         
         return issues
@@ -1018,11 +1029,17 @@ class L0StaticGate:
             # 规则 2: 检查组件文件的导出名是否与文件名匹配
             elif '/components/generated/' in filename and filename.endswith(('.tsx', '.jsx')):
                 # 提取文件名（不含扩展名和路径）
-                component_name = filename.split('/')[-1].replace('.tsx', '').replace('.jsx', '')
+                file_basename = filename.split('/')[-1].replace('.tsx', '').replace('.jsx', '')
                 
-                # 检查是否有匹配的命名导出
+                # 将 kebab-case 或 snake_case 转换为 PascalCase
+                # 例如: neon-counter-card -> NeonCounterCard
+                component_name_pascal = ''.join(
+                    word.capitalize() for word in file_basename.replace('_', '-').split('-')
+                )
+                
+                # 检查是否有匹配的命名导出（支持原文件名和 PascalCase 两种形式）
                 has_matching_export = bool(re.search(
-                    rf'export\s+(const|function|class)\s+{re.escape(component_name)}\b',
+                    rf'export\s+(const|function|class)\s+({re.escape(component_name_pascal)}|{re.escape(file_basename)})\b',
                     content
                 ))
                 
@@ -1036,9 +1053,9 @@ class L0StaticGate:
                         "priority": 2,
                         "file": filename,
                         "line": 1,
-                        "message": f"组件文件 {component_name}.tsx 缺少对应的导出",
-                        "snippet": f"未找到 export const {component_name} 或 export default",
-                        "suggestion": f"添加 'export const {component_name} = ...' 或 'export default {component_name}'"
+                        "message": f"组件文件 {file_basename}.tsx 缺少对应的导出",
+                        "snippet": f"未找到 export const {component_name_pascal} 或 export default",
+                        "suggestion": f"添加 'export const {component_name_pascal} = ...' 或 'export default'"
                     })
                 
                 # 如果只有默认导出，警告应该使用命名导出
@@ -1048,9 +1065,9 @@ class L0StaticGate:
                         "severity": "warning",
                         "file": filename,
                         "line": 1,
-                        "message": f"组件 {component_name} 使用了默认导出，建议使用命名导出",
+                        "message": f"组件 {file_basename} 使用了默认导出，建议使用命名导出",
                         "snippet": "export default ...",
-                        "suggestion": f"改为 'export const {component_name} = ...' 以提高导入一致性"
+                        "suggestion": f"改为 'export const {component_name_pascal} = ...' 以提高导入一致性"
                     })
         
         return issues

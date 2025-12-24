@@ -1,0 +1,220 @@
+{
+  "runId": "75254044-6a9f-44ee-ac91-be45a8406d7a",
+  "timestamp": "2025-12-23T14:36:21.252Z",
+  "prompt": "创建一个计数器应用，有增加和减少按钮",
+  "themeName": "violet",
+  "telemetry": {
+    "mode": "generate",
+    "policy_version": "1.0.0",
+    "prompt_hash": "b20ee346f6703ffa",
+    "prompt_length": 4406,
+    "activated_dynamic_rules": [],
+    "spec_mode": "summary"
+  },
+  "l0": {
+    "status": "pass",
+    "ruleSetVersion": "1.0",
+    "errorCount": 0,
+    "warningCount": 0,
+    "issues": [],
+    "appliedFixes": []
+  },
+  "qualityGates": {
+    "enabled": true,
+    "initial": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "results": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "passed": true,
+    "failed_gates": [],
+    "healing_history": [
+      {
+        "iteration": 1,
+        "timestamp": "2025-12-23T22:36:07.049854",
+        "issues_count": 1,
+        "regression": false,
+        "healing_actions": {
+          "ai_returned_files": 1,
+          "files_applied": 1,
+          "files_filtered": 0,
+          "filtered_paths": [],
+          "changes": [
+            {
+              "path": "src/lib/generated/counterLogic.ts",
+              "action": "modified",
+              "size_before": 2896,
+              "size_after": 1380,
+              "lines_before": 143,
+              "lines_after": 66
+            }
+          ]
+        },
+        "gates": {
+          "L0_static": {
+            "passed": false,
+            "issues_count": 1,
+            "issues": [
+              {
+                "rule_id": null,
+                "severity": "error",
+                "file": "src/pages/Index.tsx",
+                "message": "[G7_IMPORT_EXPORT_MISMATCH] 相对导入的命名导出不存在（第 3 行）：src/lib/generated/counterLogic.ts 未导出 validateCounterTransition"
+              }
+            ]
+          },
+          "L1_typecheck": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          },
+          "L2_smoke_test": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          }
+        }
+      },
+      {
+        "iteration": 2,
+        "timestamp": "2025-12-23T22:36:13.491428",
+        "issues_count": 0,
+        "regression": false,
+        "healing_actions": {
+          "ai_returned_files": 1,
+          "files_applied": 1,
+          "files_filtered": 0,
+          "filtered_paths": [],
+          "changes": [
+            {
+              "path": "src/lib/generated/counterLogic.ts",
+              "action": "modified",
+              "size_before": 1380,
+              "size_after": 2321,
+              "lines_before": 66,
+              "lines_after": 104
+            }
+          ]
+        },
+        "gates": {
+          "L0_static": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          },
+          "L1_typecheck": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          },
+          "L2_smoke_test": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          }
+        }
+      }
+    ],
+    "final": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    }
+  },
+  "phases": {
+    "install": {
+      "status": "success",
+      "startedAt": "2025-12-23T14:36:16.468Z",
+      "endedAt": "2025-12-23T14:36:17.821Z",
+      "duration_ms": 1353,
+      "exitCode": 0,
+      "logTail": "\r\nup to date in 669ms\r\n\r\n28 packages are looking for funding\r\n  run `npm fund` for details\r\n"
+    },
+    "dev": {
+      "status": "success",
+      "startedAt": "2025-12-23T14:36:17.821Z",
+      "endedAt": "2025-12-23T14:36:19.199Z",
+      "duration_ms": 1378,
+      "exitCode": 0,
+      "logTail": "\r\n> cyberpunk-app@0.0.0 dev\r\n> vite\r\n\r\n\u001b[1G\u001b[0KPort 5173 is in use, trying another one...\r\nPort 5174 is in use, trying another one...\r\n",
+      "url": "https://k03e2io1v3fx9wvj0vr8qd5q58o56n-fkdo--5175--365214aa.local-corp.webcontainer-api.io",
+      "port": 5175
+    },
+    "render": {
+      "status": "success",
+      "startedAt": "2025-12-23T14:36:19.199Z",
+      "endedAt": "2025-12-23T14:36:21.252Z",
+      "duration_ms": 2053,
+      "signal": "APP_RENDERED"
+    }
+  },
+  "deps": {
+    "approved": {},
+    "injected": [],
+    "injectError": null
+  },
+  "errors": {
+    "console": {
+      "total": 0,
+      "uniqueCount": 0,
+      "samples": []
+    },
+    "classified": {
+      "INSTALL": 0,
+      "DEPENDENCY": 0,
+      "BUILD": 0,
+      "EXPORT": 0,
+      "RUNTIME": 0
+    }
+  }
+}

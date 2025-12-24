@@ -1,0 +1,129 @@
+{
+  "runId": "c06f60fa-6233-4957-a686-6b4b856c09e1",
+  "timestamp": "2025-12-23T07:43:13.213Z",
+  "prompt": "创建一个计数器应用，有增加和减少按钮",
+  "themeName": "amber",
+  "telemetry": {
+    "mode": "generate",
+    "policy_version": "1.0.0",
+    "prompt_hash": "828a8d619cd30c34",
+    "prompt_length": 4388,
+    "activated_dynamic_rules": [],
+    "spec_mode": "summary"
+  },
+  "l0": {
+    "status": "pass",
+    "ruleSetVersion": "1.0",
+    "errorCount": 0,
+    "warningCount": 0,
+    "issues": [],
+    "appliedFixes": []
+  },
+  "qualityGates": {
+    "enabled": true,
+    "results": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": false,
+        "issues_count": 3,
+        "issues": [
+          {
+            "rule_id": "component_missing_export",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/components/generated/cyber-counter/neon-counter-card.tsx",
+            "line": 1,
+            "message": "组件文件 neon-counter-card.tsx 缺少对应的导出",
+            "snippet": "未找到 export const neon-counter-card 或 export default",
+            "suggestion": "添加 'export const neon-counter-card = ...' 或 'export default neon-counter-card'",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/counter-logic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'stateLabel', 'distanceToMax', 'fillPercent', 'distanceToMin', 'nextIncrementPreview', 'parity'}，第2个return缺少{'stateLabel', 'distanceToMax', 'fillPercent', 'distanceToMin', 'nextIncrementPreview', 'parity'}，多出{'...state', 'count'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/counter-logic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'stateLabel', 'distanceToMax', 'fillPercent', 'distanceToMin', 'nextIncrementPreview', 'parity'}，第3个return缺少{'stateLabel', 'distanceToMax', 'fillPercent', 'distanceToMin', 'nextIncrementPreview', 'parity'}，多出{'...state', 'count'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "passed": false,
+    "failed_gates": [
+      "L0_static"
+    ]
+  },
+  "phases": {
+    "install": {
+      "status": "success",
+      "startedAt": "2025-12-23T07:34:36.519Z",
+      "endedAt": "2025-12-23T07:43:00.834Z",
+      "duration_ms": 504315,
+      "exitCode": 0,
+      "logTail": "\r\nadded 183 packages in 8m\r\n\r\n28 packages are looking for funding\r\n  run `npm fund` for details\r\n"
+    },
+    "dev": {
+      "status": "success",
+      "startedAt": "2025-12-23T07:43:00.834Z",
+      "endedAt": "2025-12-23T07:43:04.941Z",
+      "duration_ms": 4107,
+      "exitCode": 0,
+      "logTail": "\r\n> cyberpunk-app@0.0.0 dev\r\n> vite\r\n\r\n\u001b[1G\u001b[0K",
+      "url": "https://k03e2io1v3fx9wvj0vr8qd5q58o56n-fkdo--5173--365214aa.local-corp.webcontainer-api.io",
+      "port": 5173
+    },
+    "render": {
+      "status": "timeout",
+      "startedAt": "2025-12-23T07:43:04.941Z",
+      "endedAt": "2025-12-23T07:43:13.213Z",
+      "duration_ms": 8272,
+      "signal": "TIMEOUT_NO_ERROR"
+    }
+  },
+  "deps": {
+    "approved": {},
+    "injected": [],
+    "injectError": null
+  },
+  "errors": {
+    "console": {
+      "total": 0,
+      "uniqueCount": 0,
+      "samples": []
+    },
+    "classified": {
+      "INSTALL": 0,
+      "DEPENDENCY": 0,
+      "BUILD": 0,
+      "EXPORT": 0,
+      "RUNTIME": 0
+    }
+  }
+}

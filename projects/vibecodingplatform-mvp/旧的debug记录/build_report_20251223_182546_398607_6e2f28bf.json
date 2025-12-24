@@ -1,0 +1,198 @@
+{
+  "runId": "6e2f28bf-1c2e-4105-b079-7fdc43bb5383",
+  "timestamp": "2025-12-23T10:25:46.374Z",
+  "prompt": "使用 React + TypeScript + Tailwind CSS 开发一个待办事项应用。功能要求：\\n1. 支持新增任务、删除任务。\\n2. 支持标记任务为完成/未完成状态。\\n3. 底部提供筛选栏：全部 (All) / 未完成 (Active) / 已完成 (Completed)。\\n4. 数据持久化：刷新页面后数据不丢失（使用 localStorage）。\\n5. UI 需美观，使用卡片式设计。",
+  "themeName": "blue",
+  "telemetry": {
+    "mode": "generate",
+    "policy_version": "1.0.0",
+    "prompt_hash": "3986079211e30317",
+    "prompt_length": 5765,
+    "activated_dynamic_rules": [
+      "router_setup",
+      "data_handling_inline_only"
+    ],
+    "spec_mode": "summary"
+  },
+  "l0": {
+    "status": "pass",
+    "ruleSetVersion": "1.0",
+    "errorCount": 0,
+    "warningCount": 0,
+    "issues": [],
+    "appliedFixes": []
+  },
+  "qualityGates": {
+    "enabled": true,
+    "results": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": false,
+        "issues_count": 9,
+        "issues": [
+          {
+            "rule_id": "low_contrast_light_on_light",
+            "severity": "error",
+            "priority": 3,
+            "file": "src/components/generated/todo/TodoListItem.tsx",
+            "line": 28,
+            "message": "低对比度：浅色文字(text-white)在浅色背景(bg-white)上，文字不可读",
+            "snippet": "className=\"flex-shrink-0 w-7 h-7 flex items-center justify-center border-2 border-black rounded-sm bg-white text-gray-90",
+            "suggestion": "将 text-white 改为 text-gray-900 或 text-slate-900",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "low_contrast_light_on_light",
+            "severity": "error",
+            "priority": 3,
+            "file": "src/components/generated/todo/TodoFilterBar.tsx",
+            "line": 34,
+            "message": "低对比度：浅色文字(text-white)在浅色背景(bg-white)上，文字不可读",
+            "snippet": ": 'bg-white text-gray-900 hover:bg-[#f59e0b] hover:text-white'",
+            "suggestion": "将 text-white 改为 text-gray-900 或 text-slate-900",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'todos', 'filter'}，第2个return缺少{'filter'}，多出{'...state', '...state.todos]'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'todos', 'filter'}，第3个return缺少{'filter'}，多出{'...state', 'completed'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'todos', 'filter'}，第4个return缺少{'filter'}，多出{'...state'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'todos', 'filter'}，第5个return缺少{'todos'}，多出{'...state'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/lib/generated/todoLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'todos', 'filter'}，第6个return缺少{'filter'}，多出{'...state'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "missing_null_check",
+            "severity": "error",
+            "priority": 3,
+            "file": "src/components/generated/todo/TodoApp.tsx",
+            "line": 88,
+            "message": "缺少空值检查：state.todos.length 可能在 state.todos 为 undefined 时崩溃",
+            "snippet": "{state.todos.length} Total",
+            "suggestion": "使用可选链：state?.todos?.length 或添加条件：state && state.todos",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "missing_null_check",
+            "severity": "error",
+            "priority": 3,
+            "file": "src/components/generated/todo/TodoApp.tsx",
+            "line": 117,
+            "message": "缺少空值检查：state.todos.length 可能在 state.todos 为 undefined 时崩溃",
+            "snippet": "total={state.todos.length}",
+            "suggestion": "使用可选链：state?.todos?.length 或添加条件：state && state.todos",
+            "gate": "L0_static"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "passed": false,
+    "failed_gates": [
+      "L0_static"
+    ]
+  },
+  "phases": {
+    "install": {
+      "status": "success",
+      "startedAt": "2025-12-23T10:08:11.518Z",
+      "endedAt": "2025-12-23T10:25:36.692Z",
+      "duration_ms": 1045174,
+      "exitCode": 0,
+      "logTail": "\r\nadded 183 packages in 17m\r\n\r\n28 packages are looking for funding\r\n  run `npm fund` for details\r\n"
+    },
+    "dev": {
+      "status": "success",
+      "startedAt": "2025-12-23T10:25:36.695Z",
+      "endedAt": "2025-12-23T10:25:37.816Z",
+      "duration_ms": 1121,
+      "exitCode": 0,
+      "logTail": "\r\n> cyberpunk-app@0.0.0 dev\r\n> vite\r\n\r\n\u001b[1G\u001b[0K",
+      "url": "https://k03e2io1v3fx9wvj0vr8qd5q58o56n-fkdo--5173--365214aa.local-corp.webcontainer-api.io",
+      "port": 5173
+    },
+    "render": {
+      "status": "timeout",
+      "startedAt": "2025-12-23T10:25:37.816Z",
+      "endedAt": "2025-12-23T10:25:46.374Z",
+      "duration_ms": 8558,
+      "signal": "TIMEOUT_NO_ERROR"
+    }
+  },
+  "deps": {
+    "approved": {},
+    "injected": [],
+    "injectError": null
+  },
+  "errors": {
+    "console": {
+      "total": 0,
+      "uniqueCount": 0,
+      "samples": []
+    },
+    "classified": {
+      "INSTALL": 0,
+      "DEPENDENCY": 0,
+      "BUILD": 0,
+      "EXPORT": 0,
+      "RUNTIME": 0
+    }
+  }
+}

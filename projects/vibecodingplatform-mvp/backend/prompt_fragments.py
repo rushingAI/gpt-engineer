@@ -28,7 +28,7 @@ def build_base_rules(mode: Literal['generate', 'improve', 'heal'] = 'generate') 
         "MUST only write to allowed paths (src/pages/, src/components/generated/, src/lib/generated/)",
         "MUST keep application runnable (no syntax errors, complete imports)",
         "MUST use default export in src/pages/Index.tsx: `export default function Index()`",
-        "MUST use NAMED exports in src/components/generated/: `export const MyComponent = ...` or `export function MyComponent()`",
+        "MUST match filename to export in src/components/generated/: `CounterCard.tsx` exports `export const CounterCard` (PascalCase, exact match)",
         "MUST use lowercase shadcn imports: `from '@/components/ui/button'` NOT `from '@/components/ui/Button'`",
         "MUST specify explicit text color for ALL text: use text-white/text-gray-100 for Cyberpunk/Minimal/Brutalist, use text-gray-900/text-slate-900 for Glassmorphism/Modern/Playful",
         "MUST keep export names consistent: if Index.tsx imports 'computeOrderStats', export 'computeOrderStats', NOT 'getOrderStats'. Keep naming consistent across all files",

@@ -72,9 +72,10 @@ export function filterGeneratedFiles(files) {
  * @param {Object} aiFiles - AI 生成的文件字典
  * @param {string} themeName - 主题名称（默认 'teal'）
  * @param {Object} themeOverrides - 主题覆盖变量（可选）
+ * @param {string} runId - 当前运行的唯一 ID（可选，用于注入监控脚本）
  * @returns {Object} 合并后的完整文件字典
  */
-export function mergeWithPreset(aiFiles, themeName = 'teal', themeOverrides = {}) {
+export function mergeWithPreset(aiFiles, themeName = 'teal', themeOverrides = {}, runId = null) {
   console.log(`🎨 Merging files with Cyberpunk preset (theme: ${themeName})...`);
   
   // 获取主题配置
@@ -116,6 +117,27 @@ export function mergeWithPreset(aiFiles, themeName = 'teal', themeOverrides = {}
     ...presetFilesWithTheme,
     ...filteredAiFiles
   };
+  
+  // 注入监控脚本（如果提供了 runId）
+  if (runId) {
+    // 注入到 index.html
+    if (mergedFiles['index.html']) {
+      mergedFiles['index.html'] = injectMonitorToIndexHtml(mergedFiles['index.html'], runId)
+      console.log(`  ↳ 监控脚本已注入到 index.html (runId: ${runId.slice(0, 8)})`)
+    }
+    
+    // 注入到 main.tsx
+    if (mergedFiles['src/main.tsx']) {
+      mergedFiles['src/main.tsx'] = injectAppReadyCallToMainTsx(mergedFiles['src/main.tsx'], runId)
+      console.log(`  ↳ APP_READY 调用已注入到 src/main.tsx (runId: ${runId.slice(0, 8)})`)
+    }
+    
+    // 如果 main.tsx 不存在，尝试 App.tsx
+    if (mergedFiles['src/App.tsx'] && !mergedFiles['src/main.tsx']) {
+      mergedFiles['src/App.tsx'] = injectAppReadyCallToMainTsx(mergedFiles['src/App.tsx'], runId)
+      console.log(`  ↳ APP_READY 调用已注入到 src/App.tsx (runId: ${runId.slice(0, 8)})`)
+    }
+  }
   
   console.log(`📦 Total files in merged tree: ${Object.keys(mergedFiles).length}`);
   console.log('📋 Preset files:', Object.keys(BASE_PRESET_FILES).join(', '));
@@ -337,11 +359,177 @@ function injectThemeVariables(css, themeVariables) {
 }
 
 /**
+ * 生成监控脚本（注入到 index.html）
+ * @param {string} runId - 当前运行的唯一 ID
+ * @returns {string} 监控脚本的 HTML 字符串
+ */
+export function generateMonitorScript(runId) {
+  return `
+    <script type="module">
+      // Early error capture for index.html
+      window.addEventListener('error', (event) => {
+        window.parent.postMessage({
+          type: 'CONSOLE_ERROR',
+          runId: '${runId}',
+          message: event.message || 'Unknown error in index.html',
+          source: event.filename || 'index.html',
+          lineno: event.lineno,
+          colno: event.colno
+        }, '*');
+      });
+
+      // Override console.error
+      const originalConsoleError = console.error;
+      console.error = (...args) => {
+        originalConsoleError(...args);
+        window.parent.postMessage({
+          type: 'CONSOLE_ERROR',
+          runId: '${runId}',
+          message: args.map(arg => typeof arg === 'object' ? JSON.stringify(arg) : String(arg)).join(' '),
+          source: 'console.error'
+        }, '*');
+      };
+
+      // Capture unhandled promise rejections
+      window.addEventListener('unhandledrejection', (event) => {
+        window.parent.postMessage({
+          type: 'CONSOLE_ERROR',
+          runId: '${runId}',
+          message: event.reason?.message || String(event.reason) || 'Unhandled rejection',
+          source: 'unhandledrejection'
+        }, '*');
+      });
+
+      // Function to signal app readiness
+      window.__APP_READY__ = () => {
+        window.parent.postMessage({ type: 'APP_RENDERED', runId: '${runId}' }, '*');
+      };
+    </script>
+  `;
+}
+
+/**
+ * 注入监控脚本到 index.html
+ * @param {string} content - index.html 的原始内容
+ * @param {string} runId - 当前运行的唯一 ID
+ * @returns {string} 注入后的 index.html 内容
+ */
+export function injectMonitorToIndexHtml(content, runId) {
+  const script = generateMonitorScript(runId);
+  
+  // 尝试在 </head> 之前注入
+  if (content.includes('</head>')) {
+    return content.replace('</head>', `${script}\n  </head>`);
+  }
+  
+  // 如果找不到 </head>，尝试在 <body> 之后注入
+  if (content.includes('<body>')) {
+    return content.replace('<body>', `<body>\n${script}`);
+  }
+  
+  // 最后的兜底：直接追加到文件开头（不推荐但总比没有好）
+  console.warn('⚠️ 未找到 </head> 或 <body> 标签，脚本注入到文件开头');
+  return script + '\n' + content;
+}
+
+/**
+ * 生成完整的 main.tsx 监控代码
+ * 包含：console.error override, onerror, unhandledrejection, APP_READY
+ * @param {string} runId - 当前运行的唯一 ID
+ * @returns {string} 完整的监控代码
+ */
+function generateMainTsxMonitor(runId) {
+  return `
+// === Build Report Monitor (auto-injected) ===
+(function() {
+  const runId = '${runId}';
+  const parent = window.parent;
+  if (parent === window) return; // 非 iframe 环境跳过
+  
+  // 覆盖 console.error
+  const originalError = console.error;
+  console.error = function(...args) {
+    originalError.apply(console, args);
+    try {
+      parent.postMessage({ 
+        type: 'CONSOLE_ERROR', 
+        runId,
+        message: args.map(a => a instanceof Error ? a.message + '\\n' + a.stack : String(a)).join(' '),
+        source: 'console.error'
+      }, '*');
+    } catch(e) {}
+  };
+  
+  // window.onerror
+  window.onerror = function(msg, url, line, col, error) {
+    try {
+      parent.postMessage({ 
+        type: 'CONSOLE_ERROR', 
+        runId, 
+        message: msg + ' at ' + url + ':' + line + ':' + col, 
+        source: 'onerror' 
+      }, '*');
+    } catch(e) {}
+    return false;
+  };
+  
+  // unhandledrejection
+  window.addEventListener('unhandledrejection', function(e) {
+    try {
+      const message = e.reason instanceof Error ? e.reason.message + '\\n' + e.reason.stack : String(e.reason);
+      parent.postMessage({ 
+        type: 'CONSOLE_ERROR', 
+        runId, 
+        message: 'Unhandled rejection: ' + message, 
+        source: 'unhandledrejection' 
+      }, '*');
+    } catch(err) {}
+  });
+  
+  // APP_RENDERED 通知
+  window.__VIBE_RUN_ID__ = runId;
+  window.__APP_READY__ = function() {
+    try { parent.postMessage({ type: 'APP_RENDERED', runId }, '*'); } catch(e) {}
+  };
+})();
+// === End Build Report Monitor ===
+`;
+}
+
+/**
+ * 注入完整监控代码到 main.tsx
+ * - 顶部：错误捕获逻辑
+ * - 底部：追加 APP_READY 触发
+ * @param {string} content - main.tsx 的原始内容
+ * @param {string} runId - 当前运行的唯一 ID
+ * @returns {string} 注入后的内容
+ */
+export function injectAppReadyCallToMainTsx(content, runId) {
+  // 1. 在文件顶部注入监控代码（import 语句之前）
+  const monitorCode = generateMainTsxMonitor(runId);
+  let injectedContent = monitorCode + '\n' + content;
+  
+  // 2. 在文件末尾追加 APP_READY 触发（避免脆弱的正则替换）
+  const appReadyTrigger = `
+// === APP_READY trigger (auto-injected) ===
+// 使用 requestAnimationFrame 确保在下一帧触发，此时 React 已完成首次渲染
+requestAnimationFrame(() => {
+  window.__APP_READY__?.();
+});
+`;
+  
+  injectedContent = injectedContent + '\n' + appReadyTrigger;
+  
+  return injectedContent;
+}
+
+/**
  * 将后端返回的文件格式转换为 WebContainer 的 FileSystemTree 格式
  * @param {Object} files - 后端返回的文件字典 { '/path/to/file': 'content' }
+ * @param {string} runId - 当前运行的唯一 ID（可选，用于注入监控脚本）
  * @returns {Object} WebContainer FileSystemTree
  */
-export function convertToFileSystemTree(files) {
+export function convertToFileSystemTree(files, runId = null) {
   const tree = {}
   
   for (const [path, content] of Object.entries(files)) {
@@ -350,6 +538,10 @@ export function convertToFileSystemTree(files) {
     const parts = cleanPath.split('/')
     
     let current = tree
+    
+    // 注意：不在这里注入监控脚本，因为 mergeWithPreset 中已经注入了
+    // 避免重复注入导致 console.error 被覆盖两次
+    let finalContent = content
     
     // 遍历路径的每一部分
     for (let i = 0; i < parts.length; i++) {
@@ -360,7 +552,7 @@ export function convertToFileSystemTree(files) {
         // 这是文件
         current[part] = {
           file: {
-            contents: content
+            contents: finalContent
           }
         }
       } else {
