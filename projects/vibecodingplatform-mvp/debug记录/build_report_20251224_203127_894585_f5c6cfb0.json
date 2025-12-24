@@ -1,0 +1,945 @@
+{
+  "runId": "f5c6cfb0-5459-4fdd-ae12-005910b22494",
+  "timestamp": "2025-12-24T12:31:27.388Z",
+  "prompt": "使用 React + TypeScript + Tailwind CSS 实现一个三步注册向导。\\n1. 步骤指示器：顶部显示 Step 1 -> Step 2 -> Step 3，高亮当前步骤。\\n2. Step 1：填写姓名（必填）。\\n3. Step 2：填写邮箱（必填，需校验格式）。\\n4. Step 3：确认页，展示前两步填写的信息，点击'提交'。\\n5. 导航控制：提供'上一步'、'下一步'按钮。校验失败不允许进入下一步。\\n6. 最终提交后显示'注册成功'摘要。",
+  "themeName": "orange",
+  "telemetry": {
+    "mode": "generate",
+    "policy_version": "1.0.0",
+    "prompt_hash": "89458570f371ab73",
+    "prompt_length": 5208,
+    "activated_dynamic_rules": [
+      "form_input_contrast"
+    ],
+    "spec_mode": "summary"
+  },
+  "l0": {
+    "status": "pass",
+    "ruleSetVersion": "1.0",
+    "errorCount": 0,
+    "warningCount": 0,
+    "issues": [],
+    "appliedFixes": []
+  },
+  "qualityGates": {
+    "enabled": true,
+    "initial": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": false,
+        "issues_count": 17,
+        "issues": [
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/registration/StepOneName.tsx",
+            "line": 31,
+            "message": "Input element may lack explicit text color styling (line 31). Text may be invisible against background.",
+            "snippet": "<input\n          id=\"name\"\n          type=\"text\"\n          value={name}\n          onChange={(e) =>",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "low_contrast_light_on_light",
+            "severity": "error",
+            "priority": 3,
+            "file": "src/components/generated/registration/StepOneName.tsx",
+            "line": 36,
+            "message": "低对比度：浅色文字(text-gray-50)在浅色背景(bg-white)上，文字不可读",
+            "snippet": "className=\"w-full border-4 border-black px-3 py-2 text-base font-semibold text-gray-900 placeholder:text-gray-500 bg-whi",
+            "suggestion": "将 text-gray-50 改为 text-gray-900 或 text-slate-900",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/registration/StepTwoEmail.tsx",
+            "line": 31,
+            "message": "Input element may lack explicit text color styling (line 31). Text may be invisible against background.",
+            "snippet": "<input\n          id=\"email\"\n          type=\"email\"\n          value={email}\n          onChange={(e) =...",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "low_contrast_light_on_light",
+            "severity": "error",
+            "priority": 3,
+            "file": "src/components/generated/registration/StepTwoEmail.tsx",
+            "line": 36,
+            "message": "低对比度：浅色文字(text-gray-50)在浅色背景(bg-white)上，文字不可读",
+            "snippet": "className=\"w-full border-4 border-black px-3 py-2 text-base font-semibold text-gray-900 placeholder:text-gray-500 bg-whi",
+            "suggestion": "将 text-gray-50 改为 text-gray-900 或 text-slate-900",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第4个return缺少{'message', 'scope', 'field'}，多出{'lastViolation', 'name'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第5个return缺少{'message', 'scope', 'field'}，多出{'email', 'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第6个return缺少{'message', 'field'}，多出{'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第7个return缺少{'message', 'scope', 'field'}，多出{'currentStep', 'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第8个return缺少{'message', 'scope', 'field'}，多出{'currentStep', 'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第9个return缺少{'scope'}，多出{'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第10个return缺少{'message', 'scope', 'field'}，多出{'currentStep', 'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第11个return缺少{'message', 'scope', 'field'}，多出{'currentStep', 'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第12个return缺少{'scope'}，多出{'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第13个return缺少{'scope'}，多出{'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第14个return缺少{'message', 'field'}，多出{'currentStep', 'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第15个return缺少{'message', 'field'}，多出{'currentStep', 'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第16个return缺少{'message', 'scope', 'field'}，多出{'lastViolation', 'submitted'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "results": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 15,
+        "issues": [
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/registration/StepOneName.tsx",
+            "line": 20,
+            "message": "Input element may lack explicit text color styling (line 20). Text may be invisible against background.",
+            "snippet": "<input\n        id=\"name\"\n        type=\"text\"\n        value={name}\n        onChange={(e) =>",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/registration/StepTwoEmail.tsx",
+            "line": 20,
+            "message": "Input element may lack explicit text color styling (line 20). Text may be invisible against background.",
+            "snippet": "<input\n        id=\"email\"\n        type=\"email\"\n        value={email}\n        onChange={(e) =>",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第4个return缺少{'message', 'scope', 'field'}，多出{'lastViolation', 'name'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第5个return缺少{'message', 'scope', 'field'}，多出{'email', 'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第6个return缺少{'message', 'field'}，多出{'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第7个return缺少{'message', 'scope', 'field'}，多出{'currentStep', 'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第8个return缺少{'message', 'scope', 'field'}，多出{'currentStep', 'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第9个return缺少{'scope'}，多出{'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第10个return缺少{'message', 'scope', 'field'}，多出{'currentStep', 'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第11个return缺少{'message', 'scope', 'field'}，多出{'currentStep', 'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第12个return缺少{'scope'}，多出{'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第13个return缺少{'scope'}，多出{'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第14个return缺少{'message', 'field'}，多出{'currentStep', 'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第15个return缺少{'message', 'field'}，多出{'currentStep', 'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第16个return缺少{'message', 'scope', 'field'}，多出{'lastViolation', 'submitted'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "passed": true,
+    "failed_gates": [],
+    "healing_history": [
+      {
+        "iteration": 1,
+        "timestamp": "2025-12-24T20:31:11.674432",
+        "error_count": 2,
+        "total_count": 17,
+        "regression": false,
+        "regression_type": "none",
+        "healing_actions": {
+          "ai_returned_files": 2,
+          "files_applied": 2,
+          "files_filtered": 0,
+          "filtered_paths": [],
+          "max_files_limit": 8,
+          "changes": [
+            {
+              "path": "src/components/generated/registration/StepOneName.tsx",
+              "action": "modified",
+              "size_before": 1319,
+              "size_after": 984,
+              "lines_before": 47,
+              "lines_after": 30
+            },
+            {
+              "path": "src/components/generated/registration/StepTwoEmail.tsx",
+              "action": "modified",
+              "size_before": 1339,
+              "size_after": 1013,
+              "lines_before": 47,
+              "lines_after": 30
+            }
+          ]
+        },
+        "gates": {
+          "L0_static": {
+            "passed": false,
+            "issues_count": 17,
+            "issues": [
+              {
+                "rule_id": "input_missing_text_color",
+                "severity": "warning",
+                "file": "src/components/generated/registration/StepOneName.tsx",
+                "message": "Input element may lack explicit text color styling (line 20). Text may be invisible against background."
+              },
+              {
+                "rule_id": "low_contrast_light_on_light",
+                "severity": "error",
+                "file": "src/components/generated/registration/StepOneName.tsx",
+                "message": "低对比度：浅色文字(text-gray-50)在浅色背景(bg-white)上，文字不可读"
+              },
+              {
+                "rule_id": "input_missing_text_color",
+                "severity": "warning",
+                "file": "src/components/generated/registration/StepTwoEmail.tsx",
+                "message": "Input element may lack explicit text color styling (line 20). Text may be invisible against background."
+              },
+              {
+                "rule_id": "low_contrast_light_on_light",
+                "severity": "error",
+                "file": "src/components/generated/registration/StepTwoEmail.tsx",
+                "message": "低对比度：浅色文字(text-gray-50)在浅色背景(bg-white)上，文字不可读"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第4个return缺少{'message', 'scope', 'field'}，多出{'lastViolation', 'name'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第5个return缺少{'message', 'scope', 'field'}，多出{'email', 'lastViolation'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第6个return缺少{'message', 'field'}，多出{'lastViolation'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第7个return缺少{'message', 'scope', 'field'}，多出{'currentStep', 'lastViolation'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第8个return缺少{'message', 'scope', 'field'}，多出{'currentStep', 'lastViolation'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第9个return缺少{'scope'}，多出{'lastViolation'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第10个return缺少{'message', 'scope', 'field'}，多出{'currentStep', 'lastViolation'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第11个return缺少{'message', 'scope', 'field'}，多出{'currentStep', 'lastViolation'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第12个return缺少{'scope'}，多出{'lastViolation'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第13个return缺少{'scope'}，多出{'lastViolation'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第14个return缺少{'message', 'field'}，多出{'currentStep', 'lastViolation'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第15个return缺少{'message', 'field'}，多出{'currentStep', 'lastViolation'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第16个return缺少{'message', 'scope', 'field'}，多出{'lastViolation', 'submitted'}"
+              }
+            ]
+          },
+          "L1_typecheck": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          },
+          "L2_smoke_test": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          }
+        }
+      },
+      {
+        "iteration": 2,
+        "timestamp": "2025-12-24T20:31:18.258609",
+        "error_count": 0,
+        "total_count": 15,
+        "regression": false,
+        "regression_type": "none",
+        "healing_actions": {
+          "ai_returned_files": 2,
+          "files_applied": 2,
+          "files_filtered": 0,
+          "filtered_paths": [],
+          "max_files_limit": 8,
+          "changes": [
+            {
+              "path": "src/components/generated/registration/StepOneName.tsx",
+              "action": "modified",
+              "size_before": 984,
+              "size_after": 1090,
+              "lines_before": 30,
+              "lines_after": 33
+            },
+            {
+              "path": "src/components/generated/registration/StepTwoEmail.tsx",
+              "action": "modified",
+              "size_before": 1013,
+              "size_after": 1134,
+              "lines_before": 30,
+              "lines_after": 33
+            }
+          ]
+        },
+        "gates": {
+          "L0_static": {
+            "passed": true,
+            "issues_count": 15,
+            "issues": [
+              {
+                "rule_id": "input_missing_text_color",
+                "severity": "warning",
+                "file": "src/components/generated/registration/StepOneName.tsx",
+                "message": "Input element may lack explicit text color styling (line 20). Text may be invisible against background."
+              },
+              {
+                "rule_id": "input_missing_text_color",
+                "severity": "warning",
+                "file": "src/components/generated/registration/StepTwoEmail.tsx",
+                "message": "Input element may lack explicit text color styling (line 20). Text may be invisible against background."
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第4个return缺少{'message', 'scope', 'field'}，多出{'lastViolation', 'name'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第5个return缺少{'message', 'scope', 'field'}，多出{'email', 'lastViolation'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第6个return缺少{'message', 'field'}，多出{'lastViolation'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第7个return缺少{'message', 'scope', 'field'}，多出{'currentStep', 'lastViolation'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第8个return缺少{'message', 'scope', 'field'}，多出{'currentStep', 'lastViolation'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第9个return缺少{'scope'}，多出{'lastViolation'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第10个return缺少{'message', 'scope', 'field'}，多出{'currentStep', 'lastViolation'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第11个return缺少{'message', 'scope', 'field'}，多出{'currentStep', 'lastViolation'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第12个return缺少{'scope'}，多出{'lastViolation'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第13个return缺少{'scope'}，多出{'lastViolation'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第14个return缺少{'message', 'field'}，多出{'currentStep', 'lastViolation'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第15个return缺少{'message', 'field'}，多出{'currentStep', 'lastViolation'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第16个return缺少{'message', 'scope', 'field'}，多出{'lastViolation', 'submitted'}"
+              }
+            ]
+          },
+          "L1_typecheck": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          },
+          "L2_smoke_test": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          }
+        }
+      }
+    ],
+    "final": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 15,
+        "issues": [
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/registration/StepOneName.tsx",
+            "line": 20,
+            "message": "Input element may lack explicit text color styling (line 20). Text may be invisible against background.",
+            "snippet": "<input\n        id=\"name\"\n        type=\"text\"\n        value={name}\n        onChange={(e) =>",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/registration/StepTwoEmail.tsx",
+            "line": 20,
+            "message": "Input element may lack explicit text color styling (line 20). Text may be invisible against background.",
+            "snippet": "<input\n        id=\"email\"\n        type=\"email\"\n        value={email}\n        onChange={(e) =>",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第4个return缺少{'message', 'scope', 'field'}，多出{'lastViolation', 'name'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第5个return缺少{'message', 'scope', 'field'}，多出{'email', 'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第6个return缺少{'message', 'field'}，多出{'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第7个return缺少{'message', 'scope', 'field'}，多出{'currentStep', 'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第8个return缺少{'message', 'scope', 'field'}，多出{'currentStep', 'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第9个return缺少{'scope'}，多出{'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第10个return缺少{'message', 'scope', 'field'}，多出{'currentStep', 'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第11个return缺少{'message', 'scope', 'field'}，多出{'currentStep', 'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第12个return缺少{'scope'}，多出{'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第13个return缺少{'scope'}，多出{'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第14个return缺少{'message', 'field'}，多出{'currentStep', 'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第15个return缺少{'message', 'field'}，多出{'currentStep', 'lastViolation'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'message', 'scope', 'field'}，第16个return缺少{'message', 'scope', 'field'}，多出{'lastViolation', 'submitted'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    }
+  },
+  "phases": {
+    "install": {
+      "status": "success",
+      "startedAt": "2025-12-24T12:31:21.516Z",
+      "endedAt": "2025-12-24T12:31:22.069Z",
+      "duration_ms": 553,
+      "exitCode": 0,
+      "logTail": "\r\nup to date in 223ms\r\n\r\n28 packages are looking for funding\r\n  run `npm fund` for details\r\n"
+    },
+    "dev": {
+      "status": "success",
+      "startedAt": "2025-12-24T12:31:22.069Z",
+      "endedAt": "2025-12-24T12:31:23.079Z",
+      "duration_ms": 1010,
+      "exitCode": 0,
+      "logTail": "\r\n> cyberpunk-app@0.0.0 dev\r\n> vite\r\n\r\n\u001b[1G\u001b[0KPort 5173 is in use, trying another one...\r\nPort 5174 is in use, trying another one...\r\nPort 5175 is in use, trying another one...\r\n",
+      "url": "https://k03e2io1v3fx9wvj0vr8qd5q58o56n-fkdo--5176--365214aa.local-corp.webcontainer-api.io",
+      "port": 5176
+    },
+    "render": {
+      "status": "success",
+      "startedAt": "2025-12-24T12:31:23.080Z",
+      "endedAt": "2025-12-24T12:31:27.388Z",
+      "duration_ms": 4308,
+      "signal": "APP_RENDERED"
+    }
+  },
+  "deps": {
+    "approved": {},
+    "injected": [],
+    "injectError": null
+  },
+  "errors": {
+    "console": {
+      "total": 0,
+      "uniqueCount": 0,
+      "samples": []
+    },
+    "classified": {
+      "INSTALL": 0,
+      "DEPENDENCY": 0,
+      "BUILD": 0,
+      "EXPORT": 0,
+      "RUNTIME": 0
+    }
+  }
+}

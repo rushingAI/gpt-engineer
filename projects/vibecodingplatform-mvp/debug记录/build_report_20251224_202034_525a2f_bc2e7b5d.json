@@ -1,0 +1,160 @@
+{
+  "runId": "bc2e7b5d-dd5c-4f97-8d1b-929908140b4f",
+  "timestamp": "2025-12-24T12:20:34.396Z",
+  "prompt": "使用 React + TypeScript + Tailwind CSS 开发一个个人记账应用。\\n1. 核心表单：包含金额（输入）、类型（收入/支出）、分类（如下拉选择餐饮/交通/工资等）、日期。\\n2. 列表展示：按时间倒序展示记录，支持删除单条记录。\\n3. 顶部统计卡片：实时计算并显示本月总收入、总支出、当前结余。\\n4. 数据需保存在 localStorage 中。",
+  "themeName": "amber",
+  "telemetry": {
+    "mode": "generate",
+    "policy_version": "1.0.0",
+    "prompt_hash": "525a2fee1661d88b",
+    "prompt_length": 5795,
+    "activated_dynamic_rules": [
+      "form_input_contrast",
+      "data_handling_inline_only"
+    ],
+    "spec_mode": "summary"
+  },
+  "l0": {
+    "status": "pass",
+    "ruleSetVersion": "1.0",
+    "errorCount": 0,
+    "warningCount": 0,
+    "issues": [],
+    "appliedFixes": []
+  },
+  "qualityGates": {
+    "enabled": true,
+    "initial": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 2,
+        "issues": [
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/aurora-budget/AuroraTransactionForm.tsx",
+            "line": 62,
+            "message": "Input element may lack explicit text color styling (line 62). Text may be invisible against background.",
+            "snippet": "<input\n                type=\"number\"\n                min=\"0\"\n                step=\"0.01\"\n           ...",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/aurora-budget/AuroraTransactionForm.tsx",
+            "line": 134,
+            "message": "Input element may lack explicit text color styling (line 134). Text may be invisible against background.",
+            "snippet": "<input\n              type=\"date\"\n              value={formState.date}\n              onChange={(e) =>",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "results": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 2,
+        "issues": [
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/aurora-budget/AuroraTransactionForm.tsx",
+            "line": 62,
+            "message": "Input element may lack explicit text color styling (line 62). Text may be invisible against background.",
+            "snippet": "<input\n                type=\"number\"\n                min=\"0\"\n                step=\"0.01\"\n           ...",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/aurora-budget/AuroraTransactionForm.tsx",
+            "line": 134,
+            "message": "Input element may lack explicit text color styling (line 134). Text may be invisible against background.",
+            "snippet": "<input\n              type=\"date\"\n              value={formState.date}\n              onChange={(e) =>",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "passed": true,
+    "failed_gates": [],
+    "healing_history": [],
+    "final": null
+  },
+  "phases": {
+    "install": {
+      "status": "success",
+      "startedAt": "2025-12-24T12:19:34.667Z",
+      "endedAt": "2025-12-24T12:20:24.959Z",
+      "duration_ms": 50292,
+      "exitCode": 0,
+      "logTail": "\r\nadded 183 packages in 50s\r\n\r\n28 packages are looking for funding\r\n  run `npm fund` for details\r\n"
+    },
+    "dev": {
+      "status": "success",
+      "startedAt": "2025-12-24T12:20:24.959Z",
+      "endedAt": "2025-12-24T12:20:26.395Z",
+      "duration_ms": 1436,
+      "exitCode": 0,
+      "logTail": "\r\n> cyberpunk-app@0.0.0 dev\r\n> vite\r\n\r\n\u001b[1G\u001b[0K",
+      "url": "https://k03e2io1v3fx9wvj0vr8qd5q58o56n-fkdo--5173--365214aa.local-corp.webcontainer-api.io",
+      "port": 5173
+    },
+    "render": {
+      "status": "timeout",
+      "startedAt": "2025-12-24T12:20:26.395Z",
+      "endedAt": "2025-12-24T12:20:34.396Z",
+      "duration_ms": 8001,
+      "signal": "TIMEOUT_NO_ERROR"
+    }
+  },
+  "deps": {
+    "approved": {},
+    "injected": [],
+    "injectError": null
+  },
+  "errors": {
+    "console": {
+      "total": 0,
+      "uniqueCount": 0,
+      "samples": []
+    },
+    "classified": {
+      "INSTALL": 0,
+      "DEPENDENCY": 0,
+      "BUILD": 0,
+      "EXPORT": 0,
+      "RUNTIME": 0
+    }
+  }
+}

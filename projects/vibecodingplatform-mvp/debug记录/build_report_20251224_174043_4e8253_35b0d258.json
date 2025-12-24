@@ -1,0 +1,137 @@
+{
+  "runId": "35b0d258-611f-4ca2-bd5c-fc6303ba6a49",
+  "timestamp": "2025-12-24T09:40:43.086Z",
+  "prompt": "创建一个计数器应用，有增加和减少按钮",
+  "themeName": "sky",
+  "telemetry": {
+    "mode": "generate",
+    "policy_version": "1.0.0",
+    "prompt_hash": "4e8253a6c6b89dc8",
+    "prompt_length": 4406,
+    "activated_dynamic_rules": [],
+    "spec_mode": "summary"
+  },
+  "l0": {
+    "status": "pass",
+    "ruleSetVersion": "1.0",
+    "errorCount": 0,
+    "warningCount": 0,
+    "issues": [],
+    "appliedFixes": []
+  },
+  "qualityGates": {
+    "enabled": true,
+    "initial": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 1,
+        "issues": [
+          {
+            "rule_id": "missing_explicit_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/pages/Index.tsx",
+            "line": 96,
+            "message": "H1 element missing explicit text color (line 96). Text may be invisible against background.",
+            "snippet": "<h1 className=\"mt-3 bg-gradient-to-r from-cyan-300 via-teal-300 to-purple-400 bg-clip-text text-4xl ...",
+            "suggestion": "Add text-white for dark backgrounds or text-gray-900 for light backgrounds to ensure readability"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "results": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 1,
+        "issues": [
+          {
+            "rule_id": "missing_explicit_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/pages/Index.tsx",
+            "line": 96,
+            "message": "H1 element missing explicit text color (line 96). Text may be invisible against background.",
+            "snippet": "<h1 className=\"mt-3 bg-gradient-to-r from-cyan-300 via-teal-300 to-purple-400 bg-clip-text text-4xl ...",
+            "suggestion": "Add text-white for dark backgrounds or text-gray-900 for light backgrounds to ensure readability"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "passed": true,
+    "failed_gates": [],
+    "healing_history": [],
+    "final": null
+  },
+  "phases": {
+    "install": {
+      "status": "success",
+      "startedAt": "2025-12-24T09:39:38.434Z",
+      "endedAt": "2025-12-24T09:40:32.548Z",
+      "duration_ms": 54114,
+      "exitCode": 0,
+      "logTail": "\r\nadded 183 packages in 54s\r\n\r\n28 packages are looking for funding\r\n  run `npm fund` for details\r\n"
+    },
+    "dev": {
+      "status": "success",
+      "startedAt": "2025-12-24T09:40:32.548Z",
+      "endedAt": "2025-12-24T09:40:35.085Z",
+      "duration_ms": 2537,
+      "exitCode": 0,
+      "logTail": "\r\n> cyberpunk-app@0.0.0 dev\r\n> vite\r\n\r\n\u001b[1G\u001b[0K",
+      "url": "https://k03e2io1v3fx9wvj0vr8qd5q58o56n-fkdo--5173--365214aa.local-corp.webcontainer-api.io",
+      "port": 5173
+    },
+    "render": {
+      "status": "timeout",
+      "startedAt": "2025-12-24T09:40:35.085Z",
+      "endedAt": "2025-12-24T09:40:43.086Z",
+      "duration_ms": 8001,
+      "signal": "TIMEOUT_NO_ERROR"
+    }
+  },
+  "deps": {
+    "approved": {},
+    "injected": [],
+    "injectError": null
+  },
+  "errors": {
+    "console": {
+      "total": 0,
+      "uniqueCount": 0,
+      "samples": []
+    },
+    "classified": {
+      "INSTALL": 0,
+      "DEPENDENCY": 0,
+      "BUILD": 0,
+      "EXPORT": 0,
+      "RUNTIME": 0
+    }
+  }
+}

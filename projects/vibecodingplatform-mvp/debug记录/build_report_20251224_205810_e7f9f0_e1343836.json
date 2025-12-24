@@ -1,0 +1,337 @@
+{
+  "runId": "e1343836-39e6-473c-ab4f-ab995293012d",
+  "timestamp": "2025-12-24T12:58:10.157Z",
+  "prompt": "创建一个贪吃蛇游戏",
+  "themeName": "emerald",
+  "telemetry": {
+    "mode": "generate",
+    "policy_version": "1.0.0",
+    "prompt_hash": "e7f9f0515a000e8f",
+    "prompt_length": 4344,
+    "activated_dynamic_rules": [],
+    "spec_mode": "summary"
+  },
+  "l0": {
+    "status": "pass",
+    "ruleSetVersion": "1.0",
+    "errorCount": 0,
+    "warningCount": 0,
+    "issues": [],
+    "appliedFixes": []
+  },
+  "qualityGates": {
+    "enabled": true,
+    "initial": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 10,
+        "issues": [
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'lastEvent', 'speedLevel'}，第2个return缺少{'snake', 'food', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'speedLevel'}，多出{'acceptance', 'atTick'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'lastEvent', 'speedLevel'}，第3个return缺少{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'lastEvent', 'speedLevel'}，多出{'passed'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'lastEvent', 'speedLevel'}，第4个return缺少{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'lastEvent', 'speedLevel'}，多出{'passed'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'lastEvent', 'speedLevel'}，第5个return缺少{'snake', 'food', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'speedLevel'}，多出{'acceptance'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'lastEvent', 'speedLevel'}，第6个return缺少{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'lastEvent', 'speedLevel'}，多出{'passed'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'lastEvent', 'speedLevel'}，第7个return缺少{'constraints', 'SNAKE_GAME_CONFIG)'}，多出{'atTick'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'lastEvent', 'speedLevel'}，第8个return缺少{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'speedLevel'}，多出{'acceptance', 'atTick'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'lastEvent', 'speedLevel'}，第9个return缺少{'snake', 'food', 'tick', 'direction', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'speedLevel'}，多出{'atTick'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'lastEvent', 'speedLevel'}，第10个return缺少{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'speedLevel'}，多出{'atTick'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'lastEvent', 'speedLevel'}，第11个return缺少{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'speedLevel'}，多出{'payload'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "results": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 10,
+        "issues": [
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'lastEvent', 'speedLevel'}，第2个return缺少{'snake', 'food', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'speedLevel'}，多出{'acceptance', 'atTick'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'lastEvent', 'speedLevel'}，第3个return缺少{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'lastEvent', 'speedLevel'}，多出{'passed'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'lastEvent', 'speedLevel'}，第4个return缺少{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'lastEvent', 'speedLevel'}，多出{'passed'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'lastEvent', 'speedLevel'}，第5个return缺少{'snake', 'food', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'speedLevel'}，多出{'acceptance'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'lastEvent', 'speedLevel'}，第6个return缺少{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'lastEvent', 'speedLevel'}，多出{'passed'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'lastEvent', 'speedLevel'}，第7个return缺少{'constraints', 'SNAKE_GAME_CONFIG)'}，多出{'atTick'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'lastEvent', 'speedLevel'}，第8个return缺少{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'speedLevel'}，多出{'acceptance', 'atTick'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'lastEvent', 'speedLevel'}，第9个return缺少{'snake', 'food', 'tick', 'direction', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'speedLevel'}，多出{'atTick'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'lastEvent', 'speedLevel'}，第10个return缺少{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'speedLevel'}，多出{'atTick'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'pendingDirection', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'lastEvent', 'speedLevel'}，第11个return缺少{'snake', 'food', 'tick', 'direction', 'highScore', 'constraints', 'score', 'SNAKE_GAME_CONFIG)', 'status', 'speedLevel'}，多出{'payload'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "passed": true,
+    "failed_gates": [],
+    "healing_history": [],
+    "final": null
+  },
+  "phases": {
+    "install": {
+      "status": "success",
+      "startedAt": "2025-12-24T12:58:06.288Z",
+      "endedAt": "2025-12-24T12:58:07.968Z",
+      "duration_ms": 1679,
+      "exitCode": 0,
+      "logTail": "\r\nup to date in 530ms\r\n\r\n28 packages are looking for funding\r\n  run `npm fund` for details\r\n"
+    },
+    "dev": {
+      "status": "success",
+      "startedAt": "2025-12-24T12:58:07.968Z",
+      "endedAt": "2025-12-24T12:58:09.111Z",
+      "duration_ms": 1143,
+      "exitCode": 0,
+      "logTail": "\r\n> cyberpunk-app@0.0.0 dev\r\n> vite\r\n\r\n\u001b[1G\u001b[0KPort 5173 is in use, trying another one...\r\nPort 5174 is in use, trying another one...\r\nPort 5175 is in use, trying another one...\r\nPort 5176 is in use, trying another one...\r\n",
+      "url": "https://k03e2io1v3fx9wvj0vr8qd5q58o56n-fkdo--5177--365214aa.local-corp.webcontainer-api.io",
+      "port": 5177
+    },
+    "render": {
+      "status": "success",
+      "startedAt": "2025-12-24T12:58:09.111Z",
+      "endedAt": "2025-12-24T12:58:10.157Z",
+      "duration_ms": 1046,
+      "signal": "APP_RENDERED"
+    }
+  },
+  "deps": {
+    "approved": {},
+    "injected": [],
+    "injectError": null
+  },
+  "errors": {
+    "console": {
+      "total": 0,
+      "uniqueCount": 0,
+      "samples": []
+    },
+    "classified": {
+      "INSTALL": 0,
+      "DEPENDENCY": 0,
+      "BUILD": 0,
+      "EXPORT": 0,
+      "RUNTIME": 0
+    }
+  }
+}

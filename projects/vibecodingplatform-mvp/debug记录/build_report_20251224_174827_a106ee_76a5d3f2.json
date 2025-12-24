@@ -1,0 +1,467 @@
+{
+  "runId": "76a5d3f2-8858-46c9-a7bc-66e93b0535eb",
+  "timestamp": "2025-12-24T09:48:27.391Z",
+  "prompt": "创建一个数独游戏",
+  "themeName": "blue",
+  "telemetry": {
+    "mode": "generate",
+    "policy_version": "1.0.0",
+    "prompt_hash": "a106eef8773055ff",
+    "prompt_length": 4459,
+    "activated_dynamic_rules": [
+      "sudoku_native_input"
+    ],
+    "spec_mode": "summary"
+  },
+  "l0": {
+    "status": "pass",
+    "ruleSetVersion": "1.0",
+    "errorCount": 0,
+    "warningCount": 0,
+    "issues": [],
+    "appliedFixes": []
+  },
+  "qualityGates": {
+    "enabled": true,
+    "initial": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 16,
+        "issues": [
+          {
+            "rule_id": "missing_explicit_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/aurora-sudoku/AuroraSudokuHeader.tsx",
+            "line": 27,
+            "message": "H1 element missing explicit text color (line 27). Text may be invisible against background.",
+            "snippet": "<h1 className=\"mt-1 bg-gradient-to-r from-purple-300 via-pink-300 to-cyan-300 bg-clip-text text-3xl ...",
+            "suggestion": "Add text-white for dark backgrounds or text-gray-900 for light backgrounds to ensure readability"
+          },
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/aurora-sudoku/AuroraSudokuBoard.tsx",
+            "line": 92,
+            "message": "Input element may lack explicit text color styling (line 92). Text may be invisible against background.",
+            "snippet": "<input\n                    type=\"text\"\n                    inputMode=\"numeric\"\n                    m...",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第2个return缺少{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'notesMode', 'initialBoard', 'startedAt', 'elapsedSeconds', 'solutionBoard', 'timerRunning', 'difficulty', 'history', 'selectedCell'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第3个return缺少{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'notesMode', 'initialBoard', 'startedAt', 'elapsedSeconds', 'hasConflict', 'isSolved', 'solutionBoard', 'timerRunning', 'difficulty', 'history'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第4个return缺少{'future', 'notes', 'maxMistakes', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'elapsedSeconds', 'timerRunning', 'difficulty', 'selectedCell'}，多出{'value', '{ position', 'mistakesCount)'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第5个return缺少{'future', 'notes', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'elapsedSeconds', 'timerRunning', 'difficulty', 'selectedCell'}，多出{'value', '{ position'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第6个return缺少{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'initialBoard', 'startedAt', 'elapsedSeconds', 'hasConflict', 'isSolved', 'solutionBoard', 'timerRunning', 'difficulty', 'history', 'selectedCell'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第7个return缺少{'currentBoard', 'future', 'maxMistakes', 'mistakesCount', 'notesMode', 'initialBoard', 'startedAt', 'elapsedSeconds', 'hasConflict', 'isSolved', 'solutionBoard', 'timerRunning', 'difficulty', 'history', 'selectedCell'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第8个return缺少{'notes', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'elapsedSeconds', 'timerRunning', 'difficulty', 'selectedCell'}，多出{'value', '{ position', '-1)'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第9个return缺少{'future', 'notes', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'elapsedSeconds', 'timerRunning', 'difficulty', 'selectedCell'}，多出{'value', '{ position'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第10个return缺少{'maxMistakes', 'notesMode', 'solutionBoard', 'initialBoard', 'startedAt', 'elapsedSeconds', 'timerRunning', 'difficulty', 'selectedCell'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第11个return缺少{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'notesMode', 'initialBoard', 'startedAt', 'elapsedSeconds', 'solutionBoard', 'timerRunning', 'difficulty', 'history', 'selectedCell'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第12个return缺少{'maxMistakes', 'mistakesCount', 'notesMode', 'solutionBoard', 'initialBoard', 'startedAt', 'elapsedSeconds', 'timerRunning', 'difficulty', 'selectedCell'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第13个return缺少{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'notesMode', 'initialBoard', 'startedAt', 'hasConflict', 'isSolved', 'solutionBoard', 'timerRunning', 'difficulty', 'history', 'selectedCell'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第14个return缺少{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'notesMode', 'initialBoard', 'startedAt', 'elapsedSeconds', 'hasConflict', 'isSolved', 'solutionBoard', 'difficulty', 'history', 'selectedCell'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第15个return缺少{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'notesMode', 'initialBoard', 'startedAt', 'elapsedSeconds', 'hasConflict', 'isSolved', 'solutionBoard', 'difficulty', 'history', 'selectedCell'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "results": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 16,
+        "issues": [
+          {
+            "rule_id": "missing_explicit_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/aurora-sudoku/AuroraSudokuHeader.tsx",
+            "line": 27,
+            "message": "H1 element missing explicit text color (line 27). Text may be invisible against background.",
+            "snippet": "<h1 className=\"mt-1 bg-gradient-to-r from-purple-300 via-pink-300 to-cyan-300 bg-clip-text text-3xl ...",
+            "suggestion": "Add text-white for dark backgrounds or text-gray-900 for light backgrounds to ensure readability"
+          },
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/aurora-sudoku/AuroraSudokuBoard.tsx",
+            "line": 92,
+            "message": "Input element may lack explicit text color styling (line 92). Text may be invisible against background.",
+            "snippet": "<input\n                    type=\"text\"\n                    inputMode=\"numeric\"\n                    m...",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第2个return缺少{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'notesMode', 'initialBoard', 'startedAt', 'elapsedSeconds', 'solutionBoard', 'timerRunning', 'difficulty', 'history', 'selectedCell'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第3个return缺少{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'notesMode', 'initialBoard', 'startedAt', 'elapsedSeconds', 'hasConflict', 'isSolved', 'solutionBoard', 'timerRunning', 'difficulty', 'history'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第4个return缺少{'future', 'notes', 'maxMistakes', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'elapsedSeconds', 'timerRunning', 'difficulty', 'selectedCell'}，多出{'value', '{ position', 'mistakesCount)'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第5个return缺少{'future', 'notes', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'elapsedSeconds', 'timerRunning', 'difficulty', 'selectedCell'}，多出{'value', '{ position'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第6个return缺少{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'initialBoard', 'startedAt', 'elapsedSeconds', 'hasConflict', 'isSolved', 'solutionBoard', 'timerRunning', 'difficulty', 'history', 'selectedCell'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第7个return缺少{'currentBoard', 'future', 'maxMistakes', 'mistakesCount', 'notesMode', 'initialBoard', 'startedAt', 'elapsedSeconds', 'hasConflict', 'isSolved', 'solutionBoard', 'timerRunning', 'difficulty', 'history', 'selectedCell'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第8个return缺少{'notes', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'elapsedSeconds', 'timerRunning', 'difficulty', 'selectedCell'}，多出{'value', '{ position', '-1)'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第9个return缺少{'future', 'notes', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'elapsedSeconds', 'timerRunning', 'difficulty', 'selectedCell'}，多出{'value', '{ position'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第10个return缺少{'maxMistakes', 'notesMode', 'solutionBoard', 'initialBoard', 'startedAt', 'elapsedSeconds', 'timerRunning', 'difficulty', 'selectedCell'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第11个return缺少{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'notesMode', 'initialBoard', 'startedAt', 'elapsedSeconds', 'solutionBoard', 'timerRunning', 'difficulty', 'history', 'selectedCell'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第12个return缺少{'maxMistakes', 'mistakesCount', 'notesMode', 'solutionBoard', 'initialBoard', 'startedAt', 'elapsedSeconds', 'timerRunning', 'difficulty', 'selectedCell'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第13个return缺少{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'notesMode', 'initialBoard', 'startedAt', 'hasConflict', 'isSolved', 'solutionBoard', 'timerRunning', 'difficulty', 'history', 'selectedCell'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第14个return缺少{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'notesMode', 'initialBoard', 'startedAt', 'elapsedSeconds', 'hasConflict', 'isSolved', 'solutionBoard', 'difficulty', 'history', 'selectedCell'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuReducer.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'solutionBoard', 'initialBoard', 'notesMode', 'startedAt', 'hasConflict', 'elapsedSeconds', 'timerRunning', 'isSolved', 'difficulty', 'history', 'selectedCell'}，第15个return缺少{'currentBoard', 'notes', 'future', 'maxMistakes', 'mistakesCount', 'notesMode', 'initialBoard', 'startedAt', 'elapsedSeconds', 'hasConflict', 'isSolved', 'solutionBoard', 'difficulty', 'history', 'selectedCell'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "passed": true,
+    "failed_gates": [],
+    "healing_history": [],
+    "final": null
+  },
+  "phases": {
+    "install": {
+      "status": "success",
+      "startedAt": "2025-12-24T09:48:23.356Z",
+      "endedAt": "2025-12-24T09:48:23.808Z",
+      "duration_ms": 452,
+      "exitCode": 0,
+      "logTail": "\r\nup to date in 149ms\r\n\r\n28 packages are looking for funding\r\n  run `npm fund` for details\r\n"
+    },
+    "dev": {
+      "status": "success",
+      "startedAt": "2025-12-24T09:48:23.808Z",
+      "endedAt": "2025-12-24T09:48:25.288Z",
+      "duration_ms": 1480,
+      "exitCode": 0,
+      "logTail": "\r\n> cyberpunk-app@0.0.0 dev\r\n> vite\r\n\r\n\u001b[1G\u001b[0KPort 5173 is in use, trying another one...\r\nPort 5174 is in use, trying another one...\r\nPort 5175 is in use, trying another one...\r\n",
+      "url": "https://k03e2io1v3fx9wvj0vr8qd5q58o56n-fkdo--5176--365214aa.local-corp.webcontainer-api.io",
+      "port": 5176
+    },
+    "render": {
+      "status": "success",
+      "startedAt": "2025-12-24T09:48:25.288Z",
+      "endedAt": "2025-12-24T09:48:27.391Z",
+      "duration_ms": 2103,
+      "signal": "APP_RENDERED"
+    }
+  },
+  "deps": {
+    "approved": {},
+    "injected": [],
+    "injectError": null
+  },
+  "errors": {
+    "console": {
+      "total": 0,
+      "uniqueCount": 0,
+      "samples": []
+    },
+    "classified": {
+      "INSTALL": 0,
+      "DEPENDENCY": 0,
+      "BUILD": 0,
+      "EXPORT": 0,
+      "RUNTIME": 0
+    }
+  }
+}

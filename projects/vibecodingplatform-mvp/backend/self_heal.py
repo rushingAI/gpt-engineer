@@ -19,6 +19,53 @@ from dependency_detector import detect_dependencies_in_files
 from dependency_arbiter import DependencyArbiter
 
 
+def count_errors(gate_results: Dict[str, GateResult]) -> int:
+    """
+    只统计 L0_static 的 error，不计 warning
+    与门禁 passed 语义保持一致
+    """
+    if "L0_static" in gate_results:
+        result = gate_results["L0_static"]
+        return len([i for i in result.issues if i.get('severity') == 'error'])
+    
+    # 退化：全量统计
+    return sum(
+        len([i for i in r.issues if i.get('severity') == 'error'])
+        for r in gate_results.values()
+    )
+
+
+def count_total_issues(gate_results: Dict[str, GateResult]) -> int:
+    """统计所有 issues（用于 warning 爆炸保护）"""
+    return sum(len(r.issues) for r in gate_results.values())
+
+
+def should_accept_debt(gate_results: Dict[str, GateResult]) -> Tuple[bool, str]:
+    """
+    当仅剩 data_contract 问题且 TypeCheck 通过时，允许接受债务结束
+    """
+    errors = [
+        i for r in gate_results.values() 
+        for i in r.issues 
+        if i.get('severity') == 'error'
+    ]
+    
+    if not errors:
+        return True, "no_errors"
+    
+    non_data_contract_errors = [
+        e for e in errors 
+        if e.get('rule_id') != 'data_contract_violation'
+    ]
+    
+    # 仅剩 data_contract 且 TypeCheck 通过
+    typecheck_passed = gate_results.get("L1_typecheck", GateResult('L1_typecheck', True)).passed
+    if not non_data_contract_errors and typecheck_passed:
+        return True, "data_contract_debt_accepted"
+    
+    return False, ""
+
+
 def build_heal_prompt(
     gate_results: Dict[str, GateResult],
     interaction_spec: Dict[str, Any],
@@ -76,7 +123,15 @@ Iteration {iteration + 1}/{policy_manager.get_max_heal_iterations()}"""
     allowed_locked_section = f"""ALLOWED/LOCKED:
 - You MAY ONLY modify files matching: {allowed_paths_str}
 - You MUST NOT modify: {locked_paths_str}
-- You MUST NOT introduce new dependencies/libraries. Fix ONLY with existing pre-installed libraries (react, date-fns, lucide-react, framer-motion, recharts, etc.). If a chart library is needed, use pure CSS/SVG or the existing implementation."""
+- You MUST NOT introduce new dependencies/libraries. Fix ONLY with existing pre-installed libraries (react, date-fns, lucide-react, framer-motion, recharts, etc.). If a chart library is needed, use pure CSS/SVG or the existing implementation.
+
+CRITICAL - Do NOT refactor or restructure code:
+- Fix ONLY the specific issues listed in EVIDENCE
+- Do NOT rename exports/imports unless fixing a mismatch
+- Do NOT change function signatures
+- Do NOT reorganize file structure
+- Do NOT add new features or abstractions
+- MINIMIZE the scope of changes to only what's necessary to pass the gates"""
     
     # === 第 5 段: OutputContract ===
     output_contract_section = """OUTPUT CONTRACT:
@@ -176,14 +231,39 @@ def self_heal_loop(
     current_files = dict(initial_files)
     current_gate_results = gate_results
     
+    # 🆕 初始化 best snapshot 机制
+    best_snapshot = {
+        "files": current_files.copy(),
+        "gate_results": current_gate_results,
+        "error_count": count_errors(current_gate_results),
+        "total_count": count_total_issues(current_gate_results),
+        "iteration": 0
+    }
+    
     # 🆕 初始化治愈历史记录
     healing_history = []
-    prev_issue_count = sum(len(r.issues) for r in gate_results.values() if not r.passed)
+    
+    # 动态调整 max_files
+    initial_max_files = policy_manager.get_max_files_per_iteration()
+    max_files_this_iteration = initial_max_files
+    regression_count = 0
+    WARNING_EXPLOSION_THRESHOLD = 10
     
     for iteration in range(max_iterations):
+        # 检查接受债务
+        can_accept, reason = should_accept_debt(current_gate_results)
+        if can_accept:
+            print(f"   ✅ 接受债务结束：{reason}")
+            return current_files, True, iteration
+        
         if not should_trigger_self_heal(current_gate_results):
             print(f"   ✓ 迭代 {iteration}: 所有门禁通过，自愈成功")
             return current_files, True, iteration
+        
+        # 保存 previous 状态
+        previous_files = current_files.copy()
+        previous_error_count = count_errors(current_gate_results)
+        previous_total_count = count_total_issues(current_gate_results)
         
         print(f"   🔧 迭代 {iteration + 1}/{max_iterations}: 开始修复...")
         
@@ -230,14 +310,14 @@ def self_heal_loop(
                 print(f"     ⚠️  迭代 {iteration + 1}: AI 未返回有效文件，跳过")
                 continue
             
-            # 检查修改的文件数量
-            if len(fixed_files_dict) > policy_manager.get_max_files_per_iteration():
+            # 检查修改的文件数量（使用动态限制）
+            if len(fixed_files_dict) > max_files_this_iteration:
                 print(
                     f"     ⚠️  迭代 {iteration + 1}: AI 修改了 {len(fixed_files_dict)} 个文件，"
-                    f"超过限制 {policy_manager.get_max_files_per_iteration()}，截断"
+                    f"超过限制 {max_files_this_iteration}，截断"
                 )
                 # 只保留前 N 个文件
-                fixed_files_dict = dict(list(fixed_files_dict.items())[:policy_manager.get_max_files_per_iteration()])
+                fixed_files_dict = dict(list(fixed_files_dict.items())[:max_files_this_iteration])
             
             # 合并修复后的文件（带路径过滤）
             # 🆕 收集治愈行为信息
@@ -312,23 +392,51 @@ def self_heal_loop(
             
             # 重新运行门禁（只运行 L0，不重装依赖）
             print(f"   🚦 迭代 {iteration + 1}: 重新运行门禁...")
-            current_gate_results = run_quality_gates(current_files)
+            new_gate_results = run_quality_gates(current_files)
+            current_gate_results = new_gate_results  # 同步更新
             
-            # 🆕 记录本轮质量门结果到治愈历史
-            current_issue_count = sum(len(r.issues) for r in current_gate_results.values() if not r.passed)
-            is_regression = current_issue_count > prev_issue_count
+            # 🆕 统计 error 和 total issues
+            current_error_count = count_errors(current_gate_results)
+            current_total_count = count_total_issues(current_gate_results)
+            
+            # 更新 best snapshot（error 最少 → total 最少）
+            is_better = (
+                current_error_count < best_snapshot["error_count"] or
+                (current_error_count == best_snapshot["error_count"] and 
+                 current_total_count < best_snapshot["total_count"])
+            )
+            if is_better:
+                best_snapshot = {
+                    "files": current_files.copy(),
+                    "gate_results": current_gate_results,
+                    "error_count": current_error_count,
+                    "total_count": current_total_count,
+                    "iteration": iteration + 1
+                }
+                print(f"     📌 更新 best_snapshot: {current_error_count} errors, {current_total_count} total")
+            
+            # 判断 regression
+            is_hard_regression = current_error_count > previous_error_count
+            is_soft_regression = (
+                current_error_count <= previous_error_count and
+                current_total_count > previous_total_count + WARNING_EXPLOSION_THRESHOLD
+            )
+            is_regression = is_hard_regression or is_soft_regression
             
             iteration_record = {
                 "iteration": iteration + 1,
                 "timestamp": datetime.now().isoformat(),
-                "issues_count": current_issue_count,
+                "error_count": current_error_count,
+                "total_count": current_total_count,
                 "regression": is_regression,
+                "regression_type": "hard" if is_hard_regression else ("soft" if is_soft_regression else "none"),
                 # 🆕 治愈行为记录（记录AI修改了哪些文件）
                 "healing_actions": {
                     "ai_returned_files": len(fixed_files_dict),
                     "files_applied": len(files_modified),
                     "files_filtered": filtered_count,
                     "filtered_paths": filtered_paths,
+                    "max_files_limit": max_files_this_iteration,
                     "changes": files_modified  # 每个文件的修改详情
                 },
                 "gates": {
@@ -363,9 +471,34 @@ def self_heal_loop(
                         for gate_name, result in current_gate_results.items()
                     }
                     current_files['vibe.meta.json'] = json.dumps(vibe_meta, indent=2)
-                    print(f"     📊 更新质量门历史: 迭代 {iteration + 1}, {current_issue_count} 个问题" + (" [回归⚠️]" if is_regression else ""))
+                    print(f"     📊 更新质量门历史: 迭代 {iteration + 1}, {current_total_count} 个问题" + (" [回归⚠️]" if is_regression else ""))
                 except json.JSONDecodeError:
                     print(f"     ⚠️  无法更新 vibe.meta.json: JSON 解析失败")
+            
+            # 检查是否需要回滚
+            if is_regression:
+                regression_type = "hard" if is_hard_regression else "soft(warning爆炸)"
+                print(f"     ⚠️  {regression_type} regression: {previous_error_count} → {current_error_count} errors")
+                current_files = previous_files
+                current_gate_results = run_quality_gates(current_files)  # 同步
+                regression_count += 1
+                
+                if regression_count >= 2:
+                    print(f"     ❌ 连续 regression，输出 best_snapshot (iteration {best_snapshot['iteration']})")
+                    current_files = best_snapshot["files"]
+                    current_gate_results = best_snapshot["gate_results"]
+                    break
+                
+                # 回滚后收紧策略
+                max_files_this_iteration = 1
+                print(f"     ↓ max_files 收紧到 {max_files_this_iteration}")
+                continue
+            
+            # 成功后逐步恢复 max_files
+            if max_files_this_iteration < initial_max_files:
+                max_files_this_iteration = min(max_files_this_iteration + 2, initial_max_files)
+                print(f"     ↑ max_files 恢复到 {max_files_this_iteration}")
+            regression_count = 0  # 重置连续 regression 计数
             
             # 检查是否通过
             failed_count = sum(1 for r in current_gate_results.values() if not r.passed)
@@ -374,13 +507,6 @@ def self_heal_loop(
                 return current_files, True, iteration + 1
             else:
                 print(f"   ⚠️  迭代 {iteration + 1}: 仍有 {failed_count} 个门禁失败")
-                
-                # 🆕 检测回归，考虑是否回滚或提前终止
-                if is_regression:
-                    print(f"   🚨 检测到回归：问题数从 {prev_issue_count} 增加到 {current_issue_count}")
-                    # 暂不回滚，继续尝试（可以根据需求调整）
-                
-                prev_issue_count = current_issue_count
         
         except Exception as e:
             print(f"   ✗ 迭代 {iteration + 1}: 修复失败 - {str(e)}")
@@ -388,6 +514,13 @@ def self_heal_loop(
     
     # 达到最大迭代次数，仍未通过
     print(f"   ✗ 自愈失败：已达到最大迭代次数 {max_iterations}")
+    
+    # 最终输出 best（如果当前不是 best）
+    final_error_count = count_errors(current_gate_results)
+    if final_error_count > best_snapshot["error_count"]:
+        print(f"   📌 输出 best_snapshot (iteration {best_snapshot['iteration']}): {best_snapshot['error_count']} errors")
+        current_files = best_snapshot["files"]
+        current_gate_results = best_snapshot["gate_results"]
     
     # 🆕 确保最终状态被记录到 vibe.meta.json
     if 'vibe.meta.json' in current_files and healing_history:

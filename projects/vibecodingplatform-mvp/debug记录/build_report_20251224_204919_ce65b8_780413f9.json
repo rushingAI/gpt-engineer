@@ -1,0 +1,490 @@
+{
+  "runId": "780413f9-1860-41df-a117-13b1d9dac41d",
+  "timestamp": "2025-12-24T12:49:19.209Z",
+  "prompt": "实现一个数独游戏。\\n1. 棋盘：9x9 网格，3x3 宫格之间有加粗边框区分。\\n2. 输入：点击空格选中，高亮当前格，使用键盘或数字面板输入 1-9。\\n3. 验证规则：行、列、3x3宫格内不能有重复数字。如有冲突，相关单元格显示红色背景。\\n4. 初始状态：随机生成或预设一个简单的残局，初始数字不可修改（灰色/锁定）。\\n5. 胜利判定：填满且无冲突时提示胜利。",
+  "themeName": "red",
+  "telemetry": {
+    "mode": "generate",
+    "policy_version": "1.0.0",
+    "prompt_hash": "ce65b8d38a15ebae",
+    "prompt_length": 5080,
+    "activated_dynamic_rules": [
+      "sudoku_native_input",
+      "form_input_contrast"
+    ],
+    "spec_mode": "summary"
+  },
+  "l0": {
+    "status": "fail",
+    "ruleSetVersion": "1.0",
+    "errorCount": 1,
+    "warningCount": 0,
+    "issues": [
+      {
+        "ruleId": "G4_CONTROLLED_INPUT_NO_HANDLER",
+        "severity": "error",
+        "message": "受控输入 value= 缺少 onChange 处理器（第 111 行）",
+        "files": [
+          "src/components/generated/sudoku/SudokuBoard.tsx"
+        ],
+        "evidence": "<input                   type=\"text\"                   inputMode=\"numeric\"                   maxLength={1}              ",
+        "suggestion": "添加 onChange={(e) => handleChange(e.target.value)} 以支持用户输入"
+      }
+    ],
+    "appliedFixes": []
+  },
+  "qualityGates": {
+    "enabled": true,
+    "initial": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": false,
+        "issues_count": 8,
+        "issues": [
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/sudoku/SudokuBoard.tsx",
+            "line": 111,
+            "message": "Input element may lack explicit text color styling (line 111). Text may be invisible against background.",
+            "snippet": "<input\n                  type=\"text\"\n                  inputMode=\"numeric\"\n                  maxLeng...",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuUtils.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isValid', 'violations'}，第2个return缺少{'isValid', 'violations'}，多出{'boxes', 'cols', 'cells', 'rows'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuUtils.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isValid', 'violations'}，第3个return缺少{'isValid', 'violations'}，多出{'conflicts', 'selectedCol', 'hasWon', 'isComplete', 'board', 'selectedRow', 'initialBoard'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'conflicts', 'selectedCol', 'hasWon', 'isComplete', 'board', 'initialBoard', 'selectedRow'}，第2个return缺少{'conflicts', 'hasWon', 'isComplete', 'board', 'initialBoard'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'conflicts', 'selectedCol', 'hasWon', 'isComplete', 'board', 'initialBoard', 'selectedRow'}，第3个return缺少{'selectedRow', 'initialBoard', 'selectedCol'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'conflicts', 'selectedCol', 'hasWon', 'isComplete', 'board', 'initialBoard', 'selectedRow'}，第4个return缺少{'selectedRow', 'initialBoard', 'selectedCol'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'conflicts', 'selectedCol', 'hasWon', 'isComplete', 'board', 'initialBoard', 'selectedRow'}，第5个return缺少{'selectedRow', 'board', 'initialBoard', 'selectedCol'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "severity": "error",
+            "file": "src/components/generated/sudoku/SudokuBoard.tsx",
+            "line": 1,
+            "message": "[G4_CONTROLLED_INPUT_NO_HANDLER] 受控输入 value= 缺少 onChange 处理器（第 111 行）",
+            "suggestion": "添加 onChange={(e) => handleChange(e.target.value)} 以支持用户输入",
+            "gate": "L0_static"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L0_style_interaction": {
+        "level": "L0_style_interaction",
+        "passed": false,
+        "issues_count": 1,
+        "issues": [
+          {
+            "rule_id": "G4_CONTROLLED_INPUT_NO_HANDLER",
+            "severity": "error",
+            "file": "src/components/generated/sudoku/SudokuBoard.tsx",
+            "line": 0,
+            "message": "受控输入 value= 缺少 onChange 处理器（第 111 行）",
+            "snippet": "<input                   type=\"text\"                   inputMode=\"numeric\"                   maxLength={1}              ",
+            "suggestion": "添加 onChange={(e) => handleChange(e.target.value)} 以支持用户输入",
+            "gate": "L0_style_interaction"
+          }
+        ]
+      }
+    },
+    "results": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 7,
+        "issues": [
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/sudoku/SudokuBoard.tsx",
+            "line": 67,
+            "message": "Input element may lack explicit text color styling (line 67). Text may be invisible against background.",
+            "snippet": "<input\n              key={`${rowIndex}-${colIndex}`}\n              type=\"text\"\n              inputMo...",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuUtils.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isValid', 'violations'}，第2个return缺少{'isValid', 'violations'}，多出{'boxes', 'cols', 'cells', 'rows'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuUtils.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isValid', 'violations'}，第3个return缺少{'isValid', 'violations'}，多出{'conflicts', 'selectedCol', 'hasWon', 'isComplete', 'board', 'selectedRow', 'initialBoard'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'conflicts', 'selectedCol', 'hasWon', 'isComplete', 'board', 'initialBoard', 'selectedRow'}，第2个return缺少{'conflicts', 'hasWon', 'isComplete', 'board', 'initialBoard'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'conflicts', 'selectedCol', 'hasWon', 'isComplete', 'board', 'initialBoard', 'selectedRow'}，第3个return缺少{'selectedRow', 'initialBoard', 'selectedCol'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'conflicts', 'selectedCol', 'hasWon', 'isComplete', 'board', 'initialBoard', 'selectedRow'}，第4个return缺少{'selectedRow', 'initialBoard', 'selectedCol'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'conflicts', 'selectedCol', 'hasWon', 'isComplete', 'board', 'initialBoard', 'selectedRow'}，第5个return缺少{'selectedRow', 'board', 'initialBoard', 'selectedCol'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "passed": true,
+    "failed_gates": [],
+    "healing_history": [
+      {
+        "iteration": 1,
+        "timestamp": "2025-12-24T20:49:05.726412",
+        "error_count": 0,
+        "total_count": 7,
+        "regression": false,
+        "regression_type": "none",
+        "healing_actions": {
+          "ai_returned_files": 1,
+          "files_applied": 1,
+          "files_filtered": 0,
+          "filtered_paths": [],
+          "max_files_limit": 8,
+          "changes": [
+            {
+              "path": "src/components/generated/sudoku/SudokuBoard.tsx",
+              "action": "modified",
+              "size_before": 4132,
+              "size_after": 3103,
+              "lines_before": 132,
+              "lines_after": 95
+            }
+          ]
+        },
+        "gates": {
+          "L0_static": {
+            "passed": true,
+            "issues_count": 7,
+            "issues": [
+              {
+                "rule_id": "input_missing_text_color",
+                "severity": "warning",
+                "file": "src/components/generated/sudoku/SudokuBoard.tsx",
+                "message": "Input element may lack explicit text color styling (line 67). Text may be invisible against background."
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/sudokuUtils.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'isValid', 'violations'}，第2个return缺少{'isValid', 'violations'}，多出{'boxes', 'cols', 'cells', 'rows'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/sudokuUtils.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'isValid', 'violations'}，第3个return缺少{'isValid', 'violations'}，多出{'conflicts', 'selectedCol', 'hasWon', 'isComplete', 'board', 'selectedRow', 'initialBoard'}"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/sudokuLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'conflicts', 'selectedCol', 'hasWon', 'isComplete', 'board', 'initialBoard', 'selectedRow'}，第2个return缺少{'conflicts', 'hasWon', 'isComplete', 'board', 'initialBoard'}，多出set()"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/sudokuLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'conflicts', 'selectedCol', 'hasWon', 'isComplete', 'board', 'initialBoard', 'selectedRow'}，第3个return缺少{'selectedRow', 'initialBoard', 'selectedCol'}，多出set()"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/sudokuLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'conflicts', 'selectedCol', 'hasWon', 'isComplete', 'board', 'initialBoard', 'selectedRow'}，第4个return缺少{'selectedRow', 'initialBoard', 'selectedCol'}，多出set()"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/sudokuLogic.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'conflicts', 'selectedCol', 'hasWon', 'isComplete', 'board', 'initialBoard', 'selectedRow'}，第5个return缺少{'selectedRow', 'board', 'initialBoard', 'selectedCol'}，多出set()"
+              }
+            ]
+          },
+          "L1_typecheck": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          },
+          "L2_smoke_test": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          }
+        }
+      }
+    ],
+    "final": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 7,
+        "issues": [
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/sudoku/SudokuBoard.tsx",
+            "line": 67,
+            "message": "Input element may lack explicit text color styling (line 67). Text may be invisible against background.",
+            "snippet": "<input\n              key={`${rowIndex}-${colIndex}`}\n              type=\"text\"\n              inputMo...",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuUtils.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isValid', 'violations'}，第2个return缺少{'isValid', 'violations'}，多出{'boxes', 'cols', 'cells', 'rows'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuUtils.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isValid', 'violations'}，第3个return缺少{'isValid', 'violations'}，多出{'conflicts', 'selectedCol', 'hasWon', 'isComplete', 'board', 'selectedRow', 'initialBoard'}",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'conflicts', 'selectedCol', 'hasWon', 'isComplete', 'board', 'initialBoard', 'selectedRow'}，第2个return缺少{'conflicts', 'hasWon', 'isComplete', 'board', 'initialBoard'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'conflicts', 'selectedCol', 'hasWon', 'isComplete', 'board', 'initialBoard', 'selectedRow'}，第3个return缺少{'selectedRow', 'initialBoard', 'selectedCol'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'conflicts', 'selectedCol', 'hasWon', 'isComplete', 'board', 'initialBoard', 'selectedRow'}，第4个return缺少{'selectedRow', 'initialBoard', 'selectedCol'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/sudokuLogic.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'conflicts', 'selectedCol', 'hasWon', 'isComplete', 'board', 'initialBoard', 'selectedRow'}，第5个return缺少{'selectedRow', 'board', 'initialBoard', 'selectedCol'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    }
+  },
+  "phases": {
+    "install": {
+      "status": "success",
+      "startedAt": "2025-12-24T12:49:08.922Z",
+      "endedAt": "2025-12-24T12:49:09.310Z",
+      "duration_ms": 388,
+      "exitCode": 0,
+      "logTail": "\r\nup to date in 138ms\r\n\r\n28 packages are looking for funding\r\n  run `npm fund` for details\r\n"
+    },
+    "dev": {
+      "status": "success",
+      "startedAt": "2025-12-24T12:49:09.310Z",
+      "endedAt": "2025-12-24T12:49:10.599Z",
+      "duration_ms": 1289,
+      "exitCode": 0,
+      "logTail": "\r\n> cyberpunk-app@0.0.0 dev\r\n> vite\r\n\r\n\u001b[1G\u001b[0KPort 5173 is in use, trying another one...\r\nPort 5174 is in use, trying another one...\r\n",
+      "url": "https://k03e2io1v3fx9wvj0vr8qd5q58o56n-fkdo--5175--365214aa.local-corp.webcontainer-api.io",
+      "port": 5175
+    },
+    "render": {
+      "status": "timeout",
+      "startedAt": "2025-12-24T12:49:10.600Z",
+      "endedAt": "2025-12-24T12:49:19.209Z",
+      "duration_ms": 8609,
+      "signal": "TIMEOUT_NO_ERROR"
+    }
+  },
+  "deps": {
+    "approved": {},
+    "injected": [],
+    "injectError": null
+  },
+  "errors": {
+    "console": {
+      "total": 0,
+      "uniqueCount": 0,
+      "samples": []
+    },
+    "classified": {
+      "INSTALL": 0,
+      "DEPENDENCY": 0,
+      "BUILD": 0,
+      "EXPORT": 0,
+      "RUNTIME": 0
+    }
+  }
+}

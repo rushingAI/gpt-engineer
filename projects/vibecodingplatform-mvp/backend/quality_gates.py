@@ -1157,7 +1157,7 @@ class L0StaticGate:
         return issues
     
     def _check_data_contract(self, files: Dict[str, str]) -> List[Dict[str, Any]]:
-        """检测函数返回值是否满足组件期望"""
+        """检测函数返回值是否满足组件期望（P0阶段降为warning，误报率较高）"""
         issues = []
         
         # 针对常见模式：直接检查返回对象缺少字段
@@ -1165,7 +1165,8 @@ class L0StaticGate:
             if not filename.endswith(('.ts', '.tsx')):
                 continue
             
-            if '/lib/generated/' not in filename and '/pages/' not in filename:
+            # 只检查 lib/generated（不检查 pages/，避免 UI 层 return 混入）
+            if '/lib/generated/' not in filename:
                 continue
             
             # 检查是否有多个return语句返回不同的字段
@@ -1174,26 +1175,35 @@ class L0StaticGate:
             if len(return_blocks) > 1:
                 field_sets = []
                 for block in return_blocks:
-                    fields = {f.strip().split(':')[0].strip() for f in block.split(',') if f.strip()}
+                    fields = set()
+                    for f in block.split(','):
+                        field = f.strip().split(':')[0].strip()
+                        # 跳过展开运算符（...state）
+                        if field.startswith('...'):
+                            continue
+                        if field:
+                            fields.add(field)
                     field_sets.append(fields)
                 
-                # 检查是否所有return都返回相同的字段
-                if len(field_sets) >= 2:
-                    first_fields = field_sets[0]
-                    for i, fields in enumerate(field_sets[1:], 1):
+                # 只有当所有 return 都有显式字段（非纯 spread）时才比较
+                non_empty_sets = [s for s in field_sets if s]
+                if len(non_empty_sets) >= 2:
+                    first_fields = non_empty_sets[0]
+                    for i, fields in enumerate(non_empty_sets[1:], 1):
                         missing = first_fields - fields
                         extra = fields - first_fields
                         
                         if missing or extra:
                             issues.append({
                                 'rule_id': 'data_contract_violation',
-                                'severity': 'error',
-                                'priority': 2,
+                                'severity': 'warning',  # P0 阶段降为 warning
+                                'priority': 5,
                                 'file': filename,
                                 'line': 1,
                                 'message': f'函数返回的数据结构不一致：第1个return有{first_fields}，第{i+1}个return缺少{missing}，多出{extra}',
                                 'snippet': 'return { ... }',
-                                'suggestion': f'确保所有return语句返回相同的字段集合'
+                                'suggestion': f'确保所有return语句返回相同的字段集合',
+                                'note': '误报率较高，仅供参考，待 AST 方案上线后恢复 error'
                             })
         
         return issues

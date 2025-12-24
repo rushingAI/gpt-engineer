@@ -1,0 +1,588 @@
+{
+  "runId": "37186f83-40ee-40d4-a821-1326bb8c3cca",
+  "timestamp": "2025-12-24T12:26:04.221Z",
+  "prompt": "使用 React + TypeScript + Tailwind CSS 实现一个三步注册向导。\\n1. 步骤指示器：顶部显示 Step 1 -> Step 2 -> Step 3，高亮当前步骤。\\n2. Step 1：填写姓名（必填）。\\n3. Step 2：填写邮箱（必填，需校验格式）。\\n4. Step 3：确认页，展示前两步填写的信息，点击'提交'。\\n5. 导航控制：提供'上一步'、'下一步'按钮。校验失败不允许进入下一步。\\n6. 最终提交后显示'注册成功'摘要。",
+  "themeName": "orange",
+  "telemetry": {
+    "mode": "generate",
+    "policy_version": "1.0.0",
+    "prompt_hash": "a3cc131f2a69bbe3",
+    "prompt_length": 5208,
+    "activated_dynamic_rules": [
+      "form_input_contrast"
+    ],
+    "spec_mode": "summary"
+  },
+  "l0": {
+    "status": "pass",
+    "ruleSetVersion": "1.0",
+    "errorCount": 0,
+    "warningCount": 0,
+    "issues": [],
+    "appliedFixes": []
+  },
+  "qualityGates": {
+    "enabled": true,
+    "initial": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": false,
+        "issues_count": 13,
+        "issues": [
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/registration/StepOneName.tsx",
+            "line": 35,
+            "message": "Input element may lack explicit text color styling (line 35). Text may be invisible against background.",
+            "snippet": "<input\n          id=\"name\"\n          type=\"text\"\n          value={name}\n          onChange={(e) =>",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "low_contrast_light_on_light",
+            "severity": "error",
+            "priority": 3,
+            "file": "src/components/generated/registration/StepOneName.tsx",
+            "line": 42,
+            "message": "低对比度：浅色文字(text-gray-50)在浅色背景(bg-white)上，文字不可读",
+            "snippet": "'bg-white text-gray-900 placeholder:text-gray-500',",
+            "suggestion": "将 text-gray-50 改为 text-gray-900 或 text-slate-900",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/registration/StepTwoEmail.tsx",
+            "line": 35,
+            "message": "Input element may lack explicit text color styling (line 35). Text may be invisible against background.",
+            "snippet": "<input\n          id=\"email\"\n          type=\"email\"\n          value={email}\n          onChange={(e) =...",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "low_contrast_light_on_light",
+            "severity": "error",
+            "priority": 3,
+            "file": "src/components/generated/registration/StepTwoEmail.tsx",
+            "line": 42,
+            "message": "低对比度：浅色文字(text-gray-50)在浅色背景(bg-white)上，文字不可读",
+            "snippet": "'bg-white text-gray-900 placeholder:text-gray-500',",
+            "suggestion": "将 text-gray-50 改为 text-gray-900 或 text-slate-900",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "low_contrast_dark_on_dark",
+            "severity": "error",
+            "priority": 3,
+            "file": "src/components/generated/registration/NavigationControls.tsx",
+            "line": 54,
+            "message": "低对比度：深色文字(text-gray-900)在深色背景(bg-black)上，文字不可读",
+            "snippet": "? 'bg-yellow-400 text-gray-900 border-black hover:bg-black hover:text-yellow-400 hover:-translate-y-0.5 hover:-translate",
+            "suggestion": "将 text-gray-900 改为 text-white 或 text-gray-100",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "low_contrast_dark_on_dark",
+            "severity": "error",
+            "priority": 3,
+            "file": "src/components/generated/registration/NavigationControls.tsx",
+            "line": 70,
+            "message": "低对比度：深色文字(text-gray-900)在深色背景(bg-black)上，文字不可读",
+            "snippet": "? 'bg-red-500 text-gray-900 border-black hover:bg-black hover:text-red-500 hover:-translate-y-0.5 hover:-translate-x-0.5",
+            "suggestion": "将 text-gray-900 改为 text-white 或 text-gray-100",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第2个return缺少{'isSubmitted', 'email', 'currentStep', 'isEmailValid'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第3个return缺少{'isSubmitted', 'isNameValid', 'currentStep', 'name'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第4个return缺少{'isNameValid', 'isSubmitted', 'email', 'name', 'isEmailValid'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第5个return缺少{'isNameValid', 'isSubmitted', 'email', 'name', 'isEmailValid'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第6个return缺少{'isNameValid', 'isSubmitted', 'email', 'name', 'isEmailValid'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第7个return缺少{'isNameValid', 'isSubmitted', 'email', 'name', 'isEmailValid'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第8个return缺少{'isNameValid', 'email', 'name', 'currentStep', 'isEmailValid'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "results": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 9,
+        "issues": [
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/registration/StepOneName.tsx",
+            "line": 20,
+            "message": "Input element may lack explicit text color styling (line 20). Text may be invisible against background.",
+            "snippet": "<input\n        id=\"full-name\"\n        type=\"text\"\n        value={name}\n        onChange={(e) =>",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/registration/StepTwoEmail.tsx",
+            "line": 20,
+            "message": "Input element may lack explicit text color styling (line 20). Text may be invisible against background.",
+            "snippet": "<input\n        id=\"email\"\n        type=\"email\"\n        value={email}\n        onChange={(e) =>",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第2个return缺少{'isSubmitted', 'email', 'currentStep', 'isEmailValid'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第3个return缺少{'isSubmitted', 'isNameValid', 'currentStep', 'name'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第4个return缺少{'isNameValid', 'isSubmitted', 'email', 'name', 'isEmailValid'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第5个return缺少{'isNameValid', 'isSubmitted', 'email', 'name', 'isEmailValid'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第6个return缺少{'isNameValid', 'isSubmitted', 'email', 'name', 'isEmailValid'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第7个return缺少{'isNameValid', 'isSubmitted', 'email', 'name', 'isEmailValid'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第8个return缺少{'isNameValid', 'email', 'name', 'currentStep', 'isEmailValid'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "passed": true,
+    "failed_gates": [],
+    "healing_history": [
+      {
+        "iteration": 1,
+        "timestamp": "2025-12-24T20:25:48.861861",
+        "error_count": 0,
+        "total_count": 9,
+        "regression": false,
+        "regression_type": "none",
+        "healing_actions": {
+          "ai_returned_files": 3,
+          "files_applied": 3,
+          "files_filtered": 0,
+          "filtered_paths": [],
+          "max_files_limit": 8,
+          "changes": [
+            {
+              "path": "src/components/generated/registration/StepOneName.tsx",
+              "action": "modified",
+              "size_before": 1567,
+              "size_after": 1008,
+              "lines_before": 61,
+              "lines_after": 30
+            },
+            {
+              "path": "src/components/generated/registration/StepTwoEmail.tsx",
+              "action": "modified",
+              "size_before": 1633,
+              "size_after": 1037,
+              "lines_before": 61,
+              "lines_after": 30
+            },
+            {
+              "path": "src/components/generated/registration/NavigationControls.tsx",
+              "action": "modified",
+              "size_before": 2691,
+              "size_after": 1858,
+              "lines_before": 84,
+              "lines_after": 61
+            }
+          ]
+        },
+        "gates": {
+          "L0_static": {
+            "passed": true,
+            "issues_count": 9,
+            "issues": [
+              {
+                "rule_id": "input_missing_text_color",
+                "severity": "warning",
+                "file": "src/components/generated/registration/StepOneName.tsx",
+                "message": "Input element may lack explicit text color styling (line 20). Text may be invisible against background."
+              },
+              {
+                "rule_id": "input_missing_text_color",
+                "severity": "warning",
+                "file": "src/components/generated/registration/StepTwoEmail.tsx",
+                "message": "Input element may lack explicit text color styling (line 20). Text may be invisible against background."
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardMachine.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第2个return缺少{'isSubmitted', 'email', 'currentStep', 'isEmailValid'}，多出set()"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardMachine.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第3个return缺少{'isSubmitted', 'isNameValid', 'currentStep', 'name'}，多出set()"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardMachine.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第4个return缺少{'isNameValid', 'isSubmitted', 'email', 'name', 'isEmailValid'}，多出set()"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardMachine.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第5个return缺少{'isNameValid', 'isSubmitted', 'email', 'name', 'isEmailValid'}，多出set()"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardMachine.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第6个return缺少{'isNameValid', 'isSubmitted', 'email', 'name', 'isEmailValid'}，多出set()"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardMachine.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第7个return缺少{'isNameValid', 'isSubmitted', 'email', 'name', 'isEmailValid'}，多出set()"
+              },
+              {
+                "rule_id": "data_contract_violation",
+                "severity": "warning",
+                "file": "src/lib/generated/registrationWizardMachine.ts",
+                "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第8个return缺少{'isNameValid', 'email', 'name', 'currentStep', 'isEmailValid'}，多出set()"
+              }
+            ]
+          },
+          "L1_typecheck": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          },
+          "L2_smoke_test": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          }
+        }
+      }
+    ],
+    "final": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 9,
+        "issues": [
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/registration/StepOneName.tsx",
+            "line": 20,
+            "message": "Input element may lack explicit text color styling (line 20). Text may be invisible against background.",
+            "snippet": "<input\n        id=\"full-name\"\n        type=\"text\"\n        value={name}\n        onChange={(e) =>",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/registration/StepTwoEmail.tsx",
+            "line": 20,
+            "message": "Input element may lack explicit text color styling (line 20). Text may be invisible against background.",
+            "snippet": "<input\n        id=\"email\"\n        type=\"email\"\n        value={email}\n        onChange={(e) =>",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第2个return缺少{'isSubmitted', 'email', 'currentStep', 'isEmailValid'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第3个return缺少{'isSubmitted', 'isNameValid', 'currentStep', 'name'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第4个return缺少{'isNameValid', 'isSubmitted', 'email', 'name', 'isEmailValid'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第5个return缺少{'isNameValid', 'isSubmitted', 'email', 'name', 'isEmailValid'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第6个return缺少{'isNameValid', 'isSubmitted', 'email', 'name', 'isEmailValid'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第7个return缺少{'isNameValid', 'isSubmitted', 'email', 'name', 'isEmailValid'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/registrationWizardMachine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'isNameValid', 'isSubmitted', 'email', 'name', 'currentStep', 'isEmailValid'}，第8个return缺少{'isNameValid', 'email', 'name', 'currentStep', 'isEmailValid'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    }
+  },
+  "phases": {
+    "install": {
+      "status": "success",
+      "startedAt": "2025-12-24T12:25:52.102Z",
+      "endedAt": "2025-12-24T12:25:52.472Z",
+      "duration_ms": 370,
+      "exitCode": 0,
+      "logTail": "\r\nup to date in 134ms\r\n\r\n28 packages are looking for funding\r\n  run `npm fund` for details\r\n"
+    },
+    "dev": {
+      "status": "success",
+      "startedAt": "2025-12-24T12:25:52.472Z",
+      "endedAt": "2025-12-24T12:25:55.598Z",
+      "duration_ms": 3126,
+      "exitCode": 0,
+      "logTail": "\r\n> cyberpunk-app@0.0.0 dev\r\n> vite\r\n\r\n\u001b[1G\u001b[0KPort 5173 is in use, trying another one...\r\nPort 5174 is in use, trying another one...\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\u001b[1;1H\u001b[0J\r\n  \u001b[32m\u001b[1mVITE\u001b[22m v5.4.21\u001b[39m  \u001b[2mready in \u001b[0m\u001b[1m2822\u001b[22m\u001b[2m\u001b[0m ms\u001b[22m\r\n\r\n  \u001b[32m➜\u001b[39m  \u001b[1mLocal\u001b[22m:   \u001b[36mhttp://localhost:\u001b[1m5175\u001b[22m/\u001b[39m\r\n\u001b[2m  \u001b[32m➜\u001b[39m  \u001b[1mNetwork\u001b[22m\u001b[2m: use \u001b[22m\u001b[1m--host\u001b[22m\u001b[2m to expose\u001b[22m\r\n\u001b[2m\u001b[32m  ➜\u001b[39m\u001b[22m\u001b[2m  press \u001b[22m\u001b[1mh + enter\u001b[22m\u001b[2m to show help\u001b[22m\r\n",
+      "url": "https://k03e2io1v3fx9wvj0vr8qd5q58o56n-fkdo--5175--365214aa.local-corp.webcontainer-api.io",
+      "port": 5175
+    },
+    "render": {
+      "status": "timeout",
+      "startedAt": "2025-12-24T12:25:55.598Z",
+      "endedAt": "2025-12-24T12:26:04.221Z",
+      "duration_ms": 8623,
+      "signal": "TIMEOUT_NO_ERROR"
+    }
+  },
+  "deps": {
+    "approved": {},
+    "injected": [],
+    "injectError": null
+  },
+  "errors": {
+    "console": {
+      "total": 0,
+      "uniqueCount": 0,
+      "samples": []
+    },
+    "classified": {
+      "INSTALL": 0,
+      "DEPENDENCY": 0,
+      "BUILD": 0,
+      "EXPORT": 0,
+      "RUNTIME": 0
+    }
+  }
+}

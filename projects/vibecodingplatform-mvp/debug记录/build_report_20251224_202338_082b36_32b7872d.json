@@ -1,0 +1,199 @@
+{
+  "runId": "32b7872d-440b-4833-a3a9-27f8fb9fe0ee",
+  "timestamp": "2025-12-24T12:23:38.296Z",
+  "prompt": "使用 React + TypeScript + Tailwind CSS 实现一个带有实时校验的注册表单。\\n1. 字段：邮箱、密码、确认密码。\\n2. 校验规则（实时反馈）：\\n   - 邮箱：必须符合邮箱格式。\\n   - 密码：长度至少8位，包含字母和数字。\\n   - 确认密码：必须与密码完全一致。\\n3. 交互：有错误时提交按钮禁用或点击无效；提交成功后显示Success Message。\\n4. 错误信息需显示在对应输入框下方，颜色为红色。",
+  "themeName": "red",
+  "telemetry": {
+    "mode": "generate",
+    "policy_version": "1.0.0",
+    "prompt_hash": "082b36c4cdb4e51c",
+    "prompt_length": 5173,
+    "activated_dynamic_rules": [
+      "form_input_contrast"
+    ],
+    "spec_mode": "summary"
+  },
+  "l0": {
+    "status": "pass",
+    "ruleSetVersion": "1.0",
+    "errorCount": 0,
+    "warningCount": 0,
+    "issues": [],
+    "appliedFixes": []
+  },
+  "qualityGates": {
+    "enabled": true,
+    "initial": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 4,
+        "issues": [
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/retro-future-auth/RetroRegisterForm.tsx",
+            "line": 196,
+            "message": "Input element may lack explicit text color styling (line 196). Text may be invisible against background.",
+            "snippet": "<input\n                  id=\"email\"\n                  type=\"email\"\n                  value={form.ema...",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/retro-future-auth/RetroRegisterForm.tsx",
+            "line": 239,
+            "message": "Input element may lack explicit text color styling (line 239). Text may be invisible against background.",
+            "snippet": "<input\n                  id=\"password\"\n                  type=\"password\"\n                  value={fo...",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/retro-future-auth/RetroRegisterForm.tsx",
+            "line": 282,
+            "message": "Input element may lack explicit text color styling (line 282). Text may be invisible against background.",
+            "snippet": "<input\n                  id=\"confirmPassword\"\n                  type=\"password\"\n                  va...",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "missing_explicit_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/retro-future-auth/RetroRegisterForm.tsx",
+            "line": 133,
+            "message": "H1 element missing explicit text color (line 133). Text may be invisible against background.",
+            "snippet": "<h1 className=\"text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-amber-50 drop-shadow-...",
+            "suggestion": "Add text-white for dark backgrounds or text-gray-900 for light backgrounds to ensure readability"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "results": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 4,
+        "issues": [
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/retro-future-auth/RetroRegisterForm.tsx",
+            "line": 196,
+            "message": "Input element may lack explicit text color styling (line 196). Text may be invisible against background.",
+            "snippet": "<input\n                  id=\"email\"\n                  type=\"email\"\n                  value={form.ema...",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/retro-future-auth/RetroRegisterForm.tsx",
+            "line": 239,
+            "message": "Input element may lack explicit text color styling (line 239). Text may be invisible against background.",
+            "snippet": "<input\n                  id=\"password\"\n                  type=\"password\"\n                  value={fo...",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/retro-future-auth/RetroRegisterForm.tsx",
+            "line": 282,
+            "message": "Input element may lack explicit text color styling (line 282). Text may be invisible against background.",
+            "snippet": "<input\n                  id=\"confirmPassword\"\n                  type=\"password\"\n                  va...",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "missing_explicit_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/retro-future-auth/RetroRegisterForm.tsx",
+            "line": 133,
+            "message": "H1 element missing explicit text color (line 133). Text may be invisible against background.",
+            "snippet": "<h1 className=\"text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-amber-50 drop-shadow-...",
+            "suggestion": "Add text-white for dark backgrounds or text-gray-900 for light backgrounds to ensure readability"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "passed": true,
+    "failed_gates": [],
+    "healing_history": [],
+    "final": null
+  },
+  "phases": {
+    "install": {
+      "status": "success",
+      "startedAt": "2025-12-24T12:23:27.088Z",
+      "endedAt": "2025-12-24T12:23:29.294Z",
+      "duration_ms": 2206,
+      "exitCode": 0,
+      "logTail": "\r\nadded 2 packages in 1s\r\n\r\n28 packages are looking for funding\r\n  run `npm fund` for details\r\n"
+    },
+    "dev": {
+      "status": "success",
+      "startedAt": "2025-12-24T12:23:29.294Z",
+      "endedAt": "2025-12-24T12:23:30.294Z",
+      "duration_ms": 1000,
+      "exitCode": 0,
+      "logTail": "\r\n> cyberpunk-app@0.0.0 dev\r\n> vite\r\n\r\n\u001b[1G\u001b[0KPort 5173 is in use, trying another one...\r\n",
+      "url": "https://k03e2io1v3fx9wvj0vr8qd5q58o56n-fkdo--5174--365214aa.local-corp.webcontainer-api.io",
+      "port": 5174
+    },
+    "render": {
+      "status": "timeout",
+      "startedAt": "2025-12-24T12:23:30.294Z",
+      "endedAt": "2025-12-24T12:23:38.296Z",
+      "duration_ms": 8002,
+      "signal": "TIMEOUT_NO_ERROR"
+    }
+  },
+  "deps": {
+    "approved": {},
+    "injected": [],
+    "injectError": null
+  },
+  "errors": {
+    "console": {
+      "total": 0,
+      "uniqueCount": 0,
+      "samples": []
+    },
+    "classified": {
+      "INSTALL": 0,
+      "DEPENDENCY": 0,
+      "BUILD": 0,
+      "EXPORT": 0,
+      "RUNTIME": 0
+    }
+  }
+}

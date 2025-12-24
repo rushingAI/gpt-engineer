@@ -1,0 +1,293 @@
+{
+  "runId": "56a16fa5-feb0-4c8b-ae66-29451a73e28a",
+  "timestamp": "2025-12-24T09:45:03.160Z",
+  "prompt": "创建一个贪吃蛇游戏",
+  "themeName": "teal",
+  "telemetry": {
+    "mode": "generate",
+    "policy_version": "1.0.0",
+    "prompt_hash": "fe85cbb6bed8c853",
+    "prompt_length": 4344,
+    "activated_dynamic_rules": [],
+    "spec_mode": "summary"
+  },
+  "l0": {
+    "status": "pass",
+    "ruleSetVersion": "1.0",
+    "errorCount": 0,
+    "warningCount": 0,
+    "issues": [],
+    "appliedFixes": []
+  },
+  "qualityGates": {
+    "enabled": true,
+    "initial": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 8,
+        "issues": [
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeEngine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'pendingDirection', 'score', 'highScore', 'status', 'speedMs', 'tick', 'snake', 'food', 'direction'}，第2个return缺少{'score', 'highScore', 'status', 'speedMs', 'tick', 'snake', 'food', 'direction'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeEngine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'pendingDirection', 'score', 'highScore', 'status', 'speedMs', 'tick', 'snake', 'food', 'direction'}，第3个return缺少{'pendingDirection', 'score', 'highScore', 'speedMs', 'snake', 'food', 'direction'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeEngine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'pendingDirection', 'score', 'highScore', 'status', 'speedMs', 'tick', 'snake', 'food', 'direction'}，第4个return缺少{'pendingDirection', 'score', 'highScore', 'speedMs', 'tick', 'snake', 'food', 'direction'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeEngine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'pendingDirection', 'score', 'highScore', 'status', 'speedMs', 'tick', 'snake', 'food', 'direction'}，第5个return缺少{'pendingDirection', 'score', 'highScore', 'speedMs', 'tick', 'snake', 'food', 'direction'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeEngine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'pendingDirection', 'score', 'highScore', 'status', 'speedMs', 'tick', 'snake', 'food', 'direction'}，第6个return缺少{'pendingDirection', 'score', 'highScore', 'speedMs', 'tick', 'snake', 'food', 'direction'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeEngine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'pendingDirection', 'score', 'highScore', 'status', 'speedMs', 'tick', 'snake', 'food', 'direction'}，第7个return缺少{'pendingDirection', 'score', 'highScore', 'speedMs', 'tick', 'snake', 'food', 'direction'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeEngine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'pendingDirection', 'score', 'highScore', 'status', 'speedMs', 'tick', 'snake', 'food', 'direction'}，第8个return缺少{'status'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeEngine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'pendingDirection', 'score', 'highScore', 'status', 'speedMs', 'tick', 'snake', 'food', 'direction'}，第9个return缺少{'pendingDirection', 'score', 'highScore', 'speedMs', 'tick', 'snake', 'food', 'direction'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "results": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 8,
+        "issues": [
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeEngine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'pendingDirection', 'score', 'highScore', 'status', 'speedMs', 'tick', 'snake', 'food', 'direction'}，第2个return缺少{'score', 'highScore', 'status', 'speedMs', 'tick', 'snake', 'food', 'direction'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeEngine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'pendingDirection', 'score', 'highScore', 'status', 'speedMs', 'tick', 'snake', 'food', 'direction'}，第3个return缺少{'pendingDirection', 'score', 'highScore', 'speedMs', 'snake', 'food', 'direction'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeEngine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'pendingDirection', 'score', 'highScore', 'status', 'speedMs', 'tick', 'snake', 'food', 'direction'}，第4个return缺少{'pendingDirection', 'score', 'highScore', 'speedMs', 'tick', 'snake', 'food', 'direction'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeEngine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'pendingDirection', 'score', 'highScore', 'status', 'speedMs', 'tick', 'snake', 'food', 'direction'}，第5个return缺少{'pendingDirection', 'score', 'highScore', 'speedMs', 'tick', 'snake', 'food', 'direction'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeEngine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'pendingDirection', 'score', 'highScore', 'status', 'speedMs', 'tick', 'snake', 'food', 'direction'}，第6个return缺少{'pendingDirection', 'score', 'highScore', 'speedMs', 'tick', 'snake', 'food', 'direction'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeEngine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'pendingDirection', 'score', 'highScore', 'status', 'speedMs', 'tick', 'snake', 'food', 'direction'}，第7个return缺少{'pendingDirection', 'score', 'highScore', 'speedMs', 'tick', 'snake', 'food', 'direction'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeEngine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'pendingDirection', 'score', 'highScore', 'status', 'speedMs', 'tick', 'snake', 'food', 'direction'}，第8个return缺少{'status'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          },
+          {
+            "rule_id": "data_contract_violation",
+            "severity": "warning",
+            "priority": 5,
+            "file": "src/lib/generated/snakeEngine.ts",
+            "line": 1,
+            "message": "函数返回的数据结构不一致：第1个return有{'pendingDirection', 'score', 'highScore', 'status', 'speedMs', 'tick', 'snake', 'food', 'direction'}，第9个return缺少{'pendingDirection', 'score', 'highScore', 'speedMs', 'tick', 'snake', 'food', 'direction'}，多出set()",
+            "snippet": "return { ... }",
+            "suggestion": "确保所有return语句返回相同的字段集合",
+            "note": "误报率较高，仅供参考，待 AST 方案上线后恢复 error"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "passed": true,
+    "failed_gates": [],
+    "healing_history": [],
+    "final": null
+  },
+  "phases": {
+    "install": {
+      "status": "success",
+      "startedAt": "2025-12-24T09:44:59.200Z",
+      "endedAt": "2025-12-24T09:44:59.637Z",
+      "duration_ms": 437,
+      "exitCode": 0,
+      "logTail": "\r\nup to date in 148ms\r\n\r\n28 packages are looking for funding\r\n  run `npm fund` for details\r\n"
+    },
+    "dev": {
+      "status": "success",
+      "startedAt": "2025-12-24T09:44:59.637Z",
+      "endedAt": "2025-12-24T09:45:00.732Z",
+      "duration_ms": 1095,
+      "exitCode": 0,
+      "logTail": "\r\n> cyberpunk-app@0.0.0 dev\r\n> vite\r\n\r\n\u001b[1G\u001b[0KPort 5173 is in use, trying another one...\r\nPort 5174 is in use, trying another one...\r\n",
+      "url": "https://k03e2io1v3fx9wvj0vr8qd5q58o56n-fkdo--5175--365214aa.local-corp.webcontainer-api.io",
+      "port": 5175
+    },
+    "render": {
+      "status": "success",
+      "startedAt": "2025-12-24T09:45:00.732Z",
+      "endedAt": "2025-12-24T09:45:03.160Z",
+      "duration_ms": 2428,
+      "signal": "APP_RENDERED"
+    }
+  },
+  "deps": {
+    "approved": {},
+    "injected": [],
+    "injectError": null
+  },
+  "errors": {
+    "console": {
+      "total": 0,
+      "uniqueCount": 0,
+      "samples": []
+    },
+    "classified": {
+      "INSTALL": 0,
+      "DEPENDENCY": 0,
+      "BUILD": 0,
+      "EXPORT": 0,
+      "RUNTIME": 0
+    }
+  }
+}

@@ -1,0 +1,633 @@
+{
+  "runId": "ad545817-de4e-4091-8ffc-6b22aace7378",
+  "timestamp": "2025-12-24T12:36:33.215Z",
+  "prompt": "使用 React + TypeScript + Tailwind CSS 做一个任务管理仪表盘。\\n1. 顶部 Tabs：All / Active / Completed。\\n2. 搜索框：支持按任务名称进行模糊搜索。\\n3. 列表展示：初始化 12 条模拟数据。支持'Tab切换'和'搜索关键词'的叠加过滤。\\n   例如：在 'Completed' Tab 下搜索 'Meeting'，只显示已完成且名字包含 Meeting 的任务。\\n4. 列表为空时显示 Empty State。",
+  "themeName": "pink",
+  "telemetry": {
+    "mode": "generate",
+    "policy_version": "1.0.0",
+    "prompt_hash": "285f4314cb2960f7",
+    "prompt_length": 20827,
+    "activated_dynamic_rules": [
+      "data_handling_inline_only"
+    ],
+    "spec_mode": "summary"
+  },
+  "l0": {
+    "status": "pass",
+    "ruleSetVersion": "1.0",
+    "errorCount": 0,
+    "warningCount": 0,
+    "issues": [],
+    "appliedFixes": []
+  },
+  "qualityGates": {
+    "enabled": true,
+    "initial": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": false,
+        "issues_count": 18,
+        "issues": [
+          {
+            "rule_id": "empty_handler",
+            "severity": "error",
+            "priority": 2,
+            "file": "src/pages/Index.tsx",
+            "line": 362,
+            "message": "事件处理器 onSecondaryAction 未实现或为空",
+            "snippet": "onSecondaryAction={() => {\n                // no-op demo\n...",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "index_tsx_too_large",
+            "severity": "warning",
+            "file": "src/pages/Index.tsx",
+            "line": 1,
+            "message": "Index.tsx 有 371 行（超过 300 行阈值），建议拆分",
+            "snippet": "文件行数: 371",
+            "suggestion": "将复杂组件拆分到 src/components/generated/<appSlug>/*.tsx"
+          },
+          {
+            "rule_id": "low_contrast_light_on_light",
+            "severity": "error",
+            "priority": 3,
+            "file": "src/pages/Index.tsx",
+            "line": 197,
+            "message": "低对比度：浅色文字(text-white)在浅色背景(bg-background)上，文字不可读",
+            "snippet": "<div className=\"flex min-h-screen bg-background text-white\">",
+            "suggestion": "将 text-white 改为 text-gray-900 或 text-slate-900",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "low_contrast_light_on_light",
+            "severity": "error",
+            "priority": 3,
+            "file": "src/pages/Index.tsx",
+            "line": 221,
+            "message": "低对比度：浅色文字(text-gray-100)在浅色背景(bg-background)上，文字不可读",
+            "snippet": "className=\"border-cyan-500/40 bg-background/60 text-gray-100 hover:border-cyan-400 hover:bg-cyan-500/10\"",
+            "suggestion": "将 text-gray-100 改为 text-gray-900 或 text-slate-900",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "low_contrast_light_on_light",
+            "severity": "error",
+            "priority": 3,
+            "file": "src/components/generated/dashboard/TasksTable.tsx",
+            "line": 84,
+            "message": "低对比度：浅色文字(text-gray-100)在浅色背景(bg-background)上，文字不可读",
+            "snippet": ": \"border-cyan-500/40 bg-background/60 text-gray-100 hover:border-cyan-400 hover:bg-cyan-500/10\"",
+            "suggestion": "将 text-gray-100 改为 text-gray-900 或 text-slate-900",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "low_contrast_light_on_light",
+            "severity": "error",
+            "priority": 3,
+            "file": "src/components/generated/dashboard/TasksTable.tsx",
+            "line": 96,
+            "message": "低对比度：浅色文字(text-gray-100)在浅色背景(bg-background)上，文字不可读",
+            "snippet": ": \"border-cyan-500/40 bg-background/60 text-gray-100 hover:border-cyan-400 hover:bg-cyan-500/10\"",
+            "suggestion": "将 text-gray-100 改为 text-gray-900 或 text-slate-900",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "low_contrast_light_on_light",
+            "severity": "error",
+            "priority": 3,
+            "file": "src/components/generated/dashboard/TasksTable.tsx",
+            "line": 109,
+            "message": "低对比度：浅色文字(text-gray-100)在浅色背景(bg-background)上，文字不可读",
+            "snippet": ": \"border-emerald-500/40 bg-background/60 text-gray-100 hover:border-emerald-400 hover:bg-emerald-500/10\"",
+            "suggestion": "将 text-gray-100 改为 text-gray-900 或 text-slate-900",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "low_contrast_light_on_light",
+            "severity": "error",
+            "priority": 3,
+            "file": "src/components/generated/dashboard/TasksTable.tsx",
+            "line": 160,
+            "message": "低对比度：浅色文字(text-gray-100)在浅色背景(bg-background)上，文字不可读",
+            "snippet": "className=\"border-b border-border/50 bg-background/40 text-gray-100 transition-all duration-200 hover:bg-secondary/50 ho",
+            "suggestion": "将 text-gray-100 改为 text-gray-900 或 text-slate-900",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/dashboard/TaskFiltersBar.tsx",
+            "line": 27,
+            "message": "Input element may lack explicit text color styling (line 27). Text may be invisible against background.",
+            "snippet": "<Input\n          value={searchQuery}\n          onChange={(e) =>",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "rule_id": "low_contrast_light_on_light",
+            "severity": "error",
+            "priority": 3,
+            "file": "src/components/generated/dashboard/TaskFiltersBar.tsx",
+            "line": 31,
+            "message": "低对比度：浅色文字(text-gray-50)在浅色背景(bg-background)上，文字不可读",
+            "snippet": "className=\"h-11 w-full rounded-xl border border-cyan-500/40 bg-background/80 pl-9 pr-9 text-sm text-gray-100 placeholder",
+            "suggestion": "将 text-gray-50 改为 text-gray-900 或 text-slate-900",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "low_contrast_light_on_light",
+            "severity": "error",
+            "priority": 3,
+            "file": "src/components/generated/dashboard/TaskFiltersBar.tsx",
+            "line": 48,
+            "message": "低对比度：浅色文字(text-gray-100)在浅色背景(bg-background)上，文字不可读",
+            "snippet": "className=\"border-cyan-500/40 bg-background/60 text-gray-100 hover:border-cyan-400 hover:bg-cyan-500/10\"",
+            "suggestion": "将 text-gray-100 改为 text-gray-900 或 text-slate-900",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "low_contrast_light_on_light",
+            "severity": "error",
+            "priority": 3,
+            "file": "src/components/generated/dashboard/TaskFiltersBar.tsx",
+            "line": 60,
+            "message": "低对比度：浅色文字(text-gray-100)在浅色背景(bg-background)上，文字不可读",
+            "snippet": "className=\"h-11 rounded-xl border border-cyan-500/40 bg-background/80 px-3 text-sm text-gray-100 outline-none ring-0 foc",
+            "suggestion": "将 text-gray-100 改为 text-gray-900 或 text-slate-900",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "low_contrast_light_on_light",
+            "severity": "error",
+            "priority": 3,
+            "file": "src/components/generated/dashboard/TaskFiltersBar.tsx",
+            "line": 62,
+            "message": "低对比度：浅色文字(text-gray-100)在浅色背景(bg-background)上，文字不可读",
+            "snippet": "<option value=\"all\" className=\"bg-background text-gray-100\">",
+            "suggestion": "将 text-gray-100 改为 text-gray-900 或 text-slate-900",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "low_contrast_light_on_light",
+            "severity": "error",
+            "priority": 3,
+            "file": "src/components/generated/dashboard/TaskFiltersBar.tsx",
+            "line": 69,
+            "message": "低对比度：浅色文字(text-gray-100)在浅色背景(bg-background)上，文字不可读",
+            "snippet": "className=\"bg-background text-gray-100\"",
+            "suggestion": "将 text-gray-100 改为 text-gray-900 或 text-slate-900",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "low_contrast_light_on_light",
+            "severity": "error",
+            "priority": 3,
+            "file": "src/components/generated/dashboard/EmptyState.tsx",
+            "line": 46,
+            "message": "低对比度：浅色文字(text-gray-100)在浅色背景(bg-background)上，文字不可读",
+            "snippet": "className=\"border-cyan-500/40 bg-background/60 text-gray-100 hover:border-cyan-400 hover:bg-cyan-500/10\"",
+            "suggestion": "将 text-gray-100 改为 text-gray-900 或 text-slate-900",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "missing_null_check",
+            "severity": "error",
+            "priority": 3,
+            "file": "src/components/generated/dashboard/StatsCards.tsx",
+            "line": 15,
+            "message": "缺少空值检查：stats.total.toLocaleString() 可能在 stats.total 为 undefined 时崩溃",
+            "snippet": "value: stats.total.toLocaleString(),",
+            "suggestion": "使用可选链：stats?.total?.toLocaleString() 或添加条件：stats && stats.total",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "missing_null_check",
+            "severity": "error",
+            "priority": 3,
+            "file": "src/components/generated/dashboard/StatsCards.tsx",
+            "line": 21,
+            "message": "缺少空值检查：stats.active.toLocaleString() 可能在 stats.active 为 undefined 时崩溃",
+            "snippet": "value: stats.active.toLocaleString(),",
+            "suggestion": "使用可选链：stats?.active?.toLocaleString() 或添加条件：stats && stats.active",
+            "gate": "L0_static"
+          },
+          {
+            "rule_id": "missing_null_check",
+            "severity": "error",
+            "priority": 3,
+            "file": "src/components/generated/dashboard/StatsCards.tsx",
+            "line": 27,
+            "message": "缺少空值检查：stats.completed.toLocaleString() 可能在 stats.completed 为 undefined 时崩溃",
+            "snippet": "value: stats.completed.toLocaleString(),",
+            "suggestion": "使用可选链：stats?.completed?.toLocaleString() 或添加条件：stats && stats.completed",
+            "gate": "L0_static"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "results": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 2,
+        "issues": [
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/dashboard/TaskFiltersBar.tsx",
+            "line": 50,
+            "message": "Input element may lack explicit text color styling (line 50). Text may be invisible against background.",
+            "snippet": "<input\n            type=\"text\"\n            value={searchQuery}\n            onChange={(e) =>",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "severity": "warning",
+            "file": "src/components/generated/dashboard/Sidebar.tsx",
+            "line": 1,
+            "message": "[G6_ORPHAN_FILES] 检测到 2 个未被引用的组件文件",
+            "suggestion": "考虑在页面中接线这些组件，或删除它们：Sidebar, TasksTable"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "passed": true,
+    "failed_gates": [],
+    "healing_history": [
+      {
+        "iteration": 1,
+        "timestamp": "2025-12-24T20:35:19.221091",
+        "error_count": 6,
+        "total_count": 9,
+        "regression": false,
+        "regression_type": "none",
+        "healing_actions": {
+          "ai_returned_files": 3,
+          "files_applied": 3,
+          "files_filtered": 0,
+          "filtered_paths": [],
+          "max_files_limit": 8,
+          "changes": [
+            {
+              "path": "src/pages/Index.tsx",
+              "action": "modified",
+              "size_before": 12519,
+              "size_after": 10293,
+              "lines_before": 371,
+              "lines_after": 275
+            },
+            {
+              "path": "src/components/generated/dashboard/TasksTable.tsx",
+              "action": "modified",
+              "size_before": 7844,
+              "size_after": 3548,
+              "lines_before": 199,
+              "lines_after": 99
+            },
+            {
+              "path": "src/components/generated/dashboard/TaskFiltersBar.tsx",
+              "action": "modified",
+              "size_before": 2724,
+              "size_after": 2104,
+              "lines_before": 78,
+              "lines_after": 63
+            }
+          ]
+        },
+        "gates": {
+          "L0_static": {
+            "passed": false,
+            "issues_count": 9,
+            "issues": [
+              {
+                "rule_id": "input_missing_text_color",
+                "severity": "warning",
+                "file": "src/pages/Index.tsx",
+                "message": "Input element may lack explicit text color styling (line 189). Text may be invisible against background."
+              },
+              {
+                "rule_id": "low_contrast_light_on_light",
+                "severity": "error",
+                "file": "src/pages/Index.tsx",
+                "message": "低对比度：浅色文字(text-gray-50)在浅色背景(bg-white)上，文字不可读"
+              },
+              {
+                "rule_id": "input_missing_text_color",
+                "severity": "warning",
+                "file": "src/components/generated/dashboard/TaskFiltersBar.tsx",
+                "message": "Input element may lack explicit text color styling (line 44). Text may be invisible against background."
+              },
+              {
+                "rule_id": "low_contrast_light_on_light",
+                "severity": "error",
+                "file": "src/components/generated/dashboard/TaskFiltersBar.tsx",
+                "message": "低对比度：浅色文字(text-gray-50)在浅色背景(bg-white)上，文字不可读"
+              },
+              {
+                "rule_id": "low_contrast_light_on_light",
+                "severity": "error",
+                "file": "src/components/generated/dashboard/EmptyState.tsx",
+                "message": "低对比度：浅色文字(text-gray-100)在浅色背景(bg-background)上，文字不可读"
+              },
+              {
+                "rule_id": "missing_null_check",
+                "severity": "error",
+                "file": "src/components/generated/dashboard/StatsCards.tsx",
+                "message": "缺少空值检查：stats.total.toLocaleString() 可能在 stats.total 为 undefined 时崩溃"
+              },
+              {
+                "rule_id": "missing_null_check",
+                "severity": "error",
+                "file": "src/components/generated/dashboard/StatsCards.tsx",
+                "message": "缺少空值检查：stats.active.toLocaleString() 可能在 stats.active 为 undefined 时崩溃"
+              },
+              {
+                "rule_id": "missing_null_check",
+                "severity": "error",
+                "file": "src/components/generated/dashboard/StatsCards.tsx",
+                "message": "缺少空值检查：stats.completed.toLocaleString() 可能在 stats.completed 为 undefined 时崩溃"
+              },
+              {
+                "rule_id": null,
+                "severity": "warning",
+                "file": "src/components/generated/dashboard/Sidebar.tsx",
+                "message": "[G6_ORPHAN_FILES] 检测到 5 个未被引用的组件文件"
+              }
+            ]
+          },
+          "L1_typecheck": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          },
+          "L2_smoke_test": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          }
+        }
+      },
+      {
+        "iteration": 2,
+        "timestamp": "2025-12-24T20:36:15.133027",
+        "error_count": 3,
+        "total_count": 5,
+        "regression": false,
+        "regression_type": "none",
+        "healing_actions": {
+          "ai_returned_files": 4,
+          "files_applied": 4,
+          "files_filtered": 0,
+          "filtered_paths": [],
+          "max_files_limit": 8,
+          "changes": [
+            {
+              "path": "src/pages/Index.tsx",
+              "action": "modified",
+              "size_before": 10293,
+              "size_after": 9009,
+              "lines_before": 275,
+              "lines_after": 294
+            },
+            {
+              "path": "src/components/generated/dashboard/TaskFiltersBar.tsx",
+              "action": "modified",
+              "size_before": 2104,
+              "size_after": 2500,
+              "lines_before": 63,
+              "lines_after": 74
+            },
+            {
+              "path": "src/components/generated/dashboard/EmptyState.tsx",
+              "action": "modified",
+              "size_before": 1811,
+              "size_after": 1795,
+              "lines_before": 55,
+              "lines_after": 57
+            },
+            {
+              "path": "src/components/generated/dashboard/StatsCards.tsx",
+              "action": "modified",
+              "size_before": 2207,
+              "size_after": 1752,
+              "lines_before": 72,
+              "lines_after": 60
+            }
+          ]
+        },
+        "gates": {
+          "L0_static": {
+            "passed": false,
+            "issues_count": 5,
+            "issues": [
+              {
+                "rule_id": "input_missing_text_color",
+                "severity": "warning",
+                "file": "src/components/generated/dashboard/TaskFiltersBar.tsx",
+                "message": "Input element may lack explicit text color styling (line 50). Text may be invisible against background."
+              },
+              {
+                "rule_id": "missing_null_check",
+                "severity": "error",
+                "file": "src/components/generated/dashboard/StatsCards.tsx",
+                "message": "缺少空值检查：stats.total.toLocaleString() 可能在 stats.total 为 undefined 时崩溃"
+              },
+              {
+                "rule_id": "missing_null_check",
+                "severity": "error",
+                "file": "src/components/generated/dashboard/StatsCards.tsx",
+                "message": "缺少空值检查：stats.active.toLocaleString() 可能在 stats.active 为 undefined 时崩溃"
+              },
+              {
+                "rule_id": "missing_null_check",
+                "severity": "error",
+                "file": "src/components/generated/dashboard/StatsCards.tsx",
+                "message": "缺少空值检查：stats.completed.toLocaleString() 可能在 stats.completed 为 undefined 时崩溃"
+              },
+              {
+                "rule_id": null,
+                "severity": "warning",
+                "file": "src/components/generated/dashboard/Sidebar.tsx",
+                "message": "[G6_ORPHAN_FILES] 检测到 2 个未被引用的组件文件"
+              }
+            ]
+          },
+          "L1_typecheck": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          },
+          "L2_smoke_test": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          }
+        }
+      },
+      {
+        "iteration": 3,
+        "timestamp": "2025-12-24T20:36:19.691503",
+        "error_count": 0,
+        "total_count": 2,
+        "regression": false,
+        "regression_type": "none",
+        "healing_actions": {
+          "ai_returned_files": 1,
+          "files_applied": 1,
+          "files_filtered": 0,
+          "filtered_paths": [],
+          "max_files_limit": 8,
+          "changes": [
+            {
+              "path": "src/components/generated/dashboard/StatsCards.tsx",
+              "action": "modified",
+              "size_before": 1752,
+              "size_after": 1268,
+              "lines_before": 60,
+              "lines_after": 38
+            }
+          ]
+        },
+        "gates": {
+          "L0_static": {
+            "passed": true,
+            "issues_count": 2,
+            "issues": [
+              {
+                "rule_id": "input_missing_text_color",
+                "severity": "warning",
+                "file": "src/components/generated/dashboard/TaskFiltersBar.tsx",
+                "message": "Input element may lack explicit text color styling (line 50). Text may be invisible against background."
+              },
+              {
+                "rule_id": null,
+                "severity": "warning",
+                "file": "src/components/generated/dashboard/Sidebar.tsx",
+                "message": "[G6_ORPHAN_FILES] 检测到 2 个未被引用的组件文件"
+              }
+            ]
+          },
+          "L1_typecheck": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          },
+          "L2_smoke_test": {
+            "passed": true,
+            "issues_count": 0,
+            "issues": []
+          }
+        }
+      }
+    ],
+    "final": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 2,
+        "issues": [
+          {
+            "rule_id": "input_missing_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/dashboard/TaskFiltersBar.tsx",
+            "line": 50,
+            "message": "Input element may lack explicit text color styling (line 50). Text may be invisible against background.",
+            "snippet": "<input\n            type=\"text\"\n            value={searchQuery}\n            onChange={(e) =>",
+            "suggestion": "Add Tailwind classes: `text-gray-900` (light bg) or `text-white` (dark bg) and `placeholder:text-gray-400` or `placeholder:text-gray-500`"
+          },
+          {
+            "severity": "warning",
+            "file": "src/components/generated/dashboard/Sidebar.tsx",
+            "line": 1,
+            "message": "[G6_ORPHAN_FILES] 检测到 2 个未被引用的组件文件",
+            "suggestion": "考虑在页面中接线这些组件，或删除它们：Sidebar, TasksTable"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    }
+  },
+  "phases": {
+    "install": {
+      "status": "success",
+      "startedAt": "2025-12-24T12:36:22.873Z",
+      "endedAt": "2025-12-24T12:36:23.570Z",
+      "duration_ms": 697,
+      "exitCode": 0,
+      "logTail": "\r\nup to date in 326ms\r\n\r\n28 packages are looking for funding\r\n  run `npm fund` for details\r\n"
+    },
+    "dev": {
+      "status": "success",
+      "startedAt": "2025-12-24T12:36:23.571Z",
+      "endedAt": "2025-12-24T12:36:24.903Z",
+      "duration_ms": 1332,
+      "exitCode": 0,
+      "logTail": "\r\n> cyberpunk-app@0.0.0 dev\r\n> vite\r\n\r\n\u001b[1G\u001b[0KPort 5173 is in use, trying another one...\r\nPort 5174 is in use, trying another one...\r\nPort 5175 is in use, trying another one...\r\nPort 5176 is in use, trying another one...\r\n",
+      "url": "https://k03e2io1v3fx9wvj0vr8qd5q58o56n-fkdo--5177--365214aa.local-corp.webcontainer-api.io",
+      "port": 5177
+    },
+    "render": {
+      "status": "timeout",
+      "startedAt": "2025-12-24T12:36:24.903Z",
+      "endedAt": "2025-12-24T12:36:33.215Z",
+      "duration_ms": 8312,
+      "signal": "TIMEOUT_NO_ERROR"
+    }
+  },
+  "deps": {
+    "approved": {},
+    "injected": [],
+    "injectError": null
+  },
+  "errors": {
+    "console": {
+      "total": 0,
+      "uniqueCount": 0,
+      "samples": []
+    },
+    "classified": {
+      "INSTALL": 0,
+      "DEPENDENCY": 0,
+      "BUILD": 0,
+      "EXPORT": 0,
+      "RUNTIME": 0
+    }
+  }
+}

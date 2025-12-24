@@ -1,0 +1,139 @@
+{
+  "runId": "870bebb6-07bf-483a-b87e-bd5976d8c2bf",
+  "timestamp": "2025-12-24T12:45:05.219Z",
+  "prompt": "实现一个数据表格，不依赖第三方 Table 库。\\n1. 列定义：Name, Amount (数字), Status, Date。\\n2. 排序：点击 Amount 表头支持 升序/降序/默认 三态切换。\\n3. 分页：每页显示 5 条数据，底部显示'上一页'、'下一页'及'第 X 页 / 共 Y 页'。\\n4. 数据源：生成 25 条模拟数据。\\n5. 样式：斑马纹或简单的边框样式。\",\n",
+  "themeName": "orange",
+  "telemetry": {
+    "mode": "generate",
+    "policy_version": "1.0.0",
+    "prompt_hash": "ebe37dc2dd1a019c",
+    "prompt_length": 5586,
+    "activated_dynamic_rules": [
+      "data_handling_inline_only"
+    ],
+    "spec_mode": "summary"
+  },
+  "l0": {
+    "status": "pass",
+    "ruleSetVersion": "1.0",
+    "errorCount": 0,
+    "warningCount": 0,
+    "issues": [],
+    "appliedFixes": []
+  },
+  "qualityGates": {
+    "enabled": true,
+    "initial": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 1,
+        "issues": [
+          {
+            "rule_id": "missing_explicit_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/cyberpunk-table/DataTablePage.tsx",
+            "line": 35,
+            "message": "H1 element missing explicit text color (line 35). Text may be invisible against background.",
+            "snippet": "<h1 className=\"mt-3 bg-gradient-to-r from-cyan-200 via-white to-purple-300 bg-clip-text text-3xl fon...",
+            "suggestion": "Add text-white for dark backgrounds or text-gray-900 for light backgrounds to ensure readability"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "results": {
+      "L0_static": {
+        "level": "L0_static",
+        "passed": true,
+        "issues_count": 1,
+        "issues": [
+          {
+            "rule_id": "missing_explicit_text_color",
+            "severity": "warning",
+            "priority": 3,
+            "file": "src/components/generated/cyberpunk-table/DataTablePage.tsx",
+            "line": 35,
+            "message": "H1 element missing explicit text color (line 35). Text may be invisible against background.",
+            "snippet": "<h1 className=\"mt-3 bg-gradient-to-r from-cyan-200 via-white to-purple-300 bg-clip-text text-3xl fon...",
+            "suggestion": "Add text-white for dark backgrounds or text-gray-900 for light backgrounds to ensure readability"
+          }
+        ]
+      },
+      "L1_typecheck": {
+        "level": "L1_typecheck",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      },
+      "L2_smoke_test": {
+        "level": "L2_smoke_test",
+        "passed": true,
+        "issues_count": 0,
+        "issues": []
+      }
+    },
+    "passed": true,
+    "failed_gates": [],
+    "healing_history": [],
+    "final": null
+  },
+  "phases": {
+    "install": {
+      "status": "success",
+      "startedAt": "2025-12-24T12:44:53.822Z",
+      "endedAt": "2025-12-24T12:44:55.939Z",
+      "duration_ms": 2117,
+      "exitCode": 0,
+      "logTail": "\r\nadded 2 packages in 2s\r\n\r\n28 packages are looking for funding\r\n  run `npm fund` for details\r\n"
+    },
+    "dev": {
+      "status": "success",
+      "startedAt": "2025-12-24T12:44:55.939Z",
+      "endedAt": "2025-12-24T12:44:57.219Z",
+      "duration_ms": 1280,
+      "exitCode": 0,
+      "logTail": "\r\n> cyberpunk-app@0.0.0 dev\r\n> vite\r\n\r\n\u001b[1G\u001b[0KPort 5173 is in use, trying another one...\r\n",
+      "url": "https://k03e2io1v3fx9wvj0vr8qd5q58o56n-fkdo--5174--365214aa.local-corp.webcontainer-api.io",
+      "port": 5174
+    },
+    "render": {
+      "status": "timeout",
+      "startedAt": "2025-12-24T12:44:57.219Z",
+      "endedAt": "2025-12-24T12:45:05.219Z",
+      "duration_ms": 8000,
+      "signal": "TIMEOUT_NO_ERROR"
+    }
+  },
+  "deps": {
+    "approved": {},
+    "injected": [],
+    "injectError": null
+  },
+  "errors": {
+    "console": {
+      "total": 0,
+      "uniqueCount": 0,
+      "samples": []
+    },
+    "classified": {
+      "INSTALL": 0,
+      "DEPENDENCY": 0,
+      "BUILD": 0,
+      "EXPORT": 0,
+      "RUNTIME": 0
+    }
+  }
+}

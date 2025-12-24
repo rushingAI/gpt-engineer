@@ -486,7 +486,16 @@ YOU ARE WORKING WITH:
         }
         final_files['vibe.meta.json'] = json.dumps(preliminary_vibe_meta, indent=2, ensure_ascii=False)
         
-        # 11.2. 运行 L0 交互/样式门禁（针对结构性应用）
+        # 11.2. 🆕 Preflight Codemod（在门禁前自动修复 import/export 问题）
+        from preflight_codemod import apply_preflight_codemod
+        print(f"\n   🔧 运行 Preflight Codemod...")
+        final_files, preflight_fixes = apply_preflight_codemod(final_files)
+        if preflight_fixes:
+            print(f"   ✓ Preflight Codemod 应用了 {len(preflight_fixes)} 个修复")
+            for fix in preflight_fixes[:5]:
+                print(f"     - {fix['file']}: {fix['action']} ({fix['symbol']})")
+        
+        # 11.3. 运行 L0 交互/样式门禁（针对结构性应用）
         l0_config = policy_manager._policy.get('l0_style_gates', {})
         l0_context = {
             'prompt_text': prompt_text,
@@ -512,7 +521,7 @@ YOU ARE WORKING WITH:
             for hint in l0_result.hints[:2]:
                 print(f"   💡 {hint}")
         
-        # 11.3. 运行质量门禁（最快失败优先）
+        # 11.4. 运行质量门禁（最快失败优先）
         gate_results = run_quality_gates(final_files)
         
         # 11.3.5. 如果 L0 失败，将其映射到门禁结果（触发自愈）
@@ -536,6 +545,9 @@ YOU ARE WORKING WITH:
         heal_iterations = 0
         heal_success = False
         heal_triggered = False
+        
+        # 🔧 保存初始的 gate_results，防止被自愈后的结果覆盖
+        initial_gate_results = {name: result for name, result in gate_results.items()}
         
         if should_trigger_self_heal(gate_results):
             heal_triggered = True
@@ -617,7 +629,7 @@ YOU ARE WORKING WITH:
                     }
                     for warn in l0_result.warnings
                 ],
-                "appliedFixes": []  # 自愈后填充（未来扩展）
+                "appliedFixes": preflight_fixes  # Preflight Codemod 修复记录
             }
         }
         
@@ -650,10 +662,12 @@ YOU ARE WORKING WITH:
         
         if gate_results:
             gate_results_dict = {name: result.to_dict() for name, result in gate_results.items()}
+            # 🔧 使用保存的初始状态（自愈前），而不是当前的 gate_results（自愈后）
+            initial_gate_results_dict = {name: result.to_dict() for name, result in initial_gate_results.items()}
             vibe_meta["quality_gates"] = {
                 "enabled": policy_manager.is_quality_gates_enabled(),
-                "initial": gate_results_dict,  # 🆕 初始生成的质量门结果
-                "results": gate_results_dict,  # 保留兼容性
+                "initial": initial_gate_results_dict,  # 🔧 真正的初始状态（自愈前）
+                "results": gate_results_dict,  # 保留兼容性（自愈后）
                 "passed": all(result.passed for result in gate_results.values()),
                 "failed_gates": [name for name, result in gate_results.items() if not result.passed],
                 "healing_history": existing_healing_history,  # 🔧 保留自愈循环中写入的历史
